@@ -1,5 +1,10 @@
+require("ts-node").register({
+    files: true,
+});
+
 const { mnemonic, secret, password, email } = require("./faucet.json");
 const { alice } = require('./scripts/sandbox/accounts');
+
 module.exports = {
   // see <http://truffleframework.com/docs/advanced/configuration>
   // for more details on how to specify configuration options!
