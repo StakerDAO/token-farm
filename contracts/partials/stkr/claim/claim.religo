@@ -1,15 +1,20 @@
-/*
-Specification
+[@inline]
+let claim = (storage: storage): (list(operation), storage) => {
+    let storage = updatePool(storage);
+    let userReward = calculateReward(Tezos.sender, storage);
 
-1) call updatePool()
+    let storage = {
+        ...storage,
+        unrealizedRewards: abs(storage.unrealizedRewards - userReward),
+        realizedRewards: storage.realizedRewards + userReward
+    };
 
-2) call calculateReward()
-
-3) compute rewardDebt = balance * accumulatedSTKRperShare
-
-4) transfer STKR from factory to user
-
-5) decrease storage.unrealizedRewards by userReward from 2)
-
-6) increase storage.realizedRewards by userReward from 2)
-*/
+    let tokenTransferOperation = transfer(
+        Tezos.self_address, // from
+        Tezos.sender, // to
+        userReward, // value
+        storage.stkrTokenContract // tzip7 contract's address
+    );
+ 
+    ([tokenTransferOperation], storage);
+};
