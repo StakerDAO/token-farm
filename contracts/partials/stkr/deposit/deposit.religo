@@ -1,17 +1,21 @@
-/*
-Specification
+#include "../storage/checkDelegator.religo"
 
-1) call updatePool()
+let deposit = ((depositParameter, storage): (depositParameter, storage)): (list(operation), storage) => {
+    let isDelegatorKnown = checkDelegator(Tezos.sender, storage);
+    let (stkrTokenTransferOperationList, storage) = switch(isDelegatorKnown) {
+        | true => claim(storage)
+        // no stkr token transfer, only update pool
+        | false => ([]: list(operation), updatePool(storage))
+    };
+   
+    let storage = increaseDelegatorBalance(Tezos.sender, depositParameter, storage);
 
-2) 
-if (delegator exists) {
-    claim()
+    let lpTokenTransferOperation = transfer(
+        Tezos.sender, // from
+        Tezos.self_address, // to
+        depositParameter, // value
+        storage.lpTokenContract // tzip7 contract's address
+    );
+
+    ([lpTokenTransferOperation, ...stkrTokenTransferOperationList], storage);
 }
-
-storage.delegators[delegator].balance = lpAmount
-storage.delegators[delegator].rewardDebt = lpAmount * storage.accumulatedSTKRPerShare
-
-3) transfer LP from delegator to factory
-
-fails if sufficient amount was not approved
-*/
