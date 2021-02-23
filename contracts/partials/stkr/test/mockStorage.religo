@@ -1,12 +1,20 @@
 #include "../storage/types.religo"
 
+type claimedRewards = {
+    unpaid: nat,
+    paid: nat
+};
+
+type plannedRewards = {
+    totalBlocks: nat,
+    rewardPerBlock: nat,
+};
+
 type storage = {
     lastBlockUpdate: nat,
     accumulatedSTKRPerShare: nat,
-    unrealizedRewards: nat,
-    rewardPerBlock: nat,
-    realizedRewards: nat,
-    totalBlocks: nat,
+    claimedRewards: claimedRewards,
+    plannedRewards: plannedRewards,
     delegators: big_map(delegator, delegatorRecord),
     reward: nat,
     lpTokenContract: address,
@@ -17,5 +25,6 @@ type storage = {
 #include "../storage/delegatorsRepository.religo"
 #include "../storage/setAccumulatedSTKRperShare.religo"
 #include "../storage/setLastBlockUpdate.religo"
-#include "../storage/setUnrealizedRewards.religo"
+#include "../storage/setUnpaidRewards.religo"
+#include "../storage/setPaidRewards.religo"
 #include "../storage/setFarmTokenBalance.religo"

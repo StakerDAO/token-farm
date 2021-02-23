@@ -13,13 +13,13 @@ let getAction = ((blockLevel, storage): (nat, storage)): action => {
 };
 
 let computeReward = ((multiplier, storage): (nat, storage)): nat => {
-    let reward = multiplier * storage.rewardPerBlock;
+    let reward = multiplier * storage.plannedRewards.rewardPerBlock;
 
-    let claimedRewards = storage.realizedRewards + storage.unrealizedRewards;
-    let totalRewards = reward + claimedRewards;
-    let plannedRewards = storage.rewardPerBlock * storage.totalBlocks;
+    let claimedRewards = storage.claimedRewards.paid + storage.claimedRewards.unpaid;
+    let pendingRewards = reward + claimedRewards;
+    let plannedRewards = storage.plannedRewards.rewardPerBlock * storage.plannedRewards.totalBlocks;
     // following true when someone claims() or withdraws() while total rewards had been used up
-    let totalRewardsExhausted = totalRewards > plannedRewards;
+    let totalRewardsExhausted = pendingRewards > plannedRewards;
     let reward = switch(totalRewardsExhausted) {
         | true => abs(plannedRewards - claimedRewards)
         | false => reward
@@ -28,10 +28,10 @@ let computeReward = ((multiplier, storage): (nat, storage)): nat => {
     reward;
 };
 
-let updateUnrealizedRewards = ((reward, storage): (nat, storage)): storage => {
-    // add reward to unrealized rewards
-    let unrealizedRewards = storage.unrealizedRewards + reward;
-    setUnrealizedRewards(unrealizedRewards, storage);
+let updateUnpaidRewards = ((reward, storage): (nat, storage)): storage => {
+    // add reward to unpaid rewards
+    let unpaidRewards = storage.claimedRewards.unpaid + reward;
+    setUnpaidRewards(unpaidRewards, storage);
 };
 
 let updateAccumulatedSTKRperShare = ((reward, contractBalance, storage): (nat, nat, storage)): storage => {
@@ -45,7 +45,7 @@ let updatePoolWithRewards = ((blockLevel, farmTokenBalance, storage): (nat, nat,
     // total rewards to be paid
     let reward = computeReward(multiplier, storage);
     // save total rewards
-    let storage = updateUnrealizedRewards(reward, storage);
+    let storage = updateUnpaidRewards(reward, storage);
     // recalculate STKR per share
     let storage = updateAccumulatedSTKRperShare(reward, farmTokenBalance, storage);
 

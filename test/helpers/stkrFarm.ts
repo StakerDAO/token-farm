@@ -20,6 +20,9 @@ const testHelpers = (instance) => {
         getStorage: async function(): Promise<stkrStorage> {
             return await instance.storage();
         },
+        getClaimedRewards: async function(){
+            return (await this.getStorage()).claimedRewards
+        },
         getAccumulatedSTKRPerShare: async function(): Promise<number> {
            return (await this.getStorage()).accumulatedSTKRPerShare.toNumber();
         },
@@ -37,11 +40,11 @@ const testHelpers = (instance) => {
             const operation = await this.Tezos.contract.transfer({ to: accounts.dave, amount: 1 });
             await operation.confirmation(1);
         },
-        getUnrealizedRewards: async function(): Promise<number> {
-            return (await this.getStorage()).unrealizedRewards.toNumber();
+        getUnpaidRewards: async function(): Promise<number> {
+            return (await this.getClaimedRewards()).unpaid.toNumber();
         },
-        getRealizedRewards: async function(): Promise<number> {
-            return (await this.getStorage()).realizedRewards.toNumber();
+        getPaidRewards: async function(): Promise<number> {
+            return (await this.getClaimedRewards()).paid.toNumber();
         }
     };
 };

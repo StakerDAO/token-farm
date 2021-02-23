@@ -5,10 +5,14 @@ const initialStorage = {};
 initialStorage.base = {
     lastBlockUpdate: 0,
     accumulatedSTKRPerShare: 0,
-    rewardPerBlock: 0,
-    totalBlocks: 0,
-    unrealizedRewards: 0,
-    realizedRewards: 0,
+    plannedRewards: {
+        rewardPerBlock: 0,
+        totalBlocks: 0,
+    },
+    claimedRewards: {
+        unpaid: 0,
+        paid: 0
+    },
     delegators: new MichelsonMap,
     reward: 0, // this is only for the mock contract
     lpTokenContract: "KT1VMWpGrBGehdRFCE2MAPTZNnDTg48jV7h8",

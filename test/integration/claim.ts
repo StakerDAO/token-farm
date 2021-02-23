@@ -31,7 +31,7 @@ contract('%claim', () => {
         await helper.deposit(100);
         await helper.claim();
         console.log(await helper.getStorage())
-        console.log("unrealized", await helper.getUnrealizedRewards())
-        console.log("realized", await helper.getRealizedRewards())
+        console.log("unpaid", await helper.getUnpaidRewards())
+        console.log("paid", await helper.getPaidRewards())
     });
 });
