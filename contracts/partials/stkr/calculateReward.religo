@@ -1,5 +1,3 @@
-#include "./storage/getDelegator.religo"
-
 let calculateReward = ((delegator, storage): (address, storage)): nat => {
     let record = getDelegator(delegator, storage);
     

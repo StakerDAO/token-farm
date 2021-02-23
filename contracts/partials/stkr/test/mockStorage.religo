@@ -14,10 +14,8 @@ type storage = {
     stkrTokenContract: address
 };
 
-#include "../storage/getDelegator.religo"
+#include "../storage/delegatorsRepository.religo"
 #include "../storage/setAccumulatedSTKRperShare.religo"
 #include "../storage/setLastBlockUpdate.religo"
 #include "../storage/setUnrealizedRewards.religo"
-#include "../storage/setDelegator.religo"
 #include "../storage/setFarmTokenBalance.religo"
-#include "../storage/decreaseDelegatorBalance.religo"

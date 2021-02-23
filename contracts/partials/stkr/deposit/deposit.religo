@@ -1,5 +1,3 @@
-#include "../storage/checkDelegator.religo"
-
 let deposit = ((depositParameter, storage): (depositParameter, storage)): (list(operation), storage) => {
     let isDelegatorKnown = checkDelegator(Tezos.sender, storage);
     let (stkrTokenTransferOperationList, storage) = switch(isDelegatorKnown) {
