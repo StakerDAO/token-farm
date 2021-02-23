@@ -25,11 +25,31 @@ const testHelpers = (instance) => {
             return await instance.storage();
             //return await instance.storage<testStorage>();
         },
-        getReward: async function(): Promise<number> {
-            return (await this.getStorage()).reward.toNumber();
+        getReward: async function(): Promise<string> {
+            return (await this.getStorage()).reward.toFixed();
         },
         getAccumulatedSTKRPerShare: async function(): Promise<number> {
            return (await this.getStorage()).accumulatedSTKRPerShare.toNumber();
+        },
+        requestBalance: async function(address: string) {
+            const operation = await instance.methods.requestBalance(
+                address
+            ).send();
+            await operation.confirmation(1);
+            return operation;
+        },
+        updateAccumulatedSTKRperShare: async function(balance, reward) {
+            const operation = await instance.methods.updateAccumulatedSTKRperShare(
+                balance, 
+                reward
+            ).send()
+            await operation.confirmation(1);
+            return operation;
+        },
+        updatePoolWithRewards: async function(balance, blockLevel) {
+            const operation = await instance.methods.updatePoolWithRewards(balance, blockLevel).send();
+            await operation.confirmation(1);
+            return operation;
         }
     };
 };
@@ -68,20 +88,25 @@ export default {
         return await contract.getReward();
     },
     // TODO expose almost all properties of initial storage
-    updatePool: async function(balance, blockLevel): Promise<number> {
+    updatePoolWithRewards: async function(balance, blockLevel): Promise<number> {
         const contract = await this.originate(initialStorage.base)
 
-        const operation = await contract.methods.updatePool(balance, blockLevel).send();
-        await operation.confirmation(1);
+        await contract.updatePoolWithRewards(balance, blockLevel);
 
         return await contract.getAccumulatedSTKRPerShare();
     },
-    updateAccumulatedSTKRperShare: async function(balance, reward, previousAccumulatedSTKRPerShare): Promise<Number> {
+    updateAccumulatedSTKRperShare: async function(balance, reward, previousAccumulatedSTKRPerShare): Promise<number> {
         const contract = await this.originate(initialStorage.test.updateAccumulatedSTKRperShare(previousAccumulatedSTKRPerShare));
 
-        const operation = await contract.methods.updateAccumulatedSTKRperShare(balance, reward).send();
-        await operation.confirmation(1);
+        await contract.updateAccumulatedSTKRperShare(balance, reward)
 
         return await contract.getAccumulatedSTKRPerShare();
+    },
+    requestBalance: async function(ownerAddress, tokenContractAddress): Promise<number> {
+        const contract = await this.originate(initialStorage.test.requestBalance(tokenContractAddress))
+        
+        await contract.requestBalance(ownerAddress);
+        
+        return await contract.getReward()
     }
 };
