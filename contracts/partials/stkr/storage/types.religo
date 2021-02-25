@@ -20,3 +20,5 @@ type transferParameter =
     [@annot:to] to_: address,
     value: nat,
 };
+
+type updatePoolAction = Skip | UpdateBlock | UpdateRewards;

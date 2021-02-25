@@ -12,10 +12,10 @@
 #include "../../partials/stkr/deposit/deposit.religo"
 #include "../../partials/stkr/withdraw/withdraw.religo"
 
-let main = ((parameter,storage): (parameter, storage)) => {
+let main = ((parameter,storage): (parameter, storage)): (list(operation), storage) => {
     switch(parameter) {
         | Deposit(parameter) => deposit(parameter, storage);
-        | Claim(parameter) =>  claim(storage);
+        | Claim(parameter) => claim(storage);
         | Withdraw(parameter) =>  withdraw(parameter, storage);
-    }
+    };
 };

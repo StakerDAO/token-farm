@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "description": "",
   "devDependencies": {
-    "@taquito/signer": "^8.0.1-beta.1",
-    "@taquito/taquito": "^8.0.1-beta.1",
+    "@taquito/signer": "^8.0.3-beta.0",
+    "@taquito/taquito": "^8.0.3-beta.0",
     "@types/chai": "^4.2.14",
     "@types/mocha": "^8.2.0",
     "bignumber.js": "^9.0.1",

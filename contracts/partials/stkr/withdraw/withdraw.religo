@@ -1,16 +1,23 @@
 #include "../helpers/subtraction.religo"
 
 let withdraw = ((withdrawParameter, storage): (withdrawParameter, storage)): (list(operation), storage) => {
-    // claim performs updatePool()
+    let storage = updatePool(storage);
+    
     let (stkrTokenTransferOperationList, storage) = claim(storage);
     
-    let delegatorRecord = getDelegator(Tezos.sender, storage);
+    let delegator = Tezos.sender;
+    let delegatorRecord = getDelegator(delegator, storage);
     
-    let storage = decreaseDelegatorBalance(Tezos.sender, withdrawParameter, storage);
+    let storage = decreaseDelegatorBalance(delegator, withdrawParameter, storage);
     let farmTokenBalance = safeBalanceSubtraction(storage.farmTokenBalance, withdrawParameter); 
     let storage = setFarmTokenBalance(farmTokenBalance, storage);
 
-    let lpTokenTransferOperation = transfer(Tezos.self_address, Tezos.sender, withdrawParameter, storage.lpTokenContract);
+    let lpTokenTransferOperation = transfer(
+        Tezos.self_address, // from
+        delegator, // to 
+        withdrawParameter, // value
+        storage.lpTokenContract
+    );
    
     ([lpTokenTransferOperation, ...stkrTokenTransferOperationList]: list(operation), storage);
 };

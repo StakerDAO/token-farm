@@ -1,19 +1,31 @@
 let deposit = ((depositParameter, storage): (depositParameter, storage)): (list(operation), storage) => {
-    let isDelegatorKnown = checkDelegator(Tezos.sender, storage);
+    let storage = updatePool(storage);
+    
+    let delegator = Tezos.sender;
+    
+    // call claim() for existing delegator
+    let isDelegatorKnown = checkDelegator(delegator, storage);
     let (stkrTokenTransferOperationList, storage) = switch(isDelegatorKnown) {
         | true => claim(storage)
-        // no stkr token transfer, only update pool
-        | false => ([]: list(operation), updatePool(storage))
+        | false => ([]: list(operation), storage)
     };
-   
-    let storage = increaseDelegatorBalance(Tezos.sender, depositParameter, storage);
-
+    
+    // save new deposit and calculate reward debt
+    let storage = switch (isDelegatorKnown) {
+        | true => increaseDelegatorBalance(delegator, depositParameter, storage);
+        | false => initDelegatorBalance(delegator, depositParameter, storage);
+    };
+    
     let lpTokenTransferOperation = transfer(
-        Tezos.sender, // from
+        delegator, // from
         Tezos.self_address, // to
         depositParameter, // value
         storage.lpTokenContract // tzip7 contract's address
     );
 
+    // save new deposit in farm's balance
+    let farmTokenBalance = storage.farmTokenBalance + depositParameter;
+    let storage = setFarmTokenBalance(farmTokenBalance, storage);
+
     ([lpTokenTransferOperation, ...stkrTokenTransferOperationList], storage);
-}
+};

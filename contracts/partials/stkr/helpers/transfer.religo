@@ -1,3 +1,6 @@
+/**
+ * This adapter is used to interact with TZIP-7 (FA1.2) token contracts.
+ */
 let transfer = ((from_, to_, value, tokenContractAddress): (address, address, nat, address)): operation => {
     let transferParameter: transferParameter = {
         from_: from_,
