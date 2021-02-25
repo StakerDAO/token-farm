@@ -3,9 +3,9 @@ import _mockContractHelper from '../helpers/mockContract';
 import _tokenContract, { lpToken, rewardToken } from '../helpers/token';
 import accounts from '../../scripts/sandbox/accounts';
 import _stkrContract from '../helpers/stkrFarm';
-import initialStorage from '../../migrations/initialStorage/stkr';
 import BigNumber from 'bignumber.js';
 import _taquito from '../helpers/taquito';
+import { prepareFarm } from './before';
 
 contract('%claim', () => {
     let farmContract;
@@ -13,7 +13,6 @@ contract('%claim', () => {
     let rewardTokenBalance;
     describe('one delegator staking', () => {
       
-
         before(async () => {
             rewardTokenContract = await _tokenContract.originate();
         
@@ -25,7 +24,7 @@ contract('%claim', () => {
     
             const delegators = [delegatorAlice];
             const rewardPerBlock = rewardToken('10');
-            await prepareFarm(delegators, rewardPerBlock, rewardTokenContract);
+            farmContract = await prepareFarm(delegators, rewardPerBlock, rewardTokenContract, farmContract);
         });
 
         it('can call %claim entrypoint', async () => {
@@ -82,76 +81,83 @@ contract('%claim', () => {
                 });
             })
         });
-    })
 
-    // describe('two delegators staking at once', () => {
+        describe('two delegators staking', () => {
+      
+            before(async () => {
+                rewardTokenContract = await _tokenContract.originate();
+            
+                const delegatorAlice = {
+                    address: accounts.alice.pkh,
+                    balance: lpToken('200'),
+                    rewardDebt: 0
+                };
+
+                const delegatorBob = {
+                    address: accounts.alice.pkh,
+                    balance: lpToken('200'),
+                    rewardDebt: 0
+                };
         
-    //     // beforeEach(async () => {
-    //     //     // delegators entry in farm
-    //     //     const delegatorAlice = {
-    //     //         address: accounts.alice.pkh,
-    //     //         balance: '200000000000', // 200
-    //     //         rewardDebt: 0
-    //     //     };
-    //     //     const delegatorBob = {
-    //     //         address: accounts.bob.pkh,
-    //     //         balance: '200000000000',
-    //     //         rewardDebt: 0
-    //     //     };
-    //     //     const delegators = [delegatorAlice, delegatorBob];
-
-    //     //     await prepareFarm(delegators, stkrTokenContract);
-    //     // });
-
-    //     describe.skip('one delegator calls %claim', () => {
-    //         beforeEach(async () => {
-    //             //await stkrFarm.claim();
-    //         });
-
-    //         describe('effects on calling updatePool()', () => {
-    //             it('', async () => {
-                     
-    //                 await log();
-    //             });
-    //         });
-
-    //         describe('effects on balances', () => {
-    //             it('increases STKR token balance', async () => {
-                
-    //             });
-                
-    //             it('increases "paid" property in claimedRewards (because of claiming delegator)', async () => {
-
-    //             })
-
-    //             it('increases "unpaid" property inclaimedRewards (because of not claiming delegator)', async () => {
-                    
-    //             })
-    //         });
-        
-    //     });
-    // });
-    async function prepareFarm(delegators, rewardPerBlock, stkrTokenContract) {
+                const delegators = [delegatorAlice, delegatorBob];
+                const rewardPerBlock = rewardToken('10');
+                farmContract = await prepareFarm(delegators, rewardPerBlock, rewardTokenContract, farmContract);
+            });
     
-        const startingBlockLevel = await _taquito.getCurrentBlockLevel();    
-
-        farmContract = await _stkrContract.originate(
-            initialStorage.test.claim(
-                stkrTokenContract.instance.address,
-                delegators,
-                rewardPerBlock,
-                startingBlockLevel
-            )
-        );
+            it('one delegator can call %claim entrypoint', async () => {
+                // save stkr balance before calling claim
+                rewardTokenBalance = await rewardTokenContract.getBalance(accounts.alice.pkh);
     
-        // fund farm contract with reward token
-        const transferParameters = {
-            from: accounts.alice.pkh,
-            to: farmContract.instance.address,
-            value: rewardToken('800')
-        };
-        await stkrTokenContract.transfer(transferParameters);
-    };
+                await farmContract.claim();
+            })
+    
+            describe('effects of claiming', () => {
+               
+                it('increases paid property in claimedRewards', async () => {
+                    const paidRewards = await farmContract.getPaidRewards();
+                    expect(paidRewards.toFixed()).to.equal(rewardToken('15'));
+                });
+    
+                it('increases unpaid property', async () => {
+                    const unpaidRewards = await farmContract.getUnpaidRewards();
+                    expect(unpaidRewards.toFixed()).to.equal(rewardToken('15'));
+                });
+    
+                it('calculates accumulated STKR per share', async () => {
+                    const accumulatedSTKRPerShare = await farmContract.getAccumulatedSTKRPerShare()
+                    expect(accumulatedSTKRPerShare.toFixed()).to.equal('75000000000000000000');
+                })
+    
+                it('calculates rewardDebt', async () => {
+                    const rewardDebt = await farmContract.getDelegatorRewardDebt(accounts.alice.pkh);
+                    expect(rewardDebt.toFixed()).to.equal('15000000000000000000000000000000');
+                });
+    
+                describe('delegator claims after 1 block again', () => {
+                    it('calls claim', async () => {
+                        // save stkr balance before calling claim
+                        rewardTokenBalance = await rewardTokenContract.getBalance(accounts.alice.pkh);
+                        await farmContract.claim();
+                    });
+    
+                    it('increases reward balance in token contract', async () => {
+                        const stkrBalanceAfterClaim = await rewardTokenContract.getBalance(accounts.alice.pkh);
+                        const stkrBalanceCalculated = rewardTokenBalance.plus(new BigNumber(rewardToken('5')));
+                        expect(stkrBalanceAfterClaim.toFixed()).to.equal(stkrBalanceCalculated.toFixed())
+                        
+                    });
+    
+                    it('increases paid rewards', async () => {
+                        const paidRewardsSecond = await farmContract.getPaidRewards();
+                        expect(paidRewardsSecond.toFixed()).to.equal(rewardToken('20'))
+                    });
+    
+                    it('updated reward debt', async () => {
+                        const paidRewardsSecond = await farmContract.getDelegatorRewardDebt(accounts.alice.pkh);
+                        expect(paidRewardsSecond.toFixed()).to.equal('20000000000000000000000000000000')
+                    });
+                })
+            });
+        });
+    });   
 });
-
-
