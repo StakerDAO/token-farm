@@ -1,8 +1,8 @@
-import accounts from "../../scripts/sandbox/accounts";
-import _tokenContract, { lpToken, rewardToken } from '../helpers/token';
-import _taquito from '../helpers/taquito';
-import _stkrContract from '../helpers/stkrFarm';
-import initialStorage from "../../migrations/initialStorage/stkr";
+import accounts from "../../../scripts/sandbox/accounts";
+import _tokenContract, { lpToken, rewardToken } from '../../helpers/token';
+import _taquito from '../../helpers/taquito';
+import _stkrContract from '../../helpers/stkrFarm';
+import initialStorage from "../../../migrations/initialStorage/stkr";
 
 export async function prepareFarm(delegators, rewardPerBlock, stkrTokenContract, farmContract) {
     

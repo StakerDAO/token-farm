@@ -1,10 +1,10 @@
 import { expect } from 'chai';
-import _mockContractHelper from '../helpers/mockContract';
-import _tokenContract, { lpToken, rewardToken } from '../helpers/token';
-import accounts from '../../scripts/sandbox/accounts';
-import _stkrContract from '../helpers/stkrFarm';
+import _mockContractHelper from '../../helpers/mockContract';
+import _tokenContract, { lpToken, rewardToken } from '../../helpers/token';
+import accounts from '../../../scripts/sandbox/accounts';
+import _stkrContract from '../../helpers/stkrFarm';
 import BigNumber from 'bignumber.js';
-import _taquito from '../helpers/taquito';
+import _taquito from '../../helpers/taquito';
 import { prepareFarm } from './before';
 
 contract('%claim', () => {

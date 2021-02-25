@@ -1,7 +1,8 @@
 #include "../helpers/subtraction.religo"
 
 let withdraw = ((withdrawParameter, storage): (withdrawParameter, storage)): (list(operation), storage) => {
-    // claim performs updatePool()
+    let storage = updatePool(storage);
+    
     let (stkrTokenTransferOperationList, storage) = claim(storage);
     
     let delegator = Tezos.sender;

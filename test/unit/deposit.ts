@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import _mockContractHelper from '../helpers/mockContract';
-import _tokenContract from '../helpers/token';
+import _tokenContract, { lpToken } from '../helpers/token';
 import _stkrContract from '../helpers/stkrFarm';
 import initialStorage from '../../migrations/initialStorage/stkr';
 import accounts from '../../scripts/sandbox/accounts';
@@ -10,10 +10,10 @@ import BigNumber from 'bignumber.js';
 contract('%deposit', () => {
     let stkrFarm;
     let lpTokenContract;
-    let depositValue = '200000000000'; // 200 LP token with 9 decimals
+    let depositValue = lpToken(200);
     let delegatorBalance: BigNumber;
 
-    beforeEach(async () => {
+    before(async () => {
         lpTokenContract = await _tokenContract.originate();
         stkrFarm = await _stkrContract.originate(initialStorage.withLpTokenContract(lpTokenContract.instance.address)); 
         
