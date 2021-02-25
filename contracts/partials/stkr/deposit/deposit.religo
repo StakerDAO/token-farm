@@ -6,8 +6,11 @@ let deposit = ((depositParameter, storage): (depositParameter, storage)): (list(
         | false => ([]: list(operation), updatePool(storage))
     };
    
-    let storage = increaseDelegatorBalance(Tezos.sender, depositParameter, storage);
-
+    let storage = switch (isDelegatorKnown) {
+        | true => increaseDelegatorBalance(Tezos.sender, depositParameter, storage);
+        | false => initDelegatorBalance(Tezos.sender, depositParameter, storage);
+    };
+    
     let lpTokenTransferOperation = transfer(
         Tezos.sender, // from
         Tezos.self_address, // to
@@ -15,5 +18,8 @@ let deposit = ((depositParameter, storage): (depositParameter, storage)): (list(
         storage.lpTokenContract // tzip7 contract's address
     );
 
+    let farmTokenBalance = storage.farmTokenBalance + depositParameter;
+    let storage = setFarmTokenBalance(farmTokenBalance, storage);
+
     ([lpTokenTransferOperation, ...stkrTokenTransferOperationList], storage);
-}
+};
