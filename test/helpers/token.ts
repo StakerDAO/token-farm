@@ -2,6 +2,9 @@ import { InMemorySigner } from "@taquito/signer";
 import { MichelsonMap, TezosToolkit } from "@taquito/taquito";
 import accounts, { alice, bob, carol } from "../../scripts/sandbox/accounts";
 import tokenContractMichelson from "../../contracts/main/stkr/test/tokenTzip7.json"
+import BigNumber from 'bignumber.js';
+const e18 = '1000000000000000000';
+const e9 = '1000000000';
 
 const initialStorage: any = {};
 
@@ -27,9 +30,9 @@ initialStorage.withBalances = {
     token: {
         ...initialStorage.base.token,
         ledger: MichelsonMap.fromLiteral({
-            [alice.pkh]: 100000000000000000
+            [alice.pkh]: (new BigNumber(1000).multipliedBy(e18)).toFixed()
         }),
-        totalSupply: 100000000000000000,
+        totalSupply: (new BigNumber(1000).multipliedBy(e18)).toFixed(),
     },
 };
 
@@ -66,9 +69,9 @@ const tzip7Helpers = (instance) => {
         getPauseGuardian: async function() {
             return (await this.getStorage()).token.pauseGuardian
         },
-        getBalance: async function(address) {
-            const balance = await (await this.getStorage()).token.ledger.get(address) || 0;
-            return Number(balance);
+        getBalance: async function(address): Promise<BigNumber> {
+            const balance = await (await this.getStorage()).token.ledger.get(address) || new BigNumber(0);
+            return balance;
         },
         setPause: async function(boolean) {
             const operation = await instance.methods.setPause(boolean).send();
@@ -194,6 +197,14 @@ const tzip7Helpers = (instance) => {
     }
 }
 
+export function rewardToken(value) {
+    return (new BigNumber(value)).multipliedBy(new BigNumber(e18)).toFixed();
+}
+
+export function lpToken(value) {
+    return (new BigNumber(value)).multipliedBy(new BigNumber(e9)).toFixed();
+}
+
 export default {
     originate: async function() {
         const Tezos = new TezosToolkit('http://localhost:8732');
@@ -203,7 +214,7 @@ export default {
         const operation = await Tezos.contract
             .originate({
                 code: tokenContractMichelson,
-                storage: initialStorage.withApprovals,
+                storage: initialStorage.withBalances,
             });
         console.log('Token contract originated at', operation.contractAddress);
         const instance = await operation.contract();

@@ -13,10 +13,10 @@ interface stkrStorage {
     reward: BigNumber
 };
 
-const testHelpers = (instance) => {
+const testHelpers = (instance, Tezos) => {
     return {
         instance: instance,
-        Tezos: TezosToolkit,
+        Tezos: Tezos,
         getStorage: async function(): Promise<stkrStorage> {
             return await instance.storage();
         },
@@ -32,7 +32,7 @@ const testHelpers = (instance) => {
             return operation;
         },
         claim: async function() {
-            const operation = await this.instance.methods.claim(UnitValue).send();
+            const operation = await this.instance.methods.claim(UnitValue).send({storageLimit: 100});
             await operation.confirmation(1);
             return operation;
         },
@@ -43,9 +43,27 @@ const testHelpers = (instance) => {
         getUnpaidRewards: async function(): Promise<number> {
             return (await this.getClaimedRewards()).unpaid.toNumber();
         },
-        getPaidRewards: async function(): Promise<number> {
-            return (await this.getClaimedRewards()).paid.toNumber();
-        }
+        getPaidRewards: async function(): Promise<BigNumber> {
+            return (await this.getClaimedRewards()).paid;
+        },
+        getFarmTokenBalance: async function(): Promise<BigNumber> {
+            return (await this.getStorage()).farmTokenBalance;
+        },
+        getDelegatorBalance: async function(address) {
+            return (await (await this.getStorage()).delegators.get(address)).balance.toNumber();
+        },
+        getPlannedRewards: async function() {
+            return (await this.getStorage()).plannedRewards;
+        },
+        getRewardsPerBlock: async function() {
+            return await this.getPlannedRewards().rewardPerBlock;
+        },
+        getLastBlockUpdate: async function(): Promise<number> {
+            return (await this.getStorage()).lastBlockUpdate.toNumber()
+        },
+        getDelegatorRewardDebt: async function(address): Promise<BigNumber> {
+            return (await (await this.getStorage()).delegators.get(address)).rewardDebt;
+        },
     };
 };
 
@@ -63,9 +81,10 @@ export default {
         Tezos.setProvider({
             signer: await InMemorySigner.fromSecretKey(accounts.alice.sk)
         });
+        
 
         const instance = await Tezos.contract.at(address);
         
-        return testHelpers(instance);
+        return testHelpers(instance, Tezos);
     },
 };

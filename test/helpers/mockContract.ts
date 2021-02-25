@@ -11,6 +11,7 @@ interface testStorage {
     reward: BigNumber
 };
 
+
 const testHelpers = (instance) => {
     return {
         instance: instance,
@@ -28,8 +29,8 @@ const testHelpers = (instance) => {
         getReward: async function(): Promise<string> {
             return (await this.getStorage()).reward.toFixed();
         },
-        getAccumulatedSTKRPerShare: async function(): Promise<number> {
-           return (await this.getStorage()).accumulatedSTKRPerShare.toNumber();
+        getAccumulatedSTKRPerShare: async function(): Promise<string> {
+           return (await this.getStorage()).accumulatedSTKRPerShare.toFixed();
         },
         requestBalance: async function(address: string) {
             const operation = await instance.methods.requestBalance(
@@ -73,7 +74,7 @@ export default {
         
         return testHelpers(instance);
     },
-    calculateReward: async function(balance, rewardDebt, accumulatedSTKRPerShare): Promise<number> {
+    calculateReward: async function(balance, rewardDebt, accumulatedSTKRPerShare): Promise<string> {
         const initialTestStorage = initialStorage.test.calculateReward(
             accounts.alice.pkh,
             balance,
@@ -95,7 +96,7 @@ export default {
 
         return await contract.getAccumulatedSTKRPerShare();
     },
-    updateAccumulatedSTKRperShare: async function(balance, reward, previousAccumulatedSTKRPerShare): Promise<number> {
+    updateAccumulatedSTKRperShare: async function(balance, reward, previousAccumulatedSTKRPerShare): Promise<string> {
         const contract = await this.originate(initialStorage.test.updateAccumulatedSTKRperShare(previousAccumulatedSTKRPerShare));
 
         await contract.updateAccumulatedSTKRperShare(balance, reward)

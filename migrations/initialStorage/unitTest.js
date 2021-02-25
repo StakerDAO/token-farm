@@ -2,11 +2,14 @@ const { MichelsonMap } = require("@taquito/taquito");
 
 const initialStorage = {};
 
+import BigNumber from 'bignumber.js';
+const e18 = '1000000000000000000';
+
 initialStorage.base = {
     lastBlockUpdate: 0,
     accumulatedSTKRPerShare: 0,
     plannedRewards: {
-        rewardPerBlock: 0,
+        rewardPerBlock: (new BigNumber(10).multipliedBy(e18)).toFixed(),
         totalBlocks: 0,
     },
     claimedRewards: {
@@ -50,4 +53,4 @@ initialStorage.test.requestBalance = (tokenContractAddress) => {
     return storage;
 }
 
-module.exports = initialStorage;
+export default initialStorage;
