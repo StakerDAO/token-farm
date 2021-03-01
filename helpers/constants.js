@@ -1,5 +1,6 @@
 module.exports = {
     contractErrors: {
-        delegatorNotKnown: 'DelegatorNotKnown'
+        delegatorNotKnown: 'DelegatorNotKnown',
+        noContractFound: 'NoContractFound'
     },
 };

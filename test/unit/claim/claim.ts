@@ -9,6 +9,9 @@ import BigNumber from 'bignumber.js';
 import { prepareFarm } from './before';
 import { TezosOperationError } from '@taquito/taquito';
 import { contractErrors } from '../../../helpers/constants';
+import _taquito from '../../helpers/taquito';
+import _stkrContract from '../../helpers/stkrFarm';
+import  _initialStorage from '../../../migrations/initialStorage/stkr';
 
 contract('%claim', () => {
     let farmContract;
@@ -232,20 +235,63 @@ contract('%claim', () => {
     });
 
     describe('fail cases', () => {
-      
-        before(async () => {
-            rewardTokenContract = await _tokenContract.originate();
-            const noDelegators = []
-            const rewardPerBlock = rewardToken('10');
-            farmContract = await prepareFarm(noDelegators, rewardPerBlock, rewardTokenContract, farmContract);
+
+        describe('delegator not known', () => {
+
+            before(async () => {
+                const noDelegators = []
+                const rewardPerBlock = rewardToken('10');
+                const startingBlockLevel = await _taquito.getCurrentBlockLevel();    
+
+                farmContract = await _stkrContract.originate(
+                    _initialStorage.test.claim(
+                        accounts.alice.pkh,
+                        noDelegators,
+                        rewardPerBlock,
+                        startingBlockLevel
+                    )
+                );
+            });
+    
+            it('fails if called by an address that is not staking', async () => {
+                const operationPromise = farmContract.claim();
+    
+                await expect(operationPromise).to.be.eventually.rejected
+                    .and.be.instanceOf(TezosOperationError)
+                    .and.have.property('message', contractErrors.delegatorNotKnown )
+            }); 
         });
+       
+        describe('token contract broken', () => {
 
-        it('fails if called by address that is not staking', async () => {
-            const operationPromise = farmContract.claim();
+            before(async () => {
+                const startingBlockLevel = await _taquito.getCurrentBlockLevel();    
+                // the token contract does not follow the TZIP-7 or TZIP-12 standard
+                const rewardTokenContract = accounts.alice.pkh;
 
-            await expect(operationPromise).to.be.eventually.rejected
-                .and.be.instanceOf(TezosOperationError)
-                .and.have.property('message', contractErrors.delegatorNotKnown )
-        }); 
+                const delegatorAlice = {
+                    address: accounts.alice.pkh,
+                    balance: lpToken('200'),
+                    rewardDebt: 0
+                };
+                const rewardPerBlock = rewardToken('10');
+                farmContract = await _stkrContract.originate(
+                    _initialStorage.test.claim(
+                        rewardTokenContract,
+                        [delegatorAlice],
+                        rewardPerBlock,
+                        startingBlockLevel
+                    )
+                );
+            });
+
+            it('fails if called by an address that is not staking', async () => {
+                const operationPromise = farmContract.claim();
+    
+                await expect(operationPromise).to.be.eventually.rejected
+                    .and.be.instanceOf(TezosOperationError)
+                    .and.have.property('message', contractErrors.noContractFound )
+            }); 
+        });
     });
 });
