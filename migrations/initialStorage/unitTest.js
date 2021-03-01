@@ -1,9 +1,7 @@
-const { MichelsonMap } = require("@taquito/taquito");
+const { MichelsonMap } = require('@taquito/taquito');
+import BigNumber from 'bignumber.js';
 
 const initialStorage = {};
-
-import BigNumber from 'bignumber.js';
-const e18 = '1000000000000000000';
 
 initialStorage.base = () =>  ({
     lastBlockUpdate: new BigNumber(0),
@@ -41,36 +39,5 @@ initialStorage.test.updateAccumulatedSTKRperShare = (accumulatedSTKRPerShare) =>
     storage.accumulatedSTKRPerShare = new BigNumber(accumulatedSTKRPerShare);
     return storage;
 }
-
-initialStorage.test.updatePool = (
-        accumulatedSTKRPerShare, 
-        farmTokenBalance, 
-        blockLevel, 
-        rewardPerBlock, 
-        totalBlocks, 
-        unpaid, 
-        paid
-    ) => {
-    let storage = initialStorage.base();
-    
-    storage.accumulatedSTKRPerShare = new BigNumber(accumulatedSTKRPerShare);
-    storage.farmTokenBalance = new BigNumber(farmTokenBalance);
-    storage.lastBlockUpdate = new BigNumber(blockLevel);
-
-    storage.plannedRewards.rewardPerBlock = new BigNumber(rewardPerBlock);
-    storage.plannedRewards.totalBlocks = new BigNumber(totalBlocks);
-
-    storage.claimedRewards.unpaid = new BigNumber(unpaid);
-    storage.claimedRewards.paid = new BigNumber(paid);
-
-    return storage
-}
-
-initialStorage.test.requestBalance = (tokenContractAddress) => {
-    let storage = initialStorage.base();
-    storage.lpTokenContract = tokenContractAddress;
-    return storage;
-}
-
 
 export default initialStorage;

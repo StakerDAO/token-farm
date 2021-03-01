@@ -1,11 +1,9 @@
 import { InMemorySigner } from "@taquito/signer";
-import { ContractAbstraction, ContractProvider, TezosToolkit, UnitValue } from "@taquito/taquito";
+import { TezosToolkit, UnitValue } from "@taquito/taquito";
 import BigNumber from "bignumber.js";
-import initialStorage from "../../migrations/initialStorage/unitTest";
 import accounts from "../../scripts/sandbox/accounts";
 
 const stkr = artifacts.require('stkr');
-
 
 interface stkrStorage {
     accumulatedSTKRPerShare: BigNumber,
@@ -70,7 +68,7 @@ const testHelpers = (instance, Tezos) => {
 export default {
     originate: async function(initalStorage) {
         const instance = await stkr.new(initalStorage)
-        console.log('Originated at', instance.address);
+        console.log('Originated farm at', instance.address);
         
         const testHelpers = await this.at(instance.address);
         return testHelpers;

@@ -11,7 +11,7 @@ import { TezosOperationError } from '@taquito/taquito';
 import { contractErrors } from '../../../helpers/constants';
 import _taquito from '../../helpers/taquito';
 import _stkrContract from '../../helpers/stkrFarm';
-import  _initialStorage from '../../../migrations/initialStorage/stkr';
+import _initialStorage from '../../../migrations/initialStorage/farm';
 
 contract('%claim', () => {
     let farmContract;

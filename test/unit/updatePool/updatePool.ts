@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import _tokenContract from '../../helpers/token';
 import _mockContract, { mockContractStorage } from '../../helpers/mockContract';
 import _taquito from '../../helpers/taquito';
-import _initialStorage from '../../../migrations/initialStorage/unitTest';
+import _initialStorage from '../../../migrations/initialStorage/farm';
 import { computeReward, updateAccumulatdSTKRPerShare } from '../../helpers/updatePool';
 
 /**
@@ -24,7 +24,8 @@ contract('updatePool()', () => {
                 10, //totalBlocks 
                 0, // unpaid 
                 0 // paid
-            )
+            );
+            
             const storage = await _mockContract.updatePool(initialStorage);
             
             // does not update last block update storage property

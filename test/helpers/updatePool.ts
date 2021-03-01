@@ -6,7 +6,7 @@ import decimals from '../../decimals-config.json';
  * This is the client side implementation of the smart contract computation.
  * Calculations are done with the BigNumber library.
  */
-export function computeReward(initialStorage: any, storage: mockContractStorage): BigNumber {
+export function computeReward(initialStorage: mockContractStorage, storage: mockContractStorage): BigNumber {
     const startBlockLevel = initialStorage.lastBlockUpdate;
     const endBlockLevel = storage.lastBlockUpdate;
     const multiplier = endBlockLevel.minus(startBlockLevel);
@@ -25,7 +25,7 @@ export function computeReward(initialStorage: any, storage: mockContractStorage)
     }
 }
 
-export function updateAccumulatdSTKRPerShare(initialStorage: any, reward: any): BigNumber {
+export function updateAccumulatdSTKRPerShare(initialStorage: mockContractStorage, reward: any): BigNumber {
     const previousAcc = new BigNumber(initialStorage.accumulatedSTKRPerShare);
     const rewardBN = new BigNumber(reward);
     const fixedPointAccuracy = new BigNumber(decimals.fixedPointAccuracy);
