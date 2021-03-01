@@ -1,18 +1,39 @@
 const unitTestContract = artifacts.require('mockContract');
 import { InMemorySigner } from '@taquito/signer';
-import { TezosToolkit } from '@taquito/taquito';
+import { ContractAbstraction, ContractProvider, MichelsonMap, TezosToolkit, UnitValue } from '@taquito/taquito';
 import BigNumber from 'bignumber.js';
 import accounts from '../../scripts/sandbox/accounts';
 import initialStorage from '../../migrations/initialStorage/unitTest';
 
-interface testStorage {
-    accumulatedSTKRPerShare: BigNumber,
+type address = string;
+type delegatorRecord = {
+    balance: BigNumber,
+    rewardDebt: BigNumber
+}
+
+interface contractStorage {
     lastBlockUpdate: BigNumber,
-    reward: BigNumber
-};
+    accumulatedSTKRPerShare: BigNumber,
+    plannedRewards: {
+        rewardPerBlock: BigNumber,
+        totalBlocks: BigNumber
+    },
+    claimedRewards: {
+        unpaid: BigNumber,
+        paid: BigNumber
+    },
+    delegators: MichelsonMap<address, delegatorRecord>,
+    reward: BigNumber, // this is only in the mockContract
+    lpTokenContract: address,
+    farmTokenBalance: BigNumber,
+    stkrTokenContract: address
+}
+export interface mockContractStorage extends contractStorage {
+    reward: BigNumber,
+}
 
 
-const testHelpers = (instance) => {
+const testHelpers = (instance: ContractAbstraction<ContractProvider>) => {
     return {
         instance: instance,
         calculateReward: async function(address: string) {
@@ -22,9 +43,8 @@ const testHelpers = (instance) => {
             await operation.confirmation(1);
             return operation;
         },
-        getStorage: async function(): Promise<testStorage> {
-            return await instance.storage();
-            //return await instance.storage<testStorage>();
+        getStorage: async function(): Promise<mockContractStorage> {
+            return await instance.storage<mockContractStorage>();
         },
         getReward: async function(): Promise<string> {
             return (await this.getStorage()).reward.toFixed();
@@ -51,6 +71,11 @@ const testHelpers = (instance) => {
             const operation = await instance.methods.updatePoolWithRewards(balance, blockLevel).send();
             await operation.confirmation(1);
             return operation;
+        },
+        updatePool: async function() {
+            const operation = await instance.methods.updatePool(UnitValue).send({storageLimit: 100});
+            await operation.confirmation(1);
+            return operation;
         }
     };
 };
@@ -58,7 +83,7 @@ const testHelpers = (instance) => {
 export default {
     originate: async function(initialStorage) {
         const instance = await unitTestContract.new(initialStorage);
-        console.log('Originated at', instance.address);
+        console.log('MockContract originated at', instance.address);
         
         const testHelpers = await this.at(instance.address);
         return testHelpers;
@@ -90,24 +115,30 @@ export default {
     },
     // TODO expose almost all properties of initial storage
     updatePoolWithRewards: async function(balance, blockLevel): Promise<number> {
-        const contract = await this.originate(initialStorage.base)
+        const contract = await this.originate(initialStorage.base())
 
         await contract.updatePoolWithRewards(balance, blockLevel);
 
         return await contract.getAccumulatedSTKRPerShare();
     },
-    updateAccumulatedSTKRperShare: async function(balance, reward, previousAccumulatedSTKRPerShare): Promise<string> {
-        const contract = await this.originate(initialStorage.test.updateAccumulatedSTKRperShare(previousAccumulatedSTKRPerShare));
+    updateAccumulatedSTKRperShare: async function(
+            balance: string, 
+            reward: string, 
+            previousAccumulatedSTKRPerShare: string
+        ): Promise<string> {
+        const contract = await this.originate(
+            initialStorage.test.updateAccumulatedSTKRperShare(previousAccumulatedSTKRPerShare)
+        );
 
         await contract.updateAccumulatedSTKRperShare(balance, reward)
 
         return await contract.getAccumulatedSTKRPerShare();
     },
-    requestBalance: async function(ownerAddress, tokenContractAddress): Promise<number> {
-        const contract = await this.originate(initialStorage.test.requestBalance(tokenContractAddress))
-        
-        await contract.requestBalance(ownerAddress);
-        
-        return await contract.getReward()
+    updatePool: async function(initialStorage): Promise<mockContractStorage> {
+        const contract = await this.originate(initialStorage);
+
+        await contract.updatePool();
+
+        return await contract.getStorage()
     }
 };

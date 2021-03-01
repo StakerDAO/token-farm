@@ -12,7 +12,7 @@
 #include "../../../partials/stkr/deposit/deposit.religo"
 #include "../../../partials/stkr/withdraw/withdraw.religo"
 
-type updatePoolParameter = {
+type updatePoolWithRewardsParameter = {
     balance: nat,
     blockLevel: nat,
 };
@@ -22,25 +22,29 @@ type updateAccumulatedSTKRperShareParameter = {
 };
 type calculateRewardParameter = address;
 
-type requestBalanceParameter = address;
-
 type receiveParameter = nat;
 
+type updatePoolParameter = unit;
+
 type functionToTest =
-    | UpdatePoolWithRewards(updatePoolParameter)
+    | UpdatePoolWithRewards(updatePoolWithRewardsParameter)
+    | UpdatePool(updatePoolParameter)
     | UpdateAccumulatedSTKRperShare(updateAccumulatedSTKRperShareParameter)
     | CalculateReward(calculateRewardParameter)
-    //| RequestBalance(requestBalanceParameter)
     | Receive(receiveParameter);
 
 let main = ((functionToTest, storage): (functionToTest, storage)) => {
     switch (functionToTest) {
-        | UpdatePoolWithRewards(updatePoolParameter) => {
+        | UpdatePoolWithRewards(updatePoolWithRewardsParameter) => {
             let storage = updatePoolWithRewards(
-                updatePoolParameter.blockLevel, 
-                updatePoolParameter.balance,  
+                updatePoolWithRewardsParameter.blockLevel, 
+                updatePoolWithRewardsParameter.balance,  
                 storage
             );
+            ([]: list(operation), storage);
+        }
+        | UpdatePool(updatePoolParameter) => {
+            let storage = updatePool(storage);
             ([]: list(operation), storage);
         }
         | UpdateAccumulatedSTKRperShare(updateAccumulatedSTKRperShareParameter) => {
@@ -58,13 +62,6 @@ let main = ((functionToTest, storage): (functionToTest, storage)) => {
                 reward: reward,
             });
         }
-        // | RequestBalance(address_) => {
-        //     let operation = requestBalanceOperation((address_, storage));
-        //     (
-        //         [operation],
-        //         storage
-        //     )
-        // }
         | Receive(value) => {
             if(Tezos.sender != storage.lpTokenContract){
                 failwith("NoPermission")

@@ -3,8 +3,7 @@ import { MichelsonMap, TezosToolkit } from "@taquito/taquito";
 import accounts, { alice, bob, carol } from "../../scripts/sandbox/accounts";
 import tokenContractMichelson from "../../contracts/main/stkr/test/tokenTzip7.json"
 import BigNumber from 'bignumber.js';
-const e18 = '1000000000000000000';
-const e9 = '1000000000';
+import decimals from '../../decimals-config.json';
 
 const initialStorage: any = {};
 
@@ -30,9 +29,9 @@ initialStorage.withBalances = {
     token: {
         ...initialStorage.base.token,
         ledger: MichelsonMap.fromLiteral({
-            [alice.pkh]: (new BigNumber(1000).multipliedBy(e18)).toFixed()
+            [alice.pkh]: (new BigNumber(1000).multipliedBy(decimals.rewardToken)).toFixed()
         }),
-        totalSupply: (new BigNumber(1000).multipliedBy(e18)).toFixed(),
+        totalSupply: (new BigNumber(1000).multipliedBy(decimals.rewardToken)).toFixed(),
     },
 };
 
@@ -198,11 +197,11 @@ const tzip7Helpers = (instance) => {
 }
 
 export function rewardToken(value) {
-    return (new BigNumber(value)).multipliedBy(new BigNumber(e18)).toFixed();
+    return (new BigNumber(value)).multipliedBy(new BigNumber(decimals.rewardToken)).toFixed();
 }
 
 export function lpToken(value) {
-    return (new BigNumber(value)).multipliedBy(new BigNumber(e9)).toFixed();
+    return (new BigNumber(value)).multipliedBy(new BigNumber(decimals.lpToken)).toFixed();
 }
 
 export default {
