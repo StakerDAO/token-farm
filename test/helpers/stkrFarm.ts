@@ -1,5 +1,5 @@
 import { InMemorySigner } from "@taquito/signer";
-import { TezosToolkit, UnitValue } from "@taquito/taquito";
+import { ContractAbstraction, ContractProvider, TezosToolkit, UnitValue } from "@taquito/taquito";
 import BigNumber from "bignumber.js";
 import initialStorage from "../../migrations/initialStorage/unitTest";
 import accounts from "../../scripts/sandbox/accounts";
@@ -11,7 +11,7 @@ interface stkrStorage {
     accumulatedSTKRPerShare: BigNumber,
     lastBlockUpdate: BigNumber,
     reward: BigNumber
-};
+}
 
 const testHelpers = (instance, Tezos) => {
     return {

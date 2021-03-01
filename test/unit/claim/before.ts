@@ -1,10 +1,10 @@
 import accounts from "../../../scripts/sandbox/accounts";
-import _tokenContract, { lpToken, rewardToken } from '../../helpers/token';
+import { rewardToken } from '../../helpers/token';
 import _taquito from '../../helpers/taquito';
 import _stkrContract from '../../helpers/stkrFarm';
 import initialStorage from "../../../migrations/initialStorage/stkr";
 
-export async function prepareFarm(delegators, rewardPerBlock, stkrTokenContract, farmContract) {
+export async function prepareFarm(delegators, rewardPerBlock, stkrTokenContract, farmContract){
     
     const startingBlockLevel = await _taquito.getCurrentBlockLevel();    
 
@@ -25,4 +25,4 @@ export async function prepareFarm(delegators, rewardPerBlock, stkrTokenContract,
     };
     await stkrTokenContract.transfer(transferParameters);
     return farmContract;
-};
+}

@@ -21,5 +21,5 @@ let claim = ((storage): (storage)): (list(operation), storage) => {
         storage.stkrTokenContract // tzip7 contract's address
     );
     
-    ([tokenTransferOperation]:list(operation), storage);
+    ([tokenTransferOperation], storage);
 };

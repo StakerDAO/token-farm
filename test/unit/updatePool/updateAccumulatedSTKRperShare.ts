@@ -1,7 +1,6 @@
 import BigNumber from 'bignumber.js';
 import { expect } from 'chai';
-import { convertS, toFixedPointString } from '../../helpers/contractDecimalConverter';
-import _mockContractHelper from '../helpers/mockContract';
+import _mockContractHelper from '../../helpers/mockContract';
 
 const BN9 = BigNumber.clone({ DECIMAL_PLACES: 9})
 const e18 = '1000000000000000000';
