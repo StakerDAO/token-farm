@@ -53,7 +53,7 @@ contract('%deposit', () => {
     
             it('can keep an internal LP balance for delegator', async () => {
                 const delegatorBalance = await farmContract.getDelegatorBalance(accounts.alice.pkh);
-                expect(String(delegatorBalance)).to.equal(depositValue);
+                expect(delegatorBalance.toFixed()).to.equal(depositValue);
             });
     
             it('reduces the balance of delegator in LP contract', async () => {

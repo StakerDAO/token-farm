@@ -74,6 +74,12 @@ initialStorage.test.deposit = (farmTokenContract, lpTokenContract, delegators, r
     return storage;
 };
 
+initialStorage.test.withdraw = (...args) => {
+    let storage = initialStorage.test.deposit(...args);
+
+    return storage;
+};
+
 initialStorage.test.updatePool = (
         accumulatedRewardPerShare, 
         farmTokenBalance, 
