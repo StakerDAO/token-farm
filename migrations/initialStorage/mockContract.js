@@ -1,4 +1,4 @@
-const { MichelsonMap } = require('@taquito/taquito');
+import { MichelsonMap } from "@taquito/taquito";
 import BigNumber from 'bignumber.js';
 
 const initialStorage = {};
@@ -23,11 +23,11 @@ initialStorage.base = () =>  ({
 
 initialStorage.test = {};
 
-initialStorage.test.calculateReward = (delegator, balance, rewardDebt, accumulatedRewardPerShare) => {
+initialStorage.test.calculateReward = (delegator, balance, accumulatedRewardPerShareStart, accumulatedRewardPerShare) => {
     let storage = initialStorage.base();
     storage.delegators.set(delegator, {
         balance: balance,
-        rewardDebt: rewardDebt
+        stakingStart: accumulatedRewardPerShareStart
     });
     storage.accumulatedRewardPerShare = accumulatedRewardPerShare;
     

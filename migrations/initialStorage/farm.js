@@ -1,4 +1,4 @@
-const { MichelsonMap } = require("@taquito/taquito");
+import { MichelsonMap } from "@taquito/taquito";
 import BigNumber from 'bignumber.js';
 
 const initialStorage = {};
@@ -45,7 +45,7 @@ initialStorage.test.claim = (farmTokenContract, delegators, rewardPerBlock, bloc
     delegators.forEach(delegator => {
         storage.delegators.set(delegator.address, {
             balance: new BigNumber(delegator.balance),
-            rewardDebt: new BigNumber(delegator.rewardDebt)
+            stakingStart: new BigNumber(delegator.stakingStart)
         })
         storage.farmTokenBalance = (new BigNumber(storage.farmTokenBalance)).plus(new BigNumber(delegator.balance)).toFixed()
     });
@@ -65,7 +65,7 @@ initialStorage.test.deposit = (farmTokenContract, lpTokenContract, delegators, r
     delegators.forEach(delegator => {
         storage.delegators.set(delegator.address, {
             balance: new BigNumber(delegator.balance),
-            rewardDebt: new BigNumber(delegator.rewardDebt)
+            stakingStart: new BigNumber(delegator.stakingStart)
         })
         storage.farmTokenBalance = (new BigNumber(storage.farmTokenBalance)).plus(new BigNumber(delegator.balance)).toFixed()
     });

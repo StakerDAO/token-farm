@@ -1,9 +1,10 @@
 let calculateReward = ((delegator, storage): (address, storage)): nat => {
     let delegatorRecord = getDelegator(delegator, storage);
     
-    let reward = storage.accumulatedRewardPerShare * delegatorRecord.balance;
-    let rewardDebt = delegatorRecord.rewardDebt;
-    let delegatorReward = safeBalanceSubtraction(reward, rewardDebt);    
+    let accRewardPerShareStart = delegatorRecord.stakingStart;
+    let accRewardPerShareEnd = storage.accumulatedRewardPerShare;
+    let accumulatedRewardPerShare = safeBalanceSubtraction(accRewardPerShareEnd, accRewardPerShareStart);
+    let delegatorReward = accumulatedRewardPerShare * delegatorRecord.balance;
     // remove precision
     let delegatorReward = delegatorReward / fixedPointAccuracy;
     delegatorReward;

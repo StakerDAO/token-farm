@@ -26,7 +26,7 @@ contract('%claim', () => {
             const delegatorAlice = {
                 address: accounts.alice.pkh,
                 balance: lpToken('200'),
-                rewardDebt: 0
+                stakingStart: 0
             };
     
             const delegators = [delegatorAlice];
@@ -59,9 +59,10 @@ contract('%claim', () => {
                 expect(delegatorReward).to.equal(rewardToken('30'));
             });
 
-            it('calculates rewardDebt', async () => {
-                const rewardDebt = await farmContract.getDelegatorRewardDebt(accounts.alice.pkh);
-                expect(rewardDebt.toFixed()).to.equal('30000000000000000000000000000000');
+            it('updates delegator staking start property', async () => {
+                const accumulatedRewardPerShare = await farmContract.getAccumulatedRewardPerShare();
+                const accumulatedRewardPerShareStart = await farmContract.getDelegatorStakingStart(accounts.alice.pkh);
+                expect(accumulatedRewardPerShareStart.toFixed()).to.equal(accumulatedRewardPerShare.toFixed());
             });
 
             it('updated unpaid property', async () => {
@@ -86,7 +87,6 @@ contract('%claim', () => {
                 const rewardBalanceAfterClaim = await rewardTokenContract.getBalance(accounts.alice.pkh);
                 const rewardBalanceCalculated = rewardTokenBalance.plus(new BigNumber(rewardToken('30')));
                 expect(rewardBalanceAfterClaim.toFixed()).to.equal(rewardBalanceCalculated.toFixed())
-                
             });
 
             describe('delegator claims after 1 block again', () => {
@@ -112,9 +112,10 @@ contract('%claim', () => {
                     expect(delegatorReward).to.equal(rewardToken('10'));
                 })
 
-                it('updates reward debt', async () => {
-                    const paidRewardsSecond = await farmContract.getDelegatorRewardDebt(accounts.alice.pkh);
-                    expect(paidRewardsSecond.toFixed()).to.equal('40000000000000000000000000000000')
+                it('updates delegator staking start property', async () => {
+                    const accumulatedRewardPerShare = await farmContract.getAccumulatedRewardPerShare();
+                    const accumulatedRewardPerShareStart = await farmContract.getDelegatorStakingStart(accounts.alice.pkh);
+                    expect(accumulatedRewardPerShareStart.toFixed()).to.equal(accumulatedRewardPerShare.toFixed());
                 });
                
                 it('increases paid rewards', async () => {
@@ -136,9 +137,7 @@ contract('%claim', () => {
                     expect(rewardBalanceAfterClaim.toFixed()).to.equal(rewardBalanceCalculated.toFixed())
                     
                 });
-
-             
-            })
+            });
         });
 
         describe('two delegators staking', () => {
@@ -149,13 +148,13 @@ contract('%claim', () => {
                 const delegatorAlice = {
                     address: accounts.alice.pkh,
                     balance: lpToken('200'),
-                    rewardDebt: 0
+                    stakingStart: 0
                 };
 
                 const delegatorBob = {
-                    address: accounts.alice.pkh,
+                    address: accounts.bob.pkh,
                     balance: lpToken('200'),
-                    rewardDebt: 0
+                    stakingStart: 0
                 };
         
                 const delegators = [delegatorAlice, delegatorBob];
@@ -165,6 +164,7 @@ contract('%claim', () => {
      
             describe('effects of claiming', () => {
                 let operation;
+
                 before(async () => {
                       // save reward balance before calling claim
                     rewardTokenBalance = await rewardTokenContract.getBalance(accounts.alice.pkh);
@@ -187,9 +187,10 @@ contract('%claim', () => {
                     expect(delegatorReward).to.equal(rewardToken('15'));
                 })
 
-                it('calculates rewardDebt', async () => {
-                    const rewardDebt = await farmContract.getDelegatorRewardDebt(accounts.alice.pkh);
-                    expect(rewardDebt.toFixed()).to.equal('15000000000000000000000000000000');
+                it('updated delegator staking start property', async () => {
+                    const accumulatedRewardPerShare = await farmContract.getAccumulatedRewardPerShare();
+                    const accumulatedRewardPerShareStart = await farmContract.getDelegatorStakingStart(accounts.alice.pkh);
+                    expect(accumulatedRewardPerShareStart.toFixed()).to.equal(accumulatedRewardPerShare.toFixed());
                 });
                
                 it('updates the unpaid property', async () => {
@@ -202,8 +203,8 @@ contract('%claim', () => {
                     expect(paidRewards.toFixed()).to.equal(rewardToken('15'));
                 });
 
-           
                 describe('delegator claims after 1 block again', () => {
+
                     before(async () => {
                         // save reward balance before calling claim
                         rewardTokenBalance = await rewardTokenContract.getBalance(accounts.alice.pkh);
@@ -221,9 +222,10 @@ contract('%claim', () => {
                         expect(delegatorReward).to.equal(rewardToken('5'));
                     });
 
-                    it('updates reward debt', async () => {
-                        const paidRewardsSecond = await farmContract.getDelegatorRewardDebt(accounts.alice.pkh);
-                        expect(paidRewardsSecond.toFixed()).to.equal('20000000000000000000000000000000')
+                    it('updates delegator staking start property', async () => {
+                        const accumulatedRewardPerShare = await farmContract.getAccumulatedRewardPerShare();
+                        const accumulatedRewardPerShareStart = await farmContract.getDelegatorStakingStart(accounts.alice.pkh);
+                        expect(accumulatedRewardPerShareStart.toFixed()).to.equal(accumulatedRewardPerShare.toFixed());
                     });
 
                     it('increases paid rewards', async () => {
@@ -236,8 +238,7 @@ contract('%claim', () => {
                         const rewardBalanceCalculated = rewardTokenBalance.plus(new BigNumber(rewardToken('5')));
                         expect(rewardBalanceAfterClaim.toFixed()).to.equal(rewardBalanceCalculated.toFixed())                        
                     });
-                 
-                })
+                });
             });
         });
     });
@@ -280,7 +281,7 @@ contract('%claim', () => {
                 const delegatorAlice = {
                     address: accounts.alice.pkh,
                     balance: lpToken('200'),
-                    rewardDebt: 0
+                    stakingStart: 0
                 };
                 const rewardPerBlock = rewardToken('10');
                 farmContract = await _farmContract.originate(

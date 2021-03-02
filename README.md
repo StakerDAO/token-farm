@@ -59,16 +59,11 @@ type storage = {
     ##### - `value: delegatorRecord`
     - `balance`
         
-        Represents the total staked balance (of the staking token) of the current delegator
+        Represents the total staked balance (of the staking token) of the current delegator.
 
-    - `rewardDebt`
+    - `stakingStart`
 
-        Represents when was the last payout made to the given delegator, or when he joined the staking pool.
-
-        ##### Example
-        If `rewardPerBlock = 100 RewardToken` and the delegator joins the staking pool at block height 5,
-        relative to when the farm was started, then `rewardDebt = 5 * rewardPerBlock = 500 RewardToken`
-
+        Represents the accumulatedRewardPerShare at the time the delegator started staking (joined the staking pool), or has claimed the reward payout the last time.
 
 - #### `lastBlockUpdate: nat`
 
@@ -157,4 +152,6 @@ If the calculated reward from the formula below exceeds the `plannedRewards`, th
 
 ##### Reward calculation per delegator
 
-`accumulatedRewardPerShare * delegatorBalance - delegatorRewardDebt`
+`(accumulatedRewardPerShareEnd - accumulatedRewardPerShareStart) * delegatorBalance` where
+`accumulatedRewardPerShareEnd = current accumulatedRewardPerShare` and 
+`accumulatedRewardPerShareStart = stakingStart`

@@ -17,8 +17,8 @@ const testHelpers = (instance, Tezos) => {
         getClaimedRewards: async function(){
             return (await this.getStorage()).claimedRewards
         },
-        getAccumulatedRewardPerShare: async function(): Promise<number> {
-           return (await this.getStorage()).accumulatedRewardPerShare.toNumber();
+        getAccumulatedRewardPerShare: async function(): Promise<BigNumber> {
+           return (await this.getStorage()).accumulatedRewardPerShare;
         },
         deposit: async function(value) {
             const operation = await this.instance.methods.deposit(value).send();
@@ -34,8 +34,8 @@ const testHelpers = (instance, Tezos) => {
             const operation = await this.Tezos.contract.transfer({ to: accounts.dave, amount: 1 });
             await operation.confirmation(1);
         },
-        getUnpaidRewards: async function(): Promise<number> {
-            return (await this.getClaimedRewards()).unpaid.toNumber();
+        getUnpaidRewards: async function(): Promise<BigNumber> {
+            return (await this.getClaimedRewards()).unpaid;
         },
         getPaidRewards: async function(): Promise<BigNumber> {
             return (await this.getClaimedRewards()).paid;
@@ -55,8 +55,8 @@ const testHelpers = (instance, Tezos) => {
         getLastBlockUpdate: async function(): Promise<number> {
             return (await this.getStorage()).lastBlockUpdate.toNumber()
         },
-        getDelegatorRewardDebt: async function(address): Promise<BigNumber> {
-            return (await (await this.getStorage()).delegators.get(address)).rewardDebt;
+        getDelegatorStakingStart: async function(address): Promise<BigNumber> {
+            return (await (await this.getStorage()).delegators.get(address)).stakingStart;
         },
     };
 };
