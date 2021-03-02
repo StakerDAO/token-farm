@@ -8,6 +8,6 @@ const ganacheVersionRequired = '6.12.1-tezos.0';
 (function () {
     if (ganacheCliInstalled.version !== ganacheVersionRequired) {
         console.log('Updating ganache-cli to ', ganacheVersionRequired);
-        execSync(`npm i ganache-cli@${ganacheVersionRequired}`, baseOptions)  
+        execSync(`yarn add ganache-cli@${ganacheVersionRequired}`, baseOptions)  
     };  
 })();

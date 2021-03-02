@@ -16,11 +16,11 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 12.x
-    - run: npm ci
-    - run: npm run fix-ligo-version next
-    - run: npm run sandbox:start &
+    - run: yarn
+    - run: yarn run fix-ligo-version next
+    - run: yarn run sandbox:start &
     - name: Wait 20 seconds for sandbox
       uses: kibertoad/wait-action@master
       with:
         time: '20s'
-    - run: npm run test -- ./test/unit/deposit/** ./test/unit/claim/** ./test/unit/updatePool/updatePool.ts
+    - run: yarn run test -- ./test/unit/deposit/** ./test/unit/claim/** ./test/unit/updatePool/updatePool.ts
