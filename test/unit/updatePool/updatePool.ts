@@ -134,5 +134,5 @@ contract('updatePool()', () => {
             const contractClaimedRewards = storage.claimedRewards.paid.plus(storage.claimedRewards.unpaid);
             expect(contractClaimedRewards.toFixed()).to.equal(calculatedTotalClaimedRewards.toFixed());
         });
-    })
+    });
 });
