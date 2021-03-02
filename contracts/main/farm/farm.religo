@@ -8,11 +8,14 @@
 
 #include "../../partials/farm/helpers/transfer.religo"
 
+type entrypointReturn = (list(operation), storage);
+
 #include "../../partials/farm/claim/claim.religo"
 #include "../../partials/farm/deposit/deposit.religo"
 #include "../../partials/farm/withdraw/withdraw.religo"
 
-let main = ((parameter,storage): (parameter, storage)): (list(operation), storage) => {
+
+let main = ((parameter,storage): (parameter, storage)): entrypointReturn => {
     switch(parameter) {
         | Deposit(parameter) => deposit(parameter, storage);
         | Claim(parameter) => claim(storage);

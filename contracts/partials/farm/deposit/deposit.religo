@@ -1,4 +1,4 @@
-let deposit = ((depositParameter, storage): (depositParameter, storage)): (list(operation), storage) => {
+let deposit = ((depositParameter, storage): (depositParameter, storage)): entrypointReturn => {
     let storage = updatePool(storage);
     
     let delegator = Tezos.sender;

@@ -8,6 +8,8 @@
 #include "../../../partials/farm/calculateReward.religo"
 #include "../../../partials/farm/helpers/transfer.religo"
 
+type entrypointReturn = (list(operation), storage);
+
 #include "../../../partials/farm/claim/claim.religo"
 #include "../../../partials/farm/deposit/deposit.religo"
 #include "../../../partials/farm/withdraw/withdraw.religo"
