@@ -12,7 +12,7 @@ type plannedRewards = {
 
 type storage = {
     lastBlockUpdate: nat,
-    accumulatedSTKRPerShare: nat,
+    accumulatedRewardPerShare: nat,
     claimedRewards: claimedRewards,
     plannedRewards: plannedRewards,
     delegators: big_map(delegator, delegatorRecord),
@@ -22,7 +22,7 @@ type storage = {
 };
 
 #include "delegatorsRepository.religo"
-#include "setAccumulatedSTKRperShare.religo"
+#include "setAccumulatedRewardPerShare.religo"
 #include "setLastBlockUpdate.religo"
 #include "setUnpaidRewards.religo"
 #include "setPaidRewards.religo"

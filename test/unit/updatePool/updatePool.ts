@@ -3,7 +3,7 @@ import _tokenContract from '../../helpers/token';
 import _mockContract from '../../helpers/mockContract';
 import _taquito from '../../helpers/taquito';
 import _initialStorage from '../../../migrations/initialStorage/farm';
-import { computeReward, updateAccumulatdSTKRPerShare } from '../../helpers/updatePool';
+import { computeReward, updateAccumulatedRewardPerShare } from '../../helpers/updatePool';
 import { mockContractStorage } from '../../../types';
 
 /**
@@ -18,7 +18,7 @@ contract('updatePool()', () => {
             const currentBlockLevel = await _taquito.getCurrentBlockLevel();
             const blockLevelAtCall = currentBlockLevel + 2;
             const initialStorage = _initialStorage.test.updatePool(
-                0, // accumulatedSTKRPerShare 
+                0, // accumulatedRewardPerShare 
                 10,// farmTokenBalance
                 blockLevelAtCall ,// blockLevel
                 10, //rewardPerBlock 
@@ -38,7 +38,7 @@ contract('updatePool()', () => {
         it('gets the "updateBlock" action when farm token balance is 0', async () => {
             const currentBlockLevel = await _taquito.getCurrentBlockLevel();
             const initialStorage = _initialStorage.test.updatePool(
-                0, // accumulatedSTKRPerShare 
+                0, // accumulatedRewardPerShare 
                 0,// farmTokenBalance
                 currentBlockLevel, // blockLevel
                 10, //rewardPerBlock 
@@ -62,7 +62,7 @@ contract('updatePool()', () => {
             before(async () => {
                 const currentBlockLevel = await _taquito.getCurrentBlockLevel();
                 initialStorage = _initialStorage.test.updatePool(
-                    0, // accumulatedSTKRPerShare 
+                    0, // accumulatedRewardPerShare 
                     10,// farmTokenBalance
                     currentBlockLevel, // blockLevel
                     10, //rewardPerBlock 
@@ -98,8 +98,8 @@ contract('updatePool()', () => {
 
                 it('calculated accumulatedRewardPerShare', async () => {
                     reward = computeReward(initialStorage, storage);
-                    const calculatedAccumulatedRewardPerShare = updateAccumulatdSTKRPerShare(initialStorage, reward)
-                    const accumulatdRewardPerShare = storage.accumulatedSTKRPerShare;
+                    const calculatedAccumulatedRewardPerShare = updateAccumulatedRewardPerShare(initialStorage, reward)
+                    const accumulatdRewardPerShare = storage.accumulatedRewardPerShare;
 
                     expect(accumulatdRewardPerShare.toFixed()).to.equal(calculatedAccumulatedRewardPerShare.toFixed());
                 });
@@ -115,7 +115,7 @@ contract('updatePool()', () => {
         before(async () => {
             const currentBlockLevel = await _taquito.getCurrentBlockLevel();
             initialStorage = _initialStorage.test.updatePool(
-                0, // accumulatedSTKRPerShare 
+                0, // accumulatedRewardPerShare 
                 10,// farmTokenBalance
                 currentBlockLevel, // blockLevel
                 10, //rewardPerBlock 

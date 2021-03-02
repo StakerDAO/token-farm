@@ -23,7 +23,7 @@ type plannedRewards = {
 
 type storage = {
     lastBlockUpdate: nat,
-    accumulatedSTKRPerShare: nat,
+    accumulatedRewardPerShare: nat,
     claimedRewards: claimedRewards,
     plannedRewards: plannedRewards,
     delegators: big_map(delegator, delegatorRecord),
@@ -78,7 +78,7 @@ type storage = {
 
     E.g. if you deposit in `block 0`, you're only eligible for rewards from `block 1`
 
-- #### `accumulatedSTKRPerShare: nat`
+- #### `accumulatedRewardPerShare: nat`
 
     Keeps track of how many reward token each liquidity pool share (staked LP token) is worth. This number is recalculated at every pool update.
 
@@ -132,7 +132,7 @@ This entrypoint unstakes the number of LP tokens the delegator specifies and pay
 
 ## Farm pool & state updates
 
-Each farm instance has its own pool, that keeps track of vital data such as `accumulatedSTKRPerShare`. Each
+Each farm instance has its own pool, that keeps track of vital data such as `accumulatedRewardPerShare`. Each
 pool can be updated only once per block - this is ensured by keeping track of `lastBlockUpdate`.
 
 Entrypoints `%deposit`, `%claim`, `%withdraw` all call an `updatePool()` function either directly or indirectly, causing the
@@ -150,11 +150,11 @@ If the calculated reward from the formula below exceeds the `plannedRewards`, th
 
 `(Tezos.level - lastBlockUpdate) * rewardPerBlock`
 
-##### - `accumulatedSTKRPerShare`
+##### - `accumulatedRewardPerShare`
 
-`accumulatedSTKRPerShare + reward / farmTokenBalance`
+`accumulatedRewardPerShare + reward / farmTokenBalance`
 
 
 ##### Reward calculation per delegator
 
-`accumulatedSTKRPerShare * delegatorBalance - delegatorRewardDebt`
+`accumulatedRewardPerShare * delegatorBalance - delegatorRewardDebt`

@@ -38,15 +38,15 @@ contract('%claim', () => {
             let operation;
 
             before(async () => {
-                 // save stkr balance before calling claim
+                 // save reward balance before calling claim
                 rewardTokenBalance = await rewardTokenContract.getBalance(accounts.alice.pkh);
 
                 operation = await farmContract.claim();
             });
         
-            it('calculates accumulated STKR per share', async () => {
-                const accumulatedSTKRPerShare = await farmContract.getAccumulatedSTKRPerShare()
-                expect(accumulatedSTKRPerShare.toFixed()).to.equal('150000000000000000000');
+            it('calculates accumulated reward per share', async () => {
+                const accumulatedRewardPerShare = await farmContract.getAccumulatedRewardPerShare()
+                expect(accumulatedRewardPerShare.toFixed()).to.equal('150000000000000000000');
             });
 
             it('calculates delegator reward', async () => {
@@ -83,23 +83,23 @@ contract('%claim', () => {
             });
 
             it('increases reward balance in token contract', async () => {
-                const stkrBalanceAfterClaim = await rewardTokenContract.getBalance(accounts.alice.pkh);
-                const stkrBalanceCalculated = rewardTokenBalance.plus(new BigNumber(rewardToken('30')));
-                expect(stkrBalanceAfterClaim.toFixed()).to.equal(stkrBalanceCalculated.toFixed())
+                const rewardBalanceAfterClaim = await rewardTokenContract.getBalance(accounts.alice.pkh);
+                const rewardBalanceCalculated = rewardTokenBalance.plus(new BigNumber(rewardToken('30')));
+                expect(rewardBalanceAfterClaim.toFixed()).to.equal(rewardBalanceCalculated.toFixed())
                 
             });
 
             describe('delegator claims after 1 block again', () => {
                 
                 before(async () => {
-                    // save stkr balance before calling claim
+                    // save reward balance before calling claim
                     rewardTokenBalance = await rewardTokenContract.getBalance(accounts.alice.pkh);
                     operation = await farmContract.claim();
                 });
 
                 it('calculates accumulated reward per share', async () => {
-                    const accumulatedSTKRPerShare = await farmContract.getAccumulatedSTKRPerShare()
-                    expect(accumulatedSTKRPerShare.toFixed()).to.equal('200000000000000000000');
+                    const accumulatedRewardPerShare = await farmContract.getAccumulatedRewardPerShare()
+                    expect(accumulatedRewardPerShare.toFixed()).to.equal('200000000000000000000');
                 })
 
                 it('calculates delegator reward', async () => {
@@ -131,9 +131,9 @@ contract('%claim', () => {
                 });
 
                 it('increases reward balance in token contract', async () => {
-                    const stkrBalanceAfterClaim = await rewardTokenContract.getBalance(accounts.alice.pkh);
-                    const stkrBalanceCalculated = rewardTokenBalance.plus(new BigNumber(rewardToken('10')));
-                    expect(stkrBalanceAfterClaim.toFixed()).to.equal(stkrBalanceCalculated.toFixed())
+                    const rewardBalanceAfterClaim = await rewardTokenContract.getBalance(accounts.alice.pkh);
+                    const rewardBalanceCalculated = rewardTokenBalance.plus(new BigNumber(rewardToken('10')));
+                    expect(rewardBalanceAfterClaim.toFixed()).to.equal(rewardBalanceCalculated.toFixed())
                     
                 });
 
@@ -166,15 +166,15 @@ contract('%claim', () => {
             describe('effects of claiming', () => {
                 let operation;
                 before(async () => {
-                      // save stkr balance before calling claim
+                      // save reward balance before calling claim
                     rewardTokenBalance = await rewardTokenContract.getBalance(accounts.alice.pkh);
         
                     operation = await farmContract.claim();
                 });
 
-                it('calculates accumulated STKR per share', async () => {
-                    const accumulatedSTKRPerShare = await farmContract.getAccumulatedSTKRPerShare()
-                    expect(accumulatedSTKRPerShare.toFixed()).to.equal('75000000000000000000');
+                it('calculates accumulated reward per share', async () => {
+                    const accumulatedRewardPerShare = await farmContract.getAccumulatedRewardPerShare()
+                    expect(accumulatedRewardPerShare.toFixed()).to.equal('75000000000000000000');
                 });
 
                 it('calculates delegator reward', async () => {
@@ -205,7 +205,7 @@ contract('%claim', () => {
            
                 describe('delegator claims after 1 block again', () => {
                     before(async () => {
-                        // save stkr balance before calling claim
+                        // save reward balance before calling claim
                         rewardTokenBalance = await rewardTokenContract.getBalance(accounts.alice.pkh);
 
                         operation = await farmContract.claim();
@@ -232,9 +232,9 @@ contract('%claim', () => {
                     });
     
                     it('increases reward balance in token contract', async () => {
-                        const stkrBalanceAfterClaim = await rewardTokenContract.getBalance(accounts.alice.pkh);
-                        const stkrBalanceCalculated = rewardTokenBalance.plus(new BigNumber(rewardToken('5')));
-                        expect(stkrBalanceAfterClaim.toFixed()).to.equal(stkrBalanceCalculated.toFixed())                        
+                        const rewardBalanceAfterClaim = await rewardTokenContract.getBalance(accounts.alice.pkh);
+                        const rewardBalanceCalculated = rewardTokenBalance.plus(new BigNumber(rewardToken('5')));
+                        expect(rewardBalanceAfterClaim.toFixed()).to.equal(rewardBalanceCalculated.toFixed())                        
                     });
                  
                 })

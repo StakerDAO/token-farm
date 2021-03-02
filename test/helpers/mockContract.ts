@@ -22,8 +22,8 @@ const testHelpers = (instance: ContractAbstraction<ContractProvider>) => {
         getReward: async function(): Promise<string> {
             return (await this.getStorage()).reward.toFixed();
         },
-        getAccumulatedSTKRPerShare: async function(): Promise<string> {
-           return (await this.getStorage()).accumulatedSTKRPerShare.toFixed();
+        getAccumulatedRewardPerShare: async function(): Promise<string> {
+           return (await this.getStorage()).accumulatedRewardPerShare.toFixed();
         },
         requestBalance: async function(address: string) {
             const operation = await instance.methods.requestBalance(
@@ -32,8 +32,8 @@ const testHelpers = (instance: ContractAbstraction<ContractProvider>) => {
             await operation.confirmation(1);
             return operation;
         },
-        updateAccumulatedSTKRperShare: async function(balance, reward) {
-            const operation = await instance.methods.updateAccumulatedSTKRperShare(
+        updateAccumulatedRewardPerShare: async function(balance, reward) {
+            const operation = await instance.methods.updateAccumulatedRewardPerShare(
                 balance, 
                 reward
             ).send()
@@ -72,12 +72,12 @@ export default {
         
         return testHelpers(instance);
     },
-    calculateReward: async function(balance, rewardDebt, accumulatedSTKRPerShare): Promise<string> {
+    calculateReward: async function(balance, rewardDebt, accumulatedRewardPerShare): Promise<string> {
         const initialTestStorage = initialStorage.test.calculateReward(
             accounts.alice.pkh,
             balance,
-            rewardDebt, // rewardDebt
-            accumulatedSTKRPerShare // accumulatedSTKRperShare
+            rewardDebt,
+            accumulatedRewardPerShare
         );
         const contract = await this.originate(initialTestStorage);
 
@@ -92,20 +92,20 @@ export default {
 
         await contract.updatePoolWithRewards(balance, blockLevel);
 
-        return await contract.getAccumulatedSTKRPerShare();
+        return await contract.getAccumulatedRewardPerShare();
     },
-    updateAccumulatedSTKRperShare: async function(
+    updateAccumulatedRewardPerShare: async function(
             balance: string, 
             reward: string, 
-            previousAccumulatedSTKRPerShare: string
+            previousAccumulatedRewardPerShare: string
         ): Promise<string> {
         const contract = await this.originate(
-            initialStorage.test.updateAccumulatedSTKRperShare(previousAccumulatedSTKRPerShare)
+            initialStorage.test.updateAccumulatedRewardPerShare(previousAccumulatedRewardPerShare)
         );
 
-        await contract.updateAccumulatedSTKRperShare(balance, reward)
+        await contract.updateAccumulatedRewardPerShare(balance, reward)
 
-        return await contract.getAccumulatedSTKRPerShare();
+        return await contract.getAccumulatedRewardPerShare();
     },
     updatePool: async function(initialStorage): Promise<mockContractStorage> {
         const contract = await this.originate(initialStorage);

@@ -17,8 +17,8 @@ const testHelpers = (instance, Tezos) => {
         getClaimedRewards: async function(){
             return (await this.getStorage()).claimedRewards
         },
-        getAccumulatedSTKRPerShare: async function(): Promise<number> {
-           return (await this.getStorage()).accumulatedSTKRPerShare.toNumber();
+        getAccumulatedRewardPerShare: async function(): Promise<number> {
+           return (await this.getStorage()).accumulatedRewardPerShare.toNumber();
         },
         deposit: async function(value) {
             const operation = await this.instance.methods.deposit(value).send();

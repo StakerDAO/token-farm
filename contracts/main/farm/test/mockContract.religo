@@ -16,7 +16,7 @@ type updatePoolWithRewardsParameter = {
     balance: nat,
     blockLevel: nat,
 };
-type updateAccumulatedSTKRperShareParameter = {
+type updateAccumulatedRewardPerShareParameter = {
     balance: nat,
     reward: nat
 };
@@ -29,7 +29,7 @@ type updatePoolParameter = unit;
 type functionToTest =
     | UpdatePoolWithRewards(updatePoolWithRewardsParameter)
     | UpdatePool(updatePoolParameter)
-    | UpdateAccumulatedSTKRperShare(updateAccumulatedSTKRperShareParameter)
+    | UpdateAccumulatedRewardPerShare(updateAccumulatedRewardPerShareParameter)
     | CalculateReward(calculateRewardParameter)
     | Receive(receiveParameter);
 
@@ -47,10 +47,10 @@ let main = ((functionToTest, storage): (functionToTest, storage)) => {
             let storage = updatePool(storage);
             ([]: list(operation), storage);
         }
-        | UpdateAccumulatedSTKRperShare(updateAccumulatedSTKRperShareParameter) => {
-            let storage = updateAccumulatedSTKRperShare(
-                updateAccumulatedSTKRperShareParameter.reward,
-                updateAccumulatedSTKRperShareParameter.balance,
+        | UpdateAccumulatedRewardPerShare(updateAccumulatedRewardPerShareParameter) => {
+            let storage = updateAccumulatedRewardPerShare(
+                updateAccumulatedRewardPerShareParameter.reward,
+                updateAccumulatedRewardPerShareParameter.balance,
                 storage
             );
             ([]: list(operation), storage);

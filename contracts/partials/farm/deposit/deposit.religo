@@ -5,7 +5,7 @@ let deposit = ((depositParameter, storage): (depositParameter, storage)): (list(
     
     // call claim() for existing delegator
     let isDelegatorKnown = checkDelegator(delegator, storage);
-    let (stkrTokenTransferOperationList, storage) = switch(isDelegatorKnown) {
+    let (rewardTokenTransferOperationList, storage) = switch(isDelegatorKnown) {
         | true => claim(storage)
         | false => ([]: list(operation), storage)
     };
@@ -27,5 +27,5 @@ let deposit = ((depositParameter, storage): (depositParameter, storage)): (list(
     let farmTokenBalance = storage.farmTokenBalance + depositParameter;
     let storage = setFarmTokenBalance(farmTokenBalance, storage);
 
-    ([lpTokenTransferOperation, ...stkrTokenTransferOperationList], storage);
+    ([lpTokenTransferOperation, ...rewardTokenTransferOperationList], storage);
 };

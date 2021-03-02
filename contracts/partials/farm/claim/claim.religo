@@ -13,7 +13,7 @@ let claim = ((storage): (storage)): (list(operation), storage) => {
     let paidRewards = storage.claimedRewards.paid + delegatorReward;
     let storage = setPaidRewards(paidRewards, storage);
 
-    // transfer STKR token as reward
+    // transfer reward token
     let tokenTransferOperation = transfer(
         Tezos.self_address, // from
         delegator, // to

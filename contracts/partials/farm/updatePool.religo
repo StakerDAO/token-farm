@@ -31,9 +31,9 @@ let updateUnpaidRewards = ((reward, storage): (nat, storage)): storage => {
     setUnpaidRewards(unpaidRewards, storage);
 };
 
-let updateAccumulatedSTKRperShare = ((reward, contractBalance, storage): (nat, nat, storage)): storage => {
-    let accumulatedSTKRPerShare = storage.accumulatedSTKRPerShare + reward * fixedPointAccuracy / contractBalance;
-    setAccumulatedSTKRperShare(accumulatedSTKRPerShare, storage);
+let updateAccumulatedRewardPerShare = ((reward, contractBalance, storage): (nat, nat, storage)): storage => {
+    let accumulatedRewardPerShare = storage.accumulatedRewardPerShare + reward * fixedPointAccuracy / contractBalance;
+    setAccumulatedRewardPerShare(accumulatedRewardPerShare, storage);
 };
 
 let updatePoolWithRewards = ((blockLevel, farmTokenBalance, storage): (nat, nat, storage)): storage => {
@@ -43,8 +43,8 @@ let updatePoolWithRewards = ((blockLevel, farmTokenBalance, storage): (nat, nat,
     let reward = computeReward(multiplier, storage);
     // save unpaid reward
     let storage = updateUnpaidRewards(reward, storage);
-    // recalculate STKR per share and save it
-    let storage = updateAccumulatedSTKRperShare(reward, farmTokenBalance, storage);
+    // recalculate reward per share and save it
+    let storage = updateAccumulatedRewardPerShare(reward, farmTokenBalance, storage);
     
     setLastBlockUpdate(blockLevel, storage);
 };
@@ -67,7 +67,7 @@ let updatePool = (storage: storage): storage => {
          */
         | UpdateBlock => setLastBlockUpdate(blockLevel, storage);
         /**
-         * Update block level, rewards and accumulated STKR per share.
+         * Update block level, rewards and accumulated reward per share.
          */
         | UpdateRewards => updatePoolWithRewards(blockLevel, storage.farmTokenBalance, storage);
     };    

@@ -48,7 +48,7 @@ let removeDelegator = ((delegator, storage):(address, storage)): storage => {
 let updateDelegatorRecord = ((delegator, stakedBalance, storage): (address, nat, storage)): storage => {
     let delegatorRecord: delegatorRecord = {
         balance: stakedBalance, // 9
-        rewardDebt: stakedBalance * storage.accumulatedSTKRPerShare // 9*21=30
+        rewardDebt: stakedBalance * storage.accumulatedRewardPerShare
     };
     let storage = setDelegatorRecord(delegator, delegatorRecord, storage);
     storage;

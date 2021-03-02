@@ -9,7 +9,7 @@ type delegatorRecord = {
 }
 export interface contractStorage {
     lastBlockUpdate: BigNumber,
-    accumulatedSTKRPerShare: BigNumber,
+    accumulatedRewardPerShare: BigNumber,
     plannedRewards: {
         rewardPerBlock: BigNumber,
         totalBlocks: BigNumber

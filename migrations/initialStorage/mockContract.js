@@ -5,7 +5,7 @@ const initialStorage = {};
 
 initialStorage.base = () =>  ({
     lastBlockUpdate: new BigNumber(0),
-    accumulatedSTKRPerShare: new BigNumber(0),
+    accumulatedRewardPerShare: new BigNumber(0),
     plannedRewards: {
         rewardPerBlock: new BigNumber(0),
         totalBlocks: new BigNumber(0),
@@ -23,20 +23,20 @@ initialStorage.base = () =>  ({
 
 initialStorage.test = {};
 
-initialStorage.test.calculateReward = (delegator, balance, rewardDebt, accumulatedSTKRPerShare) => {
+initialStorage.test.calculateReward = (delegator, balance, rewardDebt, accumulatedRewardPerShare) => {
     let storage = initialStorage.base();
     storage.delegators.set(delegator, {
         balance: balance,
         rewardDebt: rewardDebt
     });
-    storage.accumulatedSTKRPerShare = accumulatedSTKRPerShare;
+    storage.accumulatedRewardPerShare = accumulatedRewardPerShare;
     
     return storage;
 }
 
-initialStorage.test.updateAccumulatedSTKRperShare = (accumulatedSTKRPerShare) => {
+initialStorage.test.updateAccumulatedRewardPerShare = (accumulatedRewardPerShare) => {
     let storage = initialStorage.base();
-    storage.accumulatedSTKRPerShare = new BigNumber(accumulatedSTKRPerShare);
+    storage.accumulatedRewardPerShare = new BigNumber(accumulatedRewardPerShare);
     return storage;
 }
 

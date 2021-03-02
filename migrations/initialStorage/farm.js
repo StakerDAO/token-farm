@@ -5,7 +5,7 @@ const initialStorage = {};
 
 initialStorage.base = () => ({
     lastBlockUpdate: new BigNumber(0),
-    accumulatedSTKRPerShare: new BigNumber(0),
+    accumulatedRewardPerShare: new BigNumber(0),
     plannedRewards: {
         rewardPerBlock: new BigNumber(0),
         totalBlocks: new BigNumber(0),
@@ -26,7 +26,7 @@ initialStorage.withLpTokenContract = (tokenContractAddress) => {
     return storage
 }
 
-initialStorage.withLpAndStkrContract = (lpTokenContractAddress, rewardTokenContractAddress) => {
+initialStorage.withLpAndRewardContract = (lpTokenContractAddress, rewardTokenContractAddress) => {
     let storage = initialStorage.base();
     storage.lpTokenContract = lpTokenContractAddress;
     storage.rewardTokenContract = rewardTokenContractAddress;
@@ -75,7 +75,7 @@ initialStorage.test.deposit = (farmTokenContract, lpTokenContract, delegators, r
 };
 
 initialStorage.test.updatePool = (
-        accumulatedSTKRPerShare, 
+        accumulatedRewardPerShare, 
         farmTokenBalance, 
         blockLevel, 
         rewardPerBlock, 
@@ -86,7 +86,7 @@ initialStorage.test.updatePool = (
         
     let storage = initialStorage.base();
 
-    storage.accumulatedSTKRPerShare = new BigNumber(accumulatedSTKRPerShare);
+    storage.accumulatedRewardPerShare = new BigNumber(accumulatedRewardPerShare);
     storage.farmTokenBalance = new BigNumber(farmTokenBalance);
     storage.lastBlockUpdate = new BigNumber(blockLevel);
 

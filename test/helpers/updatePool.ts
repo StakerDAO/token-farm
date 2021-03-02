@@ -25,8 +25,8 @@ export function computeReward(initialStorage: mockContractStorage, storage: mock
     }
 }
 
-export function updateAccumulatdSTKRPerShare(initialStorage: mockContractStorage, reward: any): BigNumber {
-    const previousAcc = new BigNumber(initialStorage.accumulatedSTKRPerShare);
+export function updateAccumulatedRewardPerShare(initialStorage: mockContractStorage, reward: any): BigNumber {
+    const previousAcc = new BigNumber(initialStorage.accumulatedRewardPerShare);
     const rewardBN = new BigNumber(reward);
     const fixedPointAccuracy = new BigNumber(decimals.fixedPointAccuracy);
     const farmTokenBalance = new BigNumber(initialStorage.farmTokenBalance);

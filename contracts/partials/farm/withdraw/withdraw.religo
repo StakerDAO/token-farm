@@ -3,7 +3,7 @@
 let withdraw = ((withdrawParameter, storage): (withdrawParameter, storage)): (list(operation), storage) => {
     let storage = updatePool(storage);
     
-    let (stkrTokenTransferOperationList, storage) = claim(storage);
+    let (rewardTokenTransferOperationList, storage) = claim(storage);
     
     let delegator = Tezos.sender;
     let delegatorRecord = getDelegator(delegator, storage);
@@ -19,5 +19,5 @@ let withdraw = ((withdrawParameter, storage): (withdrawParameter, storage)): (li
         storage.lpTokenContract
     );
    
-    ([lpTokenTransferOperation, ...stkrTokenTransferOperationList]: list(operation), storage);
+    ([lpTokenTransferOperation, ...rewardTokenTransferOperationList]: list(operation), storage);
 };
