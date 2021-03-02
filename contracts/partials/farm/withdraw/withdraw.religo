@@ -1,6 +1,6 @@
 #include "../helpers/subtraction.religo"
 
-let withdraw = ((withdrawParameter, storage): (withdrawParameter, storage)): (list(operation), storage) => {
+let withdraw = ((withdrawParameter, storage): (withdrawParameter, storage)): entrypointReturn => {
     let storage = updatePool(storage);
     
     let (rewardTokenTransferOperationList, storage) = claim(storage);

@@ -1,5 +1,5 @@
 [@inline]
-let claim = ((storage): (storage)): (list(operation), storage) => {
+let claim = ((storage): (storage)): entrypointReturn => {
     let storage = updatePool(storage); 
 
     let delegator = Tezos.sender;
