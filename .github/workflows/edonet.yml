@@ -23,4 +23,4 @@ jobs:
       uses: kibertoad/wait-action@master
       with:
         time: '30s'
-    - run: yarn run test ./test/unit/deposit/** ./test/unit/claim/** ./test/unit/updatePool/updatePool.ts
+    - run: yarn run test ./test/unit/deposit/** ./test/unit/claim/** ./test/unit/updatePool/updatePool.ts ./test/unit/withdraw/**

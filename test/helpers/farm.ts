@@ -43,8 +43,8 @@ const testHelpers = (instance, Tezos) => {
         getFarmTokenBalance: async function(): Promise<BigNumber> {
             return (await this.getStorage()).farmTokenBalance;
         },
-        getDelegatorBalance: async function(address) {
-            return (await (await this.getStorage()).delegators.get(address)).balance.toNumber();
+        getDelegatorBalance: async function(address): Promise<BigNumber> {
+            return (await (await this.getStorage()).delegators.get(address)).balance;
         },
         getPlannedRewards: async function() {
             return (await this.getStorage()).plannedRewards;
@@ -58,13 +58,18 @@ const testHelpers = (instance, Tezos) => {
         getDelegatorStakingStart: async function(address): Promise<BigNumber> {
             return (await (await this.getStorage()).delegators.get(address)).stakingStart;
         },
+        withdraw: async function(amount) {
+            const operation = await this.instance.methods.withdraw(amount).send({storageLimit: 100});
+            await operation.confirmation(1);
+            return operation
+        }
     };
 };
 
 export default {
     originate: async function(initalStorage) {
         const instance = await farm.new(initalStorage)
-        console.log('Originated farm at', instance.address);
+        console.log('Farm contract originated at', instance.address);
         
         const testHelpers = await this.at(instance.address);
         return testHelpers;

@@ -1,6 +1,7 @@
 module.exports = {
     contractErrors: {
         delegatorNotKnown: 'DelegatorNotKnown',
-        noContractFound: 'NoContractFound'
+        noContractFound: 'NoContractFound',
+        notEnoughStakedTokenBalance: 'NotEnoughStakedTokenBalance'
     },
 };

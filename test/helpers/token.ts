@@ -162,7 +162,7 @@ export function lpToken(value): string {
 }
 
 export default {
-    originate: async function() {
+    originate: async function(contract?: string) {
         const Tezos = new TezosToolkit('http://localhost:8732');
         Tezos.setProvider({
             signer: await InMemorySigner.fromSecretKey(accounts.alice.sk)
@@ -172,7 +172,7 @@ export default {
                 code: tokenContractMichelson,
                 storage: _initialStorage.withBalances(),
             });
-        console.log('Token contract originated at', operation.contractAddress);
+        console.log(contract + ' Token contract originated at', operation.contractAddress);
         const instance = await operation.contract();
         return tzip7Helpers(instance)
     }
