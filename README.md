@@ -8,7 +8,7 @@
 type delegator = address
 type delegatorRecord = {
     balance: nat,
-    rewardDebt: nat,
+    stakingStart: nat,
 };
 
 type claimedRewards = {
@@ -130,11 +130,11 @@ This entrypoint unstakes the number of LP tokens the delegator specifies and pay
 Each farm instance has its own pool, that keeps track of vital data such as `accumulatedRewardPerShare`. Each
 pool can be updated only once per block - this is ensured by keeping track of `lastBlockUpdate`.
 
-Entrypoints `%deposit`, `%claim`, `%withdraw` all call an `updatePool()` function either directly or indirectly, causing the
+Entrypoints `%deposit`, `%claim`, `%withdraw` all call an `updatePool()` function, causing the
 pool to update with every first operation that 'arrives' to the farm in each block.
 
 If there are no tokens delegated to the farm, which means if `farmTokenBalance = 0n` then pool updates are skipped. Resulting
-in no rewards being distributed, and only the `lastBlockUpdate` being increased. If this behavior was not part of the implementation then rewards would be lost for blocks when no-one is delegating to the farm.
+in no rewards being distributed, and only the `lastBlockUpdate` being increased. If this behavior was not part of the implementation, then rewards would be lost for blocks when no-one is delegating to the farm.
 
 #### Pool update formulas
 
@@ -149,9 +149,10 @@ If the calculated reward from the formula below exceeds the `plannedRewards`, th
 
 `accumulatedRewardPerShare + reward / farmTokenBalance`
 
-
 ##### Reward calculation per delegator
 
-`(accumulatedRewardPerShareEnd - accumulatedRewardPerShareStart) * delegatorBalance` where
-`accumulatedRewardPerShareEnd = current accumulatedRewardPerShare` and 
-`accumulatedRewardPerShareStart = stakingStart`
+`delegatorReward = (accumulatedRewardPerShareEnd - accumulatedRewardPerShareStart) * delegatorBalance`
+
+> `accumulatedRewardPerShareEnd = current accumulatedRewardPerShare` 
+> 
+> `accumulatedRewardPerShareStart = stakingStart`
