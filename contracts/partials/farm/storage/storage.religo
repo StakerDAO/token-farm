@@ -18,7 +18,7 @@ type storage = {
     delegators: big_map(delegator, delegatorRecord),
     lpTokenContract: address,
     farmTokenBalance: nat,
-    stkrTokenContract: address,
+    rewardTokenContract: address,
 };
 
 #include "delegatorsRepository.religo"

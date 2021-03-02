@@ -4,13 +4,14 @@ import _taquito from '../../helpers/taquito';
 import _farmContract from '../../helpers/farm';
 import _initialStorage from "../../../migrations/initialStorage/farm";
 
-export async function prepareFarm(delegators, rewardPerBlock, rewardTokenContract, farmContract){
+export async function prepareFarm(delegators, rewardPerBlock, rewardTokenContract, lpTokenContract, farmContract){
     
     const startingBlockLevel = await _taquito.getCurrentBlockLevel();    
 
     farmContract = await _farmContract.originate(
-        _initialStorage.test.claim(
+        _initialStorage.test.deposit(
             rewardTokenContract.instance.address,
+            lpTokenContract.instance.address,
             delegators,
             rewardPerBlock,
             startingBlockLevel

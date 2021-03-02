@@ -18,7 +18,7 @@ initialStorage.base = () =>  ({
     reward: new BigNumber(0), // this is only for the mock contract
     lpTokenContract: "tz1VSUr8wwNhLAzempoch5d6hLRiTh8Cjcjb",
     farmTokenBalance: new BigNumber(0),
-    stkrTokenContract: "tz1VSUr8wwNhLAzempoch5d6hLRiTh8Cjcjb",
+    rewardTokenContract: "tz1VSUr8wwNhLAzempoch5d6hLRiTh8Cjcjb",
 });
 
 initialStorage.test = {};

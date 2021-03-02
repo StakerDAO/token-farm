@@ -10,7 +10,7 @@ import { prepareFarm } from './before';
 import { TezosOperationError } from '@taquito/taquito';
 import { contractErrors } from '../../../helpers/constants';
 import _taquito from '../../helpers/taquito';
-import _stkrContract from '../../helpers/stkrFarm';
+import _farmContract from '../../helpers/farm';
 import _initialStorage from '../../../migrations/initialStorage/farm';
 
 contract('%claim', () => {
@@ -74,9 +74,13 @@ contract('%claim', () => {
                 expect(paidRewards.toFixed()).to.equal(rewardToken('30'));
             });
             
-            it.skip('emits the token transfer operation', async () => {
-                // TODO: byte to string conversion to check for matching addresses
-            })
+            it('emits the token transfer operation', async () => {
+                const internalOperationResults = operation.results[0].metadata.internal_operation_results;
+                const firstInternalOperationResult = internalOperationResults[0];
+                expect(firstInternalOperationResult).to.deep.contain({
+                    destination: rewardTokenContract.instance.address 
+                });
+            });
 
             it('increases reward balance in token contract', async () => {
                 const stkrBalanceAfterClaim = await rewardTokenContract.getBalance(accounts.alice.pkh);
@@ -118,9 +122,13 @@ contract('%claim', () => {
                     expect(paidRewardsSecond.toFixed()).to.equal(rewardToken('40'))
                 });
 
-                it.skip('emits token transfer operation', async () => {
-                    // TODO: byte to string conversion to check for matching addresses
-                })
+                it('emits token transfer operation', async () => {
+                    const internalOperationResults = operation.results[0].metadata.internal_operation_results;
+                    const firstInternalOperationResult = internalOperationResults[0];
+                    expect(firstInternalOperationResult).to.deep.contain({
+                        destination: rewardTokenContract.instance.address 
+                    });
+                });
 
                 it('increases reward balance in token contract', async () => {
                     const stkrBalanceAfterClaim = await rewardTokenContract.getBalance(accounts.alice.pkh);
@@ -243,7 +251,7 @@ contract('%claim', () => {
                 const rewardPerBlock = rewardToken('10');
                 const startingBlockLevel = await _taquito.getCurrentBlockLevel();    
 
-                farmContract = await _stkrContract.originate(
+                farmContract = await _farmContract.originate(
                     _initialStorage.test.claim(
                         accounts.alice.pkh,
                         noDelegators,
@@ -275,7 +283,7 @@ contract('%claim', () => {
                     rewardDebt: 0
                 };
                 const rewardPerBlock = rewardToken('10');
-                farmContract = await _stkrContract.originate(
+                farmContract = await _farmContract.originate(
                     _initialStorage.test.claim(
                         rewardTokenContract,
                         [delegatorAlice],

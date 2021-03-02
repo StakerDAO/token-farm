@@ -17,7 +17,7 @@ initialStorage.base = () => ({
     delegators: new MichelsonMap,
     lpTokenContract: "tz1VSUr8wwNhLAzempoch5d6hLRiTh8Cjcjb",
     farmTokenBalance: new BigNumber(0),
-    stkrTokenContract: "tz1VSUr8wwNhLAzempoch5d6hLRiTh8Cjcjb",
+    rewardTokenContract: "tz1VSUr8wwNhLAzempoch5d6hLRiTh8Cjcjb",
 });
 
 initialStorage.withLpTokenContract = (tokenContractAddress) => {
@@ -26,10 +26,10 @@ initialStorage.withLpTokenContract = (tokenContractAddress) => {
     return storage
 }
 
-initialStorage.withLpAndStkrContract = (lpTokenContractAddress, stkrTokenContractAddress) => {
+initialStorage.withLpAndStkrContract = (lpTokenContractAddress, rewardTokenContractAddress) => {
     let storage = initialStorage.base();
     storage.lpTokenContract = lpTokenContractAddress;
-    storage.stkrTokenContract = stkrTokenContractAddress;
+    storage.rewardTokenContract = rewardTokenContractAddress;
     return storage
 }
 
@@ -41,7 +41,7 @@ initialStorage.test.claim = (farmTokenContract, delegators, rewardPerBlock, bloc
     storage.plannedRewards.rewardPerBlock = new BigNumber(rewardPerBlock);
     storage.plannedRewards.totalBlocks = new BigNumber(100);
 
-    storage.stkrTokenContract = farmTokenContract;
+    storage.rewardTokenContract = farmTokenContract;
     delegators.forEach(delegator => {
         storage.delegators.set(delegator.address, {
             balance: new BigNumber(delegator.balance),
@@ -60,7 +60,7 @@ initialStorage.test.deposit = (farmTokenContract, lpTokenContract, delegators, r
     storage.plannedRewards.rewardPerBlock = new BigNumber(rewardPerBlock);
     storage.plannedRewards.totalBlocks = new BigNumber(100);
 
-    storage.stkrTokenContract = farmTokenContract;
+    storage.rewardTokenContract = farmTokenContract;
     storage.lpTokenContract = lpTokenContract;
     delegators.forEach(delegator => {
         storage.delegators.set(delegator.address, {

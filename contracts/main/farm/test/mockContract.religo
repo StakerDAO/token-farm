@@ -1,16 +1,16 @@
-#include "../../../partials/stkr/test/mockStorage.religo"
+#include "../../../partials/farm/test/mockStorage.religo"
 
-#include "../../../partials/stkr/constants.religo"
-#include "../../../partials/stkr/errors.religo"
-#include "../../../partials/stkr/parameter.religo"
+#include "../../../partials/farm/constants.religo"
+#include "../../../partials/farm/errors.religo"
+#include "../../../partials/farm/parameter.religo"
 
-#include "../../../partials/stkr/updatePool.religo"
-#include "../../../partials/stkr/calculateReward.religo"
-#include "../../../partials/stkr/helpers/transfer.religo"
+#include "../../../partials/farm/updatePool.religo"
+#include "../../../partials/farm/calculateReward.religo"
+#include "../../../partials/farm/helpers/transfer.religo"
 
-#include "../../../partials/stkr/claim/claim.religo"
-#include "../../../partials/stkr/deposit/deposit.religo"
-#include "../../../partials/stkr/withdraw/withdraw.religo"
+#include "../../../partials/farm/claim/claim.religo"
+#include "../../../partials/farm/deposit/deposit.religo"
+#include "../../../partials/farm/withdraw/withdraw.religo"
 
 type updatePoolWithRewardsParameter = {
     balance: nat,

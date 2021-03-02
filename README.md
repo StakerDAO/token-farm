@@ -29,7 +29,7 @@ type storage = {
     delegators: big_map(delegator, delegatorRecord),
     lpTokenContract: address,
     farmTokenBalance: nat,
-    stkrTokenContract: address,
+    rewardTokenContract: address,
 };
 ```
 
@@ -89,7 +89,7 @@ type storage = {
     Balance of the `lpTokenContract` tokens for the current farm contract. This standalone "ledger" entry exists to
     avoid exploits with operations that may introduce issues & overhead due to Tezos' message passing architecture ([BFS](https://forum.tezosagora.org/t/smart-contract-vulnerabilities-due-to-tezos-message-passing-architecture/2045)), specifically when calling `tokenContract%getBalance`.
 
-- #### `stkrTokenContract: address`
+- #### `rewardTokenContract: address`
 
     Address of the reward token contract.
 

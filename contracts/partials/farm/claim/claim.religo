@@ -18,7 +18,7 @@ let claim = ((storage): (storage)): (list(operation), storage) => {
         Tezos.self_address, // from
         delegator, // to
         delegatorReward, // value
-        storage.stkrTokenContract // tzip7 contract's address
+        storage.rewardTokenContract // tzip7 contract's address
     );
     
     ([tokenTransferOperation], storage);

@@ -1,8 +1,9 @@
 import { InMemorySigner } from "@taquito/signer";
 import { TezosToolkit } from "@taquito/taquito";
-import accounts from "../../scripts/sandbox/accounts";
-import tokenContractMichelson from "../../contracts/main/stkr/test/tokenTzip7.json"
 import BigNumber from 'bignumber.js';
+
+import accounts from "../../scripts/sandbox/accounts";
+import tokenContractMichelson from "../../contracts/main/farm/test/tokenTzip7.json"
 import decimals from '../../decimals-config.json';
 import _initialStorage from '../../migrations/initialStorage/token';
 

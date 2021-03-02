@@ -1,9 +1,10 @@
 import { expect } from 'chai';
 import _tokenContract from '../../helpers/token';
-import _mockContract, { mockContractStorage } from '../../helpers/mockContract';
+import _mockContract from '../../helpers/mockContract';
 import _taquito from '../../helpers/taquito';
 import _initialStorage from '../../../migrations/initialStorage/farm';
 import { computeReward, updateAccumulatdSTKRPerShare } from '../../helpers/updatePool';
+import { mockContractStorage } from '../../../types';
 
 /**
  * updatePool(storage) => storage is exposed through the mockContract for unit testing.
