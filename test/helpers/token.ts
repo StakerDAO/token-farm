@@ -1,55 +1,11 @@
 import { InMemorySigner } from "@taquito/signer";
-import { MichelsonMap, TezosToolkit } from "@taquito/taquito";
-import accounts, { alice, bob, carol } from "../../scripts/sandbox/accounts";
-import tokenContractMichelson from "../../contracts/main/stkr/test/tokenTzip7.json"
+import { TezosToolkit } from "@taquito/taquito";
 import BigNumber from 'bignumber.js';
-const e18 = '1000000000000000000';
-const e9 = '1000000000';
 
-const initialStorage: any = {};
-
-initialStorage.base = {
-    token: {
-        ledger: new MichelsonMap,
-        approvals: new MichelsonMap,
-        admin: alice.pkh,
-        pauseGuardian: alice.pkh,
-        paused: false,
-        totalSupply: 0,
-    },
-    bridge: {
-        swaps: new MichelsonMap,
-        outcomes: new MichelsonMap,
-        lockSaver: alice.pkh,
-    },
-};
-
-
-initialStorage.withBalances = {
-    ...initialStorage.base,
-    token: {
-        ...initialStorage.base.token,
-        ledger: MichelsonMap.fromLiteral({
-            [alice.pkh]: (new BigNumber(1000).multipliedBy(e18)).toFixed()
-        }),
-        totalSupply: (new BigNumber(1000).multipliedBy(e18)).toFixed(),
-    },
-};
-
-initialStorage.withApprovals = {
-    ...initialStorage.withBalances,
-    token: {
-        ...initialStorage.withBalances.token,
-        approvals:  (()=> {
-            const map = new MichelsonMap;
-            map.set({ // Pair as Key
-                0 : bob.pkh, //owner
-                1 : carol.pkh //spender
-              }, 100000);
-            return map;
-        })()
-    },
-};
+import accounts from "../../scripts/sandbox/accounts";
+import tokenContractMichelson from "../../contracts/main/farm/test/tokenTzip7.json"
+import decimals from '../../decimals-config.json';
+import _initialStorage from '../../migrations/initialStorage/token';
 
 const tzip7Helpers = (instance) => {
     return {
@@ -160,7 +116,7 @@ const tzip7Helpers = (instance) => {
             if (swap != undefined) {
                 swap.fee = swap.fee.toNumber();
                 swap.value = swap.value.toNumber();
-            };
+            }
             return swap;
         },
         confirmSwap: async function(secretHash) {
@@ -197,12 +153,12 @@ const tzip7Helpers = (instance) => {
     }
 }
 
-export function rewardToken(value) {
-    return (new BigNumber(value)).multipliedBy(new BigNumber(e18)).toFixed();
+export function rewardToken(value): string {
+    return (new BigNumber(value)).multipliedBy(new BigNumber(decimals.rewardToken)).toFixed();
 }
 
-export function lpToken(value) {
-    return (new BigNumber(value)).multipliedBy(new BigNumber(e9)).toFixed();
+export function lpToken(value): string {
+    return (new BigNumber(value)).multipliedBy(new BigNumber(decimals.lpToken)).toFixed();
 }
 
 export default {
@@ -214,7 +170,7 @@ export default {
         const operation = await Tezos.contract
             .originate({
                 code: tokenContractMichelson,
-                storage: initialStorage.withBalances,
+                storage: _initialStorage.withBalances(),
             });
         console.log('Token contract originated at', operation.contractAddress);
         const instance = await operation.contract();

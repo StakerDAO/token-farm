@@ -23,13 +23,13 @@ type plannedRewards = {
 
 type storage = {
     lastBlockUpdate: nat,
-    accumulatedSTKRPerShare: nat,
+    accumulatedRewardPerShare: nat,
     claimedRewards: claimedRewards,
     plannedRewards: plannedRewards,
     delegators: big_map(delegator, delegatorRecord),
     lpTokenContract: address,
     farmTokenBalance: nat,
-    stkrTokenContract: address,
+    rewardTokenContract: address,
 };
 ```
 
@@ -59,16 +59,11 @@ type storage = {
     ##### - `value: delegatorRecord`
     - `balance`
         
-        Represents the total staked balance (of the staking token) of the current delegator
+        Represents the total staked balance (of the staking token) of the current delegator.
 
-    - `rewardDebt`
+    - `stakingStart`
 
-        Represents when was the last payout made to the given delegator, or when he joined the staking pool.
-
-        ##### Example
-        If `rewardPerBlock = 100 RewardToken` and the delegator joins the staking pool at block height 5,
-        relative to when the farm was started, then `rewardDebt = 5 * rewardPerBlock = 500 RewardToken`
-
+        Represents the accumulatedRewardPerShare at the time the delegator started staking (joined the staking pool), or has claimed the reward payout the last time.
 
 - #### `lastBlockUpdate: nat`
 
@@ -78,7 +73,7 @@ type storage = {
 
     E.g. if you deposit in `block 0`, you're only eligible for rewards from `block 1`
 
-- #### `accumulatedSTKRPerShare: nat`
+- #### `accumulatedRewardPerShare: nat`
 
     Keeps track of how many reward token each liquidity pool share (staked LP token) is worth. This number is recalculated at every pool update.
 
@@ -89,7 +84,7 @@ type storage = {
     Balance of the `lpTokenContract` tokens for the current farm contract. This standalone "ledger" entry exists to
     avoid exploits with operations that may introduce issues & overhead due to Tezos' message passing architecture ([BFS](https://forum.tezosagora.org/t/smart-contract-vulnerabilities-due-to-tezos-message-passing-architecture/2045)), specifically when calling `tokenContract%getBalance`.
 
-- #### `stkrTokenContract: address`
+- #### `rewardTokenContract: address`
 
     Address of the reward token contract.
 
@@ -132,7 +127,7 @@ This entrypoint unstakes the number of LP tokens the delegator specifies and pay
 
 ## Farm pool & state updates
 
-Each farm instance has its own pool, that keeps track of vital data such as `accumulatedSTKRPerShare`. Each
+Each farm instance has its own pool, that keeps track of vital data such as `accumulatedRewardPerShare`. Each
 pool can be updated only once per block - this is ensured by keeping track of `lastBlockUpdate`.
 
 Entrypoints `%deposit`, `%claim`, `%withdraw` all call an `updatePool()` function either directly or indirectly, causing the
@@ -150,11 +145,13 @@ If the calculated reward from the formula below exceeds the `plannedRewards`, th
 
 `(Tezos.level - lastBlockUpdate) * rewardPerBlock`
 
-##### - `accumulatedSTKRPerShare`
+##### - `accumulatedRewardPerShare`
 
-`accumulatedSTKRPerShare + reward / farmTokenBalance`
+`accumulatedRewardPerShare + reward / farmTokenBalance`
 
 
 ##### Reward calculation per delegator
 
-`accumulatedSTKRPerShare * delegatorBalance - delegatorRewardDebt`
+`(accumulatedRewardPerShareEnd - accumulatedRewardPerShareStart) * delegatorBalance` where
+`accumulatedRewardPerShareEnd = current accumulatedRewardPerShare` and 
+`accumulatedRewardPerShareStart = stakingStart`
