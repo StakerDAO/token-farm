@@ -19,8 +19,8 @@ jobs:
     - run: yarn
     - run: yarn run fix-ligo-version next
     - run: yarn run sandbox:start &
-    - name: Wait 20 seconds for sandbox
+    - name: Wait 30 seconds for sandbox
       uses: kibertoad/wait-action@master
       with:
-        time: '20s'
-    - run: yarn run test -- ./test/unit/deposit/** ./test/unit/claim/** ./test/unit/updatePool/updatePool.ts
+        time: '30s'
+    - run: yarn run test ./test/unit/deposit/** ./test/unit/claim/** ./test/unit/updatePool/updatePool.ts
