@@ -3,12 +3,11 @@ import chaiAsPromised from 'chai-as-promised';
 chai.use(chaiAsPromised);
 const expect = chai.expect;
 
-import _tokenContract, { lpToken, rewardToken } from '../../helpers/token';
-import accounts from '../../../scripts/sandbox/accounts';
-import BigNumber from 'bignumber.js';
-import { prepareFarm } from './before';
 import { TezosOperationError } from '@taquito/taquito';
+import accounts from '../../../scripts/sandbox/accounts';
+import { prepareFarm } from './before';
 import { contractErrors } from '../../../helpers/constants';
+import _tokenContract, { lpToken, rewardToken } from '../../helpers/token';
 import _taquito from '../../helpers/taquito';
 import _farmContract from '../../helpers/farm';
 import _initialStorage from '../../../migrations/initialStorage/farm';
@@ -16,7 +15,6 @@ import _initialStorage from '../../../migrations/initialStorage/farm';
 contract('%claim', () => {
     let farmContract;
     let rewardTokenContract;
-    let rewardTokenBalance;
     
     describe('one delegator staking', () => {
       
@@ -38,9 +36,6 @@ contract('%claim', () => {
             let operation;
 
             before(async () => {
-                // save reward balance before calling claim
-                rewardTokenBalance = await rewardTokenContract.getBalance(accounts.alice.pkh);
-
                 operation = await farmContract.claim();
             });
         
@@ -83,17 +78,9 @@ contract('%claim', () => {
                 });
             });
 
-            it('increases reward balance in token contract', async () => {
-                const rewardBalanceAfterClaim = await rewardTokenContract.getBalance(accounts.alice.pkh);
-                const rewardBalanceCalculated = rewardTokenBalance.plus(new BigNumber(rewardToken('30')));
-                expect(rewardBalanceAfterClaim.toFixed()).to.equal(rewardBalanceCalculated.toFixed())
-            });
-
             describe('delegator claims after 1 block again', () => {
                 
                 before(async () => {
-                    // save reward balance before calling claim
-                    rewardTokenBalance = await rewardTokenContract.getBalance(accounts.alice.pkh);
                     operation = await farmContract.claim();
                 });
 
@@ -130,13 +117,6 @@ contract('%claim', () => {
                         destination: rewardTokenContract.instance.address 
                     });
                 });
-
-                it('increases reward balance in token contract', async () => {
-                    const rewardBalanceAfterClaim = await rewardTokenContract.getBalance(accounts.alice.pkh);
-                    const rewardBalanceCalculated = rewardTokenBalance.plus(new BigNumber(rewardToken('10')));
-                    expect(rewardBalanceAfterClaim.toFixed()).to.equal(rewardBalanceCalculated.toFixed())
-                    
-                });
             });
         });
 
@@ -166,9 +146,6 @@ contract('%claim', () => {
                 let operation;
 
                 before(async () => {
-                      // save reward balance before calling claim
-                    rewardTokenBalance = await rewardTokenContract.getBalance(accounts.alice.pkh);
-        
                     operation = await farmContract.claim();
                 });
 
@@ -206,9 +183,6 @@ contract('%claim', () => {
                 describe('delegator claims after 1 block again', () => {
 
                     before(async () => {
-                        // save reward balance before calling claim
-                        rewardTokenBalance = await rewardTokenContract.getBalance(accounts.alice.pkh);
-
                         operation = await farmContract.claim();
                     });
 
@@ -231,12 +205,6 @@ contract('%claim', () => {
                     it('increases paid rewards', async () => {
                         const paidRewardsSecond = await farmContract.getPaidRewards();
                         expect(paidRewardsSecond.toFixed()).to.equal(rewardToken('20'))
-                    });
-    
-                    it('increases reward balance in token contract', async () => {
-                        const rewardBalanceAfterClaim = await rewardTokenContract.getBalance(accounts.alice.pkh);
-                        const rewardBalanceCalculated = rewardTokenBalance.plus(new BigNumber(rewardToken('5')));
-                        expect(rewardBalanceAfterClaim.toFixed()).to.equal(rewardBalanceCalculated.toFixed())                        
                     });
                 });
             });

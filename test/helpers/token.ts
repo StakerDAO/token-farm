@@ -164,10 +164,12 @@ export function lpToken(value): string {
 
 export default {
     originate: async function(contract?: string) {
-        const Tezos = new TezosToolkit('http://localhost:8732');
+
+        const Tezos = new TezosToolkit(tezos._rpcClient.url);
         Tezos.setProvider({
             signer: await InMemorySigner.fromSecretKey(accounts.alice.sk)
         });
+        
         const operation = await Tezos.contract
             .originate({
                 code: tokenContractMichelson,

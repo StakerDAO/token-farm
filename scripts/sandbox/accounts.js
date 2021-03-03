@@ -17,7 +17,7 @@ module.exports = {
     // alice: {
     //     pkh: "tz1ZJvSuh2GeuYBfRtKHJdiXJ46U4t7v65ED",
     //     sk: "edskS1xuyC7ufLVBFbuWNFZR1HfhReZciatVJbhK2NXvebcW9p7MzNhyQVeo4Q9Cw4BBdubVkYjYnsv5zvT684GH7KtRybDjt5",
-    //     pk:"edpkurPsQ8eUApnLUJ9ZPDvu98E8VNj4KtJa1aZr16Cr5ow5VHKnz4"
+    //     //pk:"edpkurPsQ8eUApnLUJ9ZPDvu98E8VNj4KtJa1aZr16Cr5ow5VHKnz4"
     // },
     // baker
     bob: {

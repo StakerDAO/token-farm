@@ -39,6 +39,14 @@ initialStorage.withLpAndRewardContract = (lpTokenContractAddress, rewardTokenCon
     return storage
 }
 
+initialStorage.production = (lpTokenContractAddress, rewardTokenContractAddress, rewardPerBlock, totalBlocks) => {
+    let storage = initialStorage.withLpAndRewardContract(lpTokenContractAddress, rewardTokenContractAddress);
+    storage.farm.plannedRewards.rewardPerBlock = new BigNumber(rewardPerBlock);
+    storage.farm.plannedRewards.totalBlocks = new BigNumber(totalBlocks);
+
+    return storage
+}
+
 initialStorage.test = {};
 
 initialStorage.test.claim = (farmTokenContract, delegators, rewardPerBlock, blockLevel) => {

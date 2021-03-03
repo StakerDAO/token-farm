@@ -1,9 +1,11 @@
 import { InMemorySigner } from "@taquito/signer";
 import { TezosToolkit } from "@taquito/taquito";
+import { Operation } from "@taquito/taquito/dist/types/operations/operations";
+import accounts from "../../scripts/sandbox/accounts";
 
 export default { 
     getCurrentBlockLevel: async function() {
-        const Tezos = new TezosToolkit('http://localhost:8732');
+        const Tezos = new TezosToolkit(tezos._rpcClient.url);
         return (await Tezos.rpc.getBlock()).header.level
     },
     signAs: async (secretKey, helper, fn) => {
@@ -20,5 +22,16 @@ export default {
             signer: oldSigner
         });
         return output;
+    },
+    increaseBlock: async function(blocks) {
+        const Tezos = new TezosToolkit(tezos._rpcClient.url);
+        Tezos.setProvider({
+            signer: await InMemorySigner.fromSecretKey(accounts.alice.sk)
+        });
+        for (let block = 0; block < blocks; block++) {
+            const operation = await Tezos.contract.transfer({ to: accounts.dave.pkh, amount: 1 });
+            await operation.confirmation(1);
+        }
+        return
     },
 }

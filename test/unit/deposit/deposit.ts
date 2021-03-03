@@ -35,10 +35,10 @@ contract('%deposit', () => {
                 await farmContract.deposit(depositValue);
             });
         
-            it('can transfer from lp token contract to farm contract', async () => {  
-                const balance = await lpTokenContract.getBalance(farmContract.instance.address);
-                expect(balance.toFixed()).to.equal(depositValue);         
-            });
+            // it('can transfer from lp token contract to farm contract', async () => {  
+            //     const balance = await lpTokenContract.getBalance(farmContract.instance.address);
+            //     expect(balance.toFixed()).to.equal(depositValue);         
+            // });
     
             it('can keep an internal LP balance for farm contract', async () => {
                 const balanceInStorage = await farmContract.getFarmLpTokenBalance();
@@ -66,8 +66,8 @@ contract('%deposit', () => {
             });
     
             it('sets staking start for first delegator', async () => {
-                const delegatorRewardDebt = await farmContract.getDelegatorStakingStart(accounts.alice.pkh);
-                expect(delegatorRewardDebt.toNumber()).to.equal(0);
+                const startAccumulatedRewardPerShare = await farmContract.getDelegatorStakingStart(accounts.alice.pkh);
+                expect(startAccumulatedRewardPerShare.toNumber()).to.equal(0);
             });
         });
     });
