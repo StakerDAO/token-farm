@@ -1,6 +1,6 @@
 # Token farm
 
-⚠️ Architecture diagram can be found [here](https://viewer.diagrams.net/?highlight=0000ff&edit=_blank&layers=1&nav=1&title=staker%20farm#R7Vxtc5s4EP41nul9iAckXj8madJ2LnftXHJzTb8pRrZpMfJgHMf99ScZCRDCNgkC42nd6QSEBPLus7vPLpJH8Hrx8iFBy%2FlfJMDRCBjBywi%2BHwFg%2Bp5L%2F7CWbdbiukbWMEvCgHcqGu7Dn5g3im7rMMArqWNKSJSGS7lxQuIYT1KpDSUJ2cjdpiSSn7pEM6w03E9QpLb%2BFwbpPGv1gFu0f8ThbC6ebDp%2BdmWBRGf%2BTVZzFJBNqQnejOB1QkiaHS1ernHEhCfkko273XM1n1iC47TJAPAp%2BHfrTD%2FCz3f38%2FQBffvoxxc24JNLt%2BIb44AKgJ%2BSJJ2TGYlRdFO0XiVkHQeY3dakZ0WfO0KWvPE7TtMt1yZap4Q2zdNFxK%2FiOLhkuqGnkwitVuEka7wNo6JLmmy%2Flk8e6YkxNjwgGt4zkBn52bZ89gUn4QKnOOGNqrC4%2FFZknUzwAQkBLqEUJTOcHugIueKZ%2FEqP4Mr4gAmdT7KlHRIcoTR8lgGGOE5neb986BcS0kkDg9uUBzmguEWZwDLke2RT5cMKRNCD0jyKph1OXoEZ8zSQ4XgwZDzYx9DwEqZfi5707FHckR4Xg9jJtjVYTL8pWMx%2BwAIEKnOw2M3AQu0TbUvdlqzDav%2BDfEt%2BjmFXvFF1YpbfdoApDaAH2Zy1Yt2CQwK72xTtZgnrBfJ1o12A%2BCjarU7A%2FlqIOlXHWUHQ0QGub3ePOB5unlG05nJQEFjgi%2BlvMw9TfL9EO1VtKAuTsTSlMfWaRIRFwpjEDJ8BWs1zeK7ShPzIuQ04BIhnnKT45aAGhbG6piQ5z%2BOS3BQcynS5Qc9L%2FAkY9n6tS4HstXKFilxvL80xbXIi%2Buyrp4QezdjR3Zcdx%2FyBY32CHwEYIOxNJ7nAS1eciYefpnoED20ZsUaN3AW1LsvdrHIIbXK3auROz2tFf%2F%2Fw5z9q67sZeRYq%2BUOvTmzsBVadTjzwBB1Hj04c15GU4vgnV4pz0qhWofTHgloLOgYGEXgsR6Yuvns47lT7u%2B4BpqOMNi27dnRf6YGrGDygVkvnYKcJildTnLxbr2hixiyaKRFHU9Wqmcbu0BOOZAihKJzF9HhCocByuytmhSHN1i%2F5hUUYBBla8Sr8iZ5292Mg4jqiN7evRvb7WlgdMhXF3POSA3%2FIqJzV17kBCnS%2FwsZFUHoryRddyHS6wt3kekatanrjv2PT82Vv4ftO45QPlHO%2BnPjWsuBTVQ20U%2BNWccEUwa0w3oVwE8M0TwHQ9vZ5QfMrx5J5K2hnny%2FSXYTRAzCmjqD08eQbdmjNanIR4CVZhaqG29Cq6XQKJrVUN3CeHFsTrQJeJaraNbTKAiqt6oxVme2KBUa%2FlbEWtKpplUs%2F%2F2qnHzUX2VGT3AYMFAc7%2FaEfeMg%2BT%2BSyOnyeCQxXp8%2FrwYvZpzWzwrIey9c6M7Oua8S%2BXOXy%2Bn6dIBh2YZUmTxjQcpmQ50Gboq3TFA3HHbzxua2M7%2Ffbn1124A4rLnqKBUJmgZMIhYs8Kq7jwcdFUXrQYYzAdLTGxbwyPrbrbtuD5fqKlrM6jE7mb7N%2FtUXu3YeNIHFaas8%2BmorfDRKCujprZwkB9E7qLHurszaudkDtju9tBVlXpjw%2BPFKQPdy%2Fo1fP7Whu%2B9Kb%2Byqe22RNTx6NHd8rxWPqbQ0LHi7P0ZNfvjpnqUx5HS8R9eIDDsqWToYMPFMu0InFSMMlzPZpK%2Bjm2DC9SgWd0s83LKFrYOA9WKT2itKbAogLZRjmmVunEcFWq%2FMRWseTOaZTNaaUUlHBoMmc3SdmJh4%2BU3ww7s7WNAzWQ9g6S%2FiW58gr0fTQ9r1Fe%2F4USC9b8k27cyniO5VwMKEOYxKykYt1lIZM1eFM0fnw1684ToVpmacu6oOT0LAWnnQYFBtWFGmaRzj2ReXV26sHuEcWkFaXRtkHOHzTwX3VSIHK%2FGB1UQVbSDHiiypYYj%2FkRRVAJym0HKNCClv6%2FB48uLpIZhOm8yBBG3q%2FfZW283snaxrw5P7bP4X%2FfnPBuiDZhIJjbwpdWeBtHy5pa86eRydKnutds21XVss5zXzzayOaDSrlRR8ejDfV%2FmJezQKOZVfip1isns8301NnIUcYbslFIRZyRLwZcnQRlW4d0QW6hpxQtC05CHjAcWXPjD92elsJZKlLIeZotUscwzREbPwTihDNIukRYbwiW5v9C%2BicEgrfl%2BleW0IhSKQ3tqpMZVzd8NCdzqFaPuBv%2BM6eZ%2Fh1S%2Bp7pRlQzckDHFGsJDvcnZ%2BIL6q7pWBdKi42N5dlDDuTsbqHZ0YlfI77dFTpWieXrhoSUICWqXb89rPrRpEwqNuD1q%2BEbUXCWVQ1bi%2BvHz7%2F80iP7j79fbNL7PkuKLEJavP14dsF%2FS8u0Ank1xTtUBGlsgpkUfN9gM3DdJ2CZQhIewpVh0U%2FetQKDbuygMJza%2FRa95ofdKZXNZtHwff1Kt1Rhg1Kgt233pL1ma6zrkj89EVZsdLjvHfJWpWXCKZZFwRcrwbKVlfbZC017Wvso1jH3z6KZf5uRa91VbBeXZSlLvFTNDKMH37ZK%2F%2BjdSmLS%2F3cVnWovmzwazoEmnQUWAzD1%2FrGtofiiRrvucaM2ZpG%2BxCdY0pSffXqnDzK22q%2BF%2BEZZquR3xZMaqK8zviiQwly4KChRHCvkhYsPZGDnha%2FPpbZRvEbbvDmfw%3D%3D)
+⚠️ Architecture diagram can be found [here](https://viewer.diagrams.net/?highlight=0000ff&edit=_blank&layers=1&nav=1#R7Vxtk5s4Ev41rko%2BjAtJvH6cTDKbrZvcpjK5y2a%2FXGmMbLOLwQU4HufXn2RLBiHZxoN4mb1zKjVGSIC7n%2B5%2BuiUxQXer518yvF5%2BSkMST6AVPk%2FQ%2BwmEwAeA%2FmEtu0OL51mHhkUWhbxT2fAY%2FSS8UXTbRCHJpY5FmsZFtJYbZ2mSkFkhteEsS7dyt3kay3dd4wVRGh5nOFZbv0VhsTy0%2BtAr2z%2BSaLEUdwZucDizwqIz%2FyX5EofpttKEPkzQXZamxeHb6vmOxEx4Qi6Hcfcnzh4fLCNJ0WQA%2FDX8186df0S%2FPTwui6%2F4j49BcuNA%2FnDFTvxiElIB8MM0K5bpIk1w%2FKFsfZelmyQk7LKAHpV9HtJ0zRv%2FJEWx49rEmyKlTctiFfOzJAlvmW7o4SzGeR7NDo33UVx2KbLd79WD7%2FTAmlo%2BFA3vGcis49GuevSZZNGKFCTjjaqwuPzydJPNyBkJQS6hAmcLUpzpiLjimfwqt%2BDK%2BIWk9HmyHe2QkRgX0Q8ZYJjjdHHsdxz6OY3oQ0OL25SPOKC4RQFoW%2FI1Do%2FKh5WIoF8qz1E27XFyBWZsNAxmOCAsGRCecwkPz1FxBBL9fhjm8KNyEDvYtYYLAg3hYneCFmpWeFfpsGYgyE%2BDya2DyQI1L3JhgBc4NYwdHsEo4rgJ%2FsDxhstBQWCJL6a%2F7TIqyOMa71W1pZFJxtKc%2Bpm7NE6Zd0jShOEzxPnyCM%2B8yNK%2Fjv4engPED5IV5PmsBvlZ6AFJcr7PJbkt4wq0uBNZVmIKtJzTWpeM%2B1q5IkWu97dgSpvcmN773VNGvy3Yt4fP%2B7j7F0nMCX4CUYiJP58dBV4548588jQ3I3jkyIi1VLkDQTeqcgd1v2pM7rZG7vRYK%2FqMbHEWdiN%2Bh%2FihrRO%2FD5%2BQ65oRv%2Bu5kvzdYHD5u4MGsBqjuRS%2FXh6LABxFjLEFJeYACLzzIabe35P7yyFGGQ1sRzu6L3bkKbYN304YNXeKDCf5nGRvNjnlpcygmRJJPH%2BrheMDfqK5lAQhHEeLhJFmCgVGbd8xK4xosnLLT6yiMDygleTRT%2Fy0vx4DEdcRvbjzbuK818LqnKko5n7MuPhNJtWkRucGKNADJCtWxJ%2BXEmLRJZ3Pc9KJMoVbGorqToEfyN4iCNyGfNeaQkFyv1c5rpbwDpU0GWfBreKCKFZUjHcl3MQ4zVMAtL193tBUyrVligrb2eezdBVh9BBOqSOofHz5gh1as5pHhGSd5pGq4Ta0aj6fw5mW1Ybuk%2BsYolXQr0VVR0OrbKjSqs5YFWhXF7DM1gU6pFVBQ%2Bdmnn%2B104%2BaduypySkbGJGXE4mqCS8HoOWZ9HI9%2BC1nWMMqbel79VxnhtV1BTWQS1h%2Bz%2FVTIDh1aYeApwh4vc5S%2BrtGbIqOSVO0XG%2F0xue1Mj7D1e6mxe6ywH002Q6K3Y0joZguG0sk9BULRG%2F31KlYhhnejtn%2BRH3BhP1B4BoNhcdK99TRXbYHYw0UxR6KLSbpvcP%2BaYvW%2Bw8bkSZFpf3wMVTMbsD6dcXUzlg%2F8gf1j70VUxuXNJBxX%2Feyqqsns5wAXai6nu%2FfzcSe3Y7Ztq%2BveVdR2ybrFo4B2A38Sgim3tay0fkaHD34ny%2FB2So53iRrTL34iIOybZIUw%2BOaKVExA2PnyM6wZXIwtYBfK5NTxvmCZUINDLwHizReNnpRAPGQDENgnZuHMwYltQQf400yWxL6qNacUioqGDxbsuskzMSjHxQfIT1kaxRG6yEck3V623dtHb9uSdtPVub5XRA9bcsXNeJS4ofVBljf%2Fv0fEIYbtP5m25%2Fcm6GJwVW8QF4vVHqJmgWbcxtakdk9xW3tzdWwLaa78%2F0zHBaxDGWfjc1OVtFpZJ6Z5gaWL1vnTUvz7D5%2BC4hVtDejtjSL2MjVJi4iprdooShw%2FIu%2FXLeW1oChp8ngIK6thf8ZRz6LaooE4EJCe1ObzL56gOec719fV%2BicoUdNB%2Fc1BwFVf43qy5TY0qQJX6bEqmhjXqYETWZgtmvVMrAxeXBtUAJa3fQ1Q%2FiiIlwTcnS52NbNDKENas7GqtvnwW0q9nl1lc46caOTZTplADCblWnhBccErw53fJgh7F6v4L0acs61kFMGwB4gp%2B5NoAEkzoeLQSZzCKhX%2FE66%2BiiizVmEV5Rzcur09a2kAxYaPEcIWjncvhcdlFXTlELi5JxIzR8755clGJ4OaeiTu9mWp%2FhUx6ntcXCb8f9rnb0D5fsEATrr6%2Bv9xXM1S2rUSAGa0SZTjkkYrqYM9Yb6eZKxtVWvJKMRSxlMZDTIs2o1qZYxRmSxdX0j%2BQrdhSBbXcy6xKzUSElCusXJjCk6nU%2FK2uOJDXR%2FR43TFDYI5AJD2xRWbD6fBtLHrd1kWt%2Br2h0CxPRUlSHGOFr9DRhIoNsi2SsBQVARbkhiiptsj8HXJ%2BKbuqtCukKwIPBVGaPOZKymOAsq4de4xVqVrj24dNUAgUO8Lozjt59d1IqEoeb1AT1L2FEkfH%2F75dMEunjFRJY85ev9j%2Bdb2sWO9u3vX%2F%2B4of%2FFCXrz4zlFM1Q8hSx%2BWcz89Q3Nw7VOubL6pVdBqM6KfsyoFFlObZ2s72l0qlvNCTvTqZrZ4%2FDPTV5UidQa79LNK90zV5P48NOBYkHv6365iV1bKwKALgB4vgbKdldvN7HVZPDx6z%2B%2B0Jb727uvv335Tr89%2FPrPDxNmTTUfxTr%2B30exeoBX06uuNtari7LVzRuKRsbxDrOT8r9YrbKbTiGMbPGu6stGv3RXoMlEmcWyArnM0jLp7qGMosZ7rjFrsaHRPsKvMR2pL%2FpxB4%2FyjprrxWRB3cVLg4kmypuMLyaUIAcOGkoE96powe4ocmhn3YbdyVmbxYaXZlXURaX6zZ3nX%2ByijQ8Xg9Lp9aVNY1IPIUj7kCo54Huq38xxtprAO%2FYL0gLHX%2FbZTD7gFIDJCWXvYmiCvmyQLd%2B9JHg%2FlEd0t8JJLeeUEzp4xparsscqfoLpdGo0ZDVOTTX6VMzspIp8KIes44RgByGLHpavHT7op3x5M%2FrwXw%3D%3D)
 
 ## Storage
 
@@ -21,15 +21,24 @@ type plannedRewards = {
     rewardPerBlock: nat,
 };
 
-type storage = {
+type farm = {
     lastBlockUpdate: nat,
     accumulatedRewardPerShare: nat,
     claimedRewards: claimedRewards,
-    plannedRewards: plannedRewards,
-    delegators: big_map(delegator, delegatorRecord),
+    plannedRewards: plannedRewards
+};
+
+type addresses = {
     lpTokenContract: address,
-    farmTokenBalance: nat,
     rewardTokenContract: address,
+    rewardReserve: address
+};
+
+type storage = {
+    farm: farm,
+    delegators: big_map(delegator, delegatorRecord),
+    farmLpTokenBalance: nat,
+    addresses: addresses
 };
 ```
 
@@ -80,13 +89,16 @@ type storage = {
 - #### `lpTokenContract: address`
     Address of the token being staked, originally an LP token from a DEX.
 
-- #### `farmTokenBalance: nat`
+- #### `farmLpTokenBalance: nat`
     Balance of the `lpTokenContract` tokens for the current farm contract. This standalone "ledger" entry exists to
     avoid exploits with operations that may introduce issues & overhead due to Tezos' message passing architecture ([BFS](https://forum.tezosagora.org/t/smart-contract-vulnerabilities-due-to-tezos-message-passing-architecture/2045)), specifically when calling `tokenContract%getBalance`.
 
 - #### `rewardTokenContract: address`
 
     Address of the reward token contract.
+- #### `rewardReserve: address`
+
+    Address of the account that holds the reward tokens to be paid out. This account gives an allowance to the farm contract through the `approve` method of the `FA1.2 contract`.
 
 
 
@@ -133,7 +145,7 @@ pool can be updated only once per block - this is ensured by keeping track of `l
 Entrypoints `%deposit`, `%claim`, `%withdraw` all call an `updatePool()` function, causing the
 pool to update with every first operation that 'arrives' to the farm in each block.
 
-If there are no tokens delegated to the farm, which means if `farmTokenBalance = 0n` then pool updates are skipped. Resulting
+If there are no tokens delegated to the farm, which means if `farmLpTokenBalance = 0n` then pool updates are skipped. Resulting
 in no rewards being distributed, and only the `lastBlockUpdate` being increased. If this behavior was not part of the implementation, then rewards would be lost for blocks when no-one is delegating to the farm.
 
 #### Pool update formulas
