@@ -59,7 +59,7 @@ const testHelpers = (instance, Tezos) => {
             return (await (await this.getStorage()).delegators.get(address)).stakingStart;
         },
         withdraw: async function(amount) {
-            const operation = await this.instance.methods.withdraw(amount).send({storageLimit: 100});
+            const operation = await this.instance.methods.withdraw(amount).send({storageLimit: 200});
             await operation.confirmation(1);
             return operation
         }

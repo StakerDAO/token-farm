@@ -24,12 +24,14 @@ export async function prepareFarm(delegators, rewardPerBlock, rewardTokenContrac
     });
 
     // fund farm contract with LP token
-    const transferParametersLP = {
-        from: accounts.alice.pkh,
-        to: farmContract.instance.address,
-        value: initialStorage.farmLpTokenBalance
-    };
-    await lpTokenContract.transfer(transferParametersLP);
-    
+    await _taquito.signAs(accounts.walter.sk, lpTokenContract, async () => {
+        const transferParametersLP = {
+            from: accounts.walter.pkh,
+            to: farmContract.instance.address,
+            value: initialStorage.farmLpTokenBalance
+        };
+        await lpTokenContract.transfer(transferParametersLP);
+    });
+
     return farmContract;
 }

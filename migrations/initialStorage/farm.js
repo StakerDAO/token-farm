@@ -60,20 +60,20 @@ initialStorage.test.claim = (farmTokenContract, delegators, rewardPerBlock, bloc
     return storage;
 };
 
-initialStorage.test.deposit = (farmTokenContract, lpTokenContract, delegators, rewardPerBlock, blockLevel) => {
+initialStorage.test.deposit = (rewardTokenContract, lpTokenContract, delegators, rewardPerBlock, blockLevel) => {
     let storage = initialStorage.base();
     
     storage.farm.plannedRewards.rewardPerBlock = new BigNumber(rewardPerBlock);
     storage.farm.plannedRewards.totalBlocks = new BigNumber(100);
 
-    storage.addresses.rewardTokenContract = farmTokenContract;
+    storage.addresses.rewardTokenContract = rewardTokenContract;
     storage.addresses.lpTokenContract = lpTokenContract;
     delegators.forEach(delegator => {
         storage.delegators.set(delegator.address, {
             balance: new BigNumber(delegator.balance),
             stakingStart: new BigNumber(delegator.stakingStart)
         })
-        storage.farmLpTokenBalance = (new BigNumber(storage.farmLpTokenBalance)).plus(new BigNumber(delegator.balance)).toFixed()
+        storage.farmLpTokenBalance = storage.farmLpTokenBalance.plus(new BigNumber(delegator.balance))
     });
     storage.farm.lastBlockUpdate = new BigNumber(blockLevel);
     
