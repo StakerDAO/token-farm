@@ -1,5 +1,6 @@
 import { MichelsonMap } from "@taquito/taquito";
 import BigNumber from 'bignumber.js';
+import accounts from "../../scripts/sandbox/accounts";
 
 const initialStorage = {};
 
@@ -15,10 +16,34 @@ initialStorage.base = () =>  ({
         paid: new BigNumber(0)
     },
     delegators: new MichelsonMap,
-    reward: new BigNumber(0), // this is only for the mock contract
+    
     lpTokenContract: "tz1VSUr8wwNhLAzempoch5d6hLRiTh8Cjcjb",
-    farmTokenBalance: new BigNumber(0),
+    farmLpTokenBalance: new BigNumber(0),
     rewardTokenContract: "tz1VSUr8wwNhLAzempoch5d6hLRiTh8Cjcjb",
+    rewardReserve: accounts.walter.pkh
+});
+
+initialStorage.base = () => ({
+    pool: {
+        lastBlockUpdate: new BigNumber(0),
+        accumulatedRewardPerShare: new BigNumber(0),
+        plannedRewards: {
+            rewardPerBlock: new BigNumber(0),
+            totalBlocks: new BigNumber(0),
+        },
+        claimedRewards: {
+            unpaid: new BigNumber(0),
+            paid: new BigNumber(0)
+        }
+    },
+    delegators: new MichelsonMap,
+    farmLpTokenBalance: new BigNumber(0),
+    address: {
+        lpTokenContract: "tz1VSUr8wwNhLAzempoch5d6hLRiTh8Cjcjb",
+        rewardTokenContract: "tz1VSUr8wwNhLAzempoch5d6hLRiTh8Cjcjb",
+        rewardReserve: accounts.walter.pkh
+    },
+    reward: new BigNumber(0), // this is only for the mock contract
 });
 
 initialStorage.test = {};
@@ -29,14 +54,14 @@ initialStorage.test.calculateReward = (delegator, balance, accumulatedRewardPerS
         balance: balance,
         stakingStart: accumulatedRewardPerShareStart
     });
-    storage.accumulatedRewardPerShare = accumulatedRewardPerShare;
+    storage.pool.accumulatedRewardPerShare = accumulatedRewardPerShare;
     
     return storage;
 }
 
 initialStorage.test.updateAccumulatedRewardPerShare = (accumulatedRewardPerShare) => {
     let storage = initialStorage.base();
-    storage.accumulatedRewardPerShare = new BigNumber(accumulatedRewardPerShare);
+    storage.pool.accumulatedRewardPerShare = new BigNumber(accumulatedRewardPerShare);
     return storage;
 }
 

@@ -8,21 +8,25 @@ type delegatorRecord = {
     rewardDebt: BigNumber
 }
 export interface contractStorage {
-    lastBlockUpdate: BigNumber,
-    accumulatedRewardPerShare: BigNumber,
-    plannedRewards: {
-        rewardPerBlock: BigNumber,
-        totalBlocks: BigNumber
-    },
-    claimedRewards: {
-        unpaid: BigNumber,
-        paid: BigNumber
+    farm: {
+        lastBlockUpdate: BigNumber,
+        accumulatedRewardPerShare: BigNumber,
+        plannedRewards: {
+            rewardPerBlock: BigNumber,
+            totalBlocks: BigNumber
+        },
+        claimedRewards: {
+            unpaid: BigNumber,
+            paid: BigNumber
+        },
     },
     delegators: MichelsonMap<address, delegatorRecord>,
-    reward: BigNumber, // this is only in the mockContract
-    lpTokenContract: address,
-    farmTokenBalance: BigNumber,
-    rewardTokenContract: address
+    farmLpTokenBalance: BigNumber,
+    addresses: {
+        lpTokenContract: address,
+        rewardTokenContract: address,
+        rewardReserve: address
+    }
 }
 export interface mockContractStorage extends contractStorage {
     reward: BigNumber,

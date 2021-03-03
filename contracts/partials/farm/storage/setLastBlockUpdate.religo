@@ -1,6 +1,9 @@
 let setLastBlockUpdate = ((blockLevel, storage): (nat, storage)): storage => {
     {
         ...storage,
-        lastBlockUpdate: blockLevel
+        farm: {
+            ...storage.farm,
+            lastBlockUpdate: blockLevel
+        }
     };
 };

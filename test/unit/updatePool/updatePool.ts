@@ -19,7 +19,7 @@ contract('updatePool()', () => {
             const blockLevelAtCall = currentBlockLevel + 2;
             const initialStorage = _initialStorage.test.updatePool(
                 0, // accumulatedRewardPerShare 
-                10,// farmTokenBalance
+                10,// farmLpTokenBalance
                 blockLevelAtCall ,// blockLevel
                 10, //rewardPerBlock 
                 10, //totalBlocks 
@@ -30,16 +30,16 @@ contract('updatePool()', () => {
             const storage = await _mockContract.updatePool(initialStorage);
             
             // does not update last block update storage property
-            expect(storage.lastBlockUpdate.toFixed()).to.equal(initialStorage.lastBlockUpdate.toFixed());
+            expect(storage.farm.lastBlockUpdate.toFixed()).to.equal(initialStorage.farm.lastBlockUpdate.toFixed());
             // does not calculate rewards
-            expect(storage.claimedRewards.unpaid.toFixed()).to.equal(initialStorage.claimedRewards.unpaid.toFixed());
+            expect(storage.farm.claimedRewards.unpaid.toFixed()).to.equal(initialStorage.farm.claimedRewards.unpaid.toFixed());
         });
 
         it('gets the "updateBlock" action when farm token balance is 0', async () => {
             const currentBlockLevel = await _taquito.getCurrentBlockLevel();
             const initialStorage = _initialStorage.test.updatePool(
                 0, // accumulatedRewardPerShare 
-                0,// farmTokenBalance
+                0,// farmLpTokenBalance
                 currentBlockLevel, // blockLevel
                 10, //rewardPerBlock 
                 10, //totalBlocks 
@@ -49,10 +49,10 @@ contract('updatePool()', () => {
             const storage = await _mockContract.updatePool(initialStorage);
             
             // takes 1 block to originate and 1 to perform call
-            const blockLevelAfterCall = initialStorage.lastBlockUpdate.plus(2);
-            expect(storage.lastBlockUpdate.toFixed()).to.equal(blockLevelAfterCall.toFixed());
+            const blockLevelAfterCall = initialStorage.farm.lastBlockUpdate.plus(2);
+            expect(storage.farm.lastBlockUpdate.toFixed()).to.equal(blockLevelAfterCall.toFixed());
             // does not calculate rewards
-            expect(storage.claimedRewards.unpaid.toFixed()).to.equal(initialStorage.claimedRewards.unpaid.toFixed());
+            expect(storage.farm.claimedRewards.unpaid.toFixed()).to.equal(initialStorage.farm.claimedRewards.unpaid.toFixed());
         });
 
         describe('updates pool with rewards', () => {
@@ -63,7 +63,7 @@ contract('updatePool()', () => {
                 const currentBlockLevel = await _taquito.getCurrentBlockLevel();
                 initialStorage = _initialStorage.test.updatePool(
                     0, // accumulatedRewardPerShare 
-                    10,// farmTokenBalance
+                    10,// farmLpTokenBalance
                     currentBlockLevel, // blockLevel
                     10, //rewardPerBlock 
                     10, //totalBlocks 
@@ -76,10 +76,10 @@ contract('updatePool()', () => {
                 storage = await _mockContract.updatePool(initialStorage);
                 
                 // takes 1 block to originate and 1 to perform call
-                const blockLevelAfterCall = initialStorage.lastBlockUpdate.plus(2); 
-                expect(storage.lastBlockUpdate.toNumber()).to.equal(blockLevelAfterCall.toNumber());
+                const blockLevelAfterCall = initialStorage.farm.lastBlockUpdate.plus(2); 
+                expect(storage.farm.lastBlockUpdate.toNumber()).to.equal(blockLevelAfterCall.toNumber());
                 // does calculate rewards
-                expect(storage.claimedRewards.unpaid.toNumber()).to.not.equal(initialStorage.claimedRewards.unpaid.toNumber());
+                expect(storage.farm.claimedRewards.unpaid.toNumber()).to.not.equal(initialStorage.farm.claimedRewards.unpaid.toNumber());
             });
     
             describe('effects of updatePoolWithRewards()', () => {
@@ -89,17 +89,17 @@ contract('updatePool()', () => {
                     reward = computeReward(initialStorage, storage);
                     const unpaidReward = reward;
 
-                    expect(storage.claimedRewards.unpaid.toFixed()).to.equal(unpaidReward.toFixed());
+                    expect(storage.farm.claimedRewards.unpaid.toFixed()).to.equal(unpaidReward.toFixed());
                 });
 
                 it('does not increase paid rewards', async () => {
-                    expect(storage.claimedRewards.paid.toNumber()).to.equal(0);
+                    expect(storage.farm.claimedRewards.paid.toNumber()).to.equal(0);
                 });
 
                 it('calculated accumulatedRewardPerShare', async () => {
                     reward = computeReward(initialStorage, storage);
                     const calculatedAccumulatedRewardPerShare = updateAccumulatedRewardPerShare(initialStorage, reward)
-                    const accumulatdRewardPerShare = storage.accumulatedRewardPerShare;
+                    const accumulatdRewardPerShare = storage.farm.accumulatedRewardPerShare;
 
                     expect(accumulatdRewardPerShare.toFixed()).to.equal(calculatedAccumulatedRewardPerShare.toFixed());
                 });
@@ -116,7 +116,7 @@ contract('updatePool()', () => {
             const currentBlockLevel = await _taquito.getCurrentBlockLevel();
             initialStorage = _initialStorage.test.updatePool(
                 0, // accumulatedRewardPerShare 
-                10,// farmTokenBalance
+                10,// farmLpTokenBalance
                 currentBlockLevel, // blockLevel
                 10, //rewardPerBlock 
                 5, //totalBlocks 
@@ -129,9 +129,9 @@ contract('updatePool()', () => {
             storage = await _mockContract.updatePool(initialStorage);
             reward = computeReward(initialStorage, storage);
 
-            const plannedRewards = initialStorage.claimedRewards.paid.plus(initialStorage.claimedRewards.unpaid);
+            const plannedRewards = initialStorage.farm.claimedRewards.paid.plus(initialStorage.farm.claimedRewards.unpaid);
             const calculatedTotalClaimedRewards = reward.plus(plannedRewards);
-            const contractClaimedRewards = storage.claimedRewards.paid.plus(storage.claimedRewards.unpaid);
+            const contractClaimedRewards = storage.farm.claimedRewards.paid.plus(storage.farm.claimedRewards.unpaid);
             expect(contractClaimedRewards.toFixed()).to.equal(calculatedTotalClaimedRewards.toFixed());
         });
     });

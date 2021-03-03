@@ -65,7 +65,7 @@ let main = ((functionToTest, storage): (functionToTest, storage)) => {
             });
         }
         | Receive(value) => {
-            if(Tezos.sender != storage.lpTokenContract){
+            if(Tezos.sender != storage.addresses.lpTokenContract){
                 failwith("NoPermission")
             };
             ([]:list(operation),

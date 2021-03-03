@@ -21,7 +21,7 @@ contract('%claim', () => {
     describe('one delegator staking', () => {
       
         before(async () => {
-            rewardTokenContract = await _tokenContract.originate();
+            rewardTokenContract = await _tokenContract.originate('Reward');
         
             const delegatorAlice = {
                 address: accounts.alice.pkh,
@@ -38,7 +38,7 @@ contract('%claim', () => {
             let operation;
 
             before(async () => {
-                 // save reward balance before calling claim
+                // save reward balance before calling claim
                 rewardTokenBalance = await rewardTokenContract.getBalance(accounts.alice.pkh);
 
                 operation = await farmContract.claim();
@@ -143,7 +143,7 @@ contract('%claim', () => {
         describe('two delegators staking', () => {
       
             before(async () => {
-                rewardTokenContract = await _tokenContract.originate();
+                rewardTokenContract = await _tokenContract.originate('Reward');
             
                 const delegatorAlice = {
                     address: accounts.alice.pkh,

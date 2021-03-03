@@ -1,5 +1,5 @@
 import { MichelsonMap } from "@taquito/taquito";
-import { alice, bob, carol } from "../../scripts/sandbox/accounts";
+import accounts from "../../scripts/sandbox/accounts";
 import decimals from '../../decimals-config.json';
 import BigNumber from 'bignumber.js';
 
@@ -9,22 +9,22 @@ initialStorage.base = () => ({
     token: {
         ledger: new MichelsonMap,
         approvals: new MichelsonMap,
-        admin: alice.pkh,
-        pauseGuardian: alice.pkh,
+        admin: accounts.alice.pkh,
+        pauseGuardian: accounts.alice.pkh,
         paused: false,
         totalSupply: 0,
     },
     bridge: {
         swaps: new MichelsonMap,
         outcomes: new MichelsonMap,
-        lockSaver: alice.pkh,
+        lockSaver: accounts.lock.pkh,
     }
 });
 
 
 initialStorage.withBalances = () => {
     const storage = initialStorage.base();
-    storage.token.ledger.set(alice.pkh, (new BigNumber(1000).multipliedBy(decimals.rewardToken)).toFixed());
+    storage.token.ledger.set(accounts.walter.pkh, (new BigNumber(1000).multipliedBy(decimals.rewardToken)).toFixed());
     storage.token.totalSupply = (new BigNumber(1000).multipliedBy(decimals.rewardToken)).toFixed();
 
     return storage
@@ -35,8 +35,8 @@ initialStorage.withApprovals = () => {
     storage.token.approvals = (() => {
         const map = new MichelsonMap;
         map.set({ // Pair as Key
-            0 : bob.pkh, //owner
-            1 : carol.pkh //spender
+            0 : accounts.bob.pkh, //owner
+            1 : accounts.carol.pkh //spender
           }, 100000);
         return map;
     })();

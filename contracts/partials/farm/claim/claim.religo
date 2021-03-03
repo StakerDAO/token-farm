@@ -8,17 +8,17 @@ let claim = ((storage): (storage)): entrypointReturn => {
     let storage = updateRewardDebt(delegator, storage);
 
     // update paid and unpaid properties in claimedRewards
-    let unpaidRewards = safeBalanceSubtraction(storage.claimedRewards.unpaid, delegatorReward);
+    let unpaidRewards = safeBalanceSubtraction(storage.farm.claimedRewards.unpaid, delegatorReward);
     let storage = setUnpaidRewards(unpaidRewards, storage);
-    let paidRewards = storage.claimedRewards.paid + delegatorReward;
+    let paidRewards = storage.farm.claimedRewards.paid + delegatorReward;
     let storage = setPaidRewards(paidRewards, storage);
 
     // transfer reward token
     let tokenTransferOperation = transfer(
-        Tezos.self_address, // from
+        storage.addresses.rewardReserve, // from
         delegator, // to
         delegatorReward, // value
-        storage.rewardTokenContract // tzip7 contract's address
+        storage.addresses.rewardTokenContract // tzip7 contract's address
     );
     
     ([tokenTransferOperation], storage);

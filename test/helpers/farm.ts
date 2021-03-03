@@ -15,10 +15,10 @@ const testHelpers = (instance, Tezos) => {
             return await instance.storage();
         },
         getClaimedRewards: async function(){
-            return (await this.getStorage()).claimedRewards
+            return (await this.getStorage()).farm.claimedRewards
         },
         getAccumulatedRewardPerShare: async function(): Promise<BigNumber> {
-           return (await this.getStorage()).accumulatedRewardPerShare;
+           return (await this.getStorage()).farm.accumulatedRewardPerShare;
         },
         deposit: async function(value) {
             const operation = await this.instance.methods.deposit(value).send();
@@ -26,7 +26,7 @@ const testHelpers = (instance, Tezos) => {
             return operation;
         },
         claim: async function() {
-            const operation = await this.instance.methods.claim(UnitValue).send({storageLimit: 100});
+            const operation = await this.instance.methods.claim(UnitValue).send({storageLimit: 120});
             await operation.confirmation(1);
             return operation;
         },
@@ -40,26 +40,26 @@ const testHelpers = (instance, Tezos) => {
         getPaidRewards: async function(): Promise<BigNumber> {
             return (await this.getClaimedRewards()).paid;
         },
-        getFarmTokenBalance: async function(): Promise<BigNumber> {
-            return (await this.getStorage()).farmTokenBalance;
+        getFarmLpTokenBalance: async function(): Promise<BigNumber> {
+            return (await this.getStorage()).farmLpTokenBalance;
         },
         getDelegatorBalance: async function(address): Promise<BigNumber> {
             return (await (await this.getStorage()).delegators.get(address)).balance;
         },
         getPlannedRewards: async function() {
-            return (await this.getStorage()).plannedRewards;
+            return (await this.getStorage()).farm.plannedRewards;
         },
         getRewardsPerBlock: async function() {
-            return await this.getPlannedRewards().rewardPerBlock;
+            return await this.getPlannedRewards().farm.rewardPerBlock;
         },
         getLastBlockUpdate: async function(): Promise<number> {
-            return (await this.getStorage()).lastBlockUpdate.toNumber()
+            return (await this.getStorage()).farm.lastBlockUpdate.toNumber()
         },
         getDelegatorStakingStart: async function(address): Promise<BigNumber> {
             return (await (await this.getStorage()).delegators.get(address)).stakingStart;
         },
         withdraw: async function(amount) {
-            const operation = await this.instance.methods.withdraw(amount).send({storageLimit: 100});
+            const operation = await this.instance.methods.withdraw(amount).send({storageLimit: 200});
             await operation.confirmation(1);
             return operation
         }

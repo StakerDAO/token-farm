@@ -2,7 +2,7 @@
 
 type claimedRewards = {
     unpaid: nat,
-    paid: nat
+    paid: nat,
 };
 
 type plannedRewards = {
@@ -10,16 +10,26 @@ type plannedRewards = {
     rewardPerBlock: nat,
 };
 
-type storage = {
+type farm = {
     lastBlockUpdate: nat,
     accumulatedRewardPerShare: nat,
     claimedRewards: claimedRewards,
-    plannedRewards: plannedRewards,
-    delegators: big_map(delegator, delegatorRecord),
-    reward: nat,
+    plannedRewards: plannedRewards
+};
+
+type addresses = {
     lpTokenContract: address,
-    farmTokenBalance: nat,
-    rewardTokenContract: address
+    rewardTokenContract: address,
+    rewardReserve: address
+};
+
+
+type storage = {
+    farm: farm,
+    delegators: big_map(delegator, delegatorRecord),
+    farmLpTokenBalance: nat,
+    addresses: addresses,
+    reward: nat // for testing with mockContract
 };
 
 #include "../storage/delegatorsRepository.religo"
@@ -27,4 +37,4 @@ type storage = {
 #include "../storage/setLastBlockUpdate.religo"
 #include "../storage/setUnpaidRewards.religo"
 #include "../storage/setPaidRewards.religo"
-#include "../storage/setFarmTokenBalance.religo"
+#include "../storage/setFarmLpTokenBalance.religo"

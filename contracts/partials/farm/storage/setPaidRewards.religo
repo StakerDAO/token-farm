@@ -1,9 +1,12 @@
 let setPaidRewards = ((paidRewards, storage): (nat, storage)): storage => {
      {
         ...storage,
-        claimedRewards: {
-            ...storage.claimedRewards,
-            paid: paidRewards
+        farm: {
+            ...storage.farm,
+            claimedRewards: {
+                ...storage.farm.claimedRewards,
+                paid: paidRewards
+            }
         }
     };
 };
