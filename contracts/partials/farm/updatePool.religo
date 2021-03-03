@@ -2,7 +2,7 @@
 
 let computeReward = ((multiplier, storage): (nat, storage)): nat => {
     // new reward since the last time updatePoolWithRewards was called
-    let outstandingReward = multiplier * storage.plannedRewards.rewardPerBlock;
+    let outstandingReward = multiplier * storage.farm.plannedRewards.rewardPerBlock;
 
     /**
      * This check is necessary in case updatePoolWithRewards was not called for a long time
@@ -10,9 +10,9 @@ let computeReward = ((multiplier, storage): (nat, storage)): nat => {
      * In that case only the differece between planned and claimed rewards is paid out to empty
      * the account.
      */
-    let claimedRewards = storage.claimedRewards.paid + storage.claimedRewards.unpaid;
+    let claimedRewards = storage.farm.claimedRewards.paid + storage.farm.claimedRewards.unpaid;
     let totalRewards = outstandingReward + claimedRewards;
-    let plannedRewards = storage.plannedRewards.rewardPerBlock * storage.plannedRewards.totalBlocks;
+    let plannedRewards = storage.farm.plannedRewards.rewardPerBlock * storage.farm.plannedRewards.totalBlocks;
     let totalRewardsExhausted = totalRewards > plannedRewards;
     let reward = switch(totalRewardsExhausted) {
         | true => abs(plannedRewards - claimedRewards)
@@ -27,24 +27,24 @@ let computeReward = ((multiplier, storage): (nat, storage)): nat => {
  */
 let updateUnpaidRewards = ((reward, storage): (nat, storage)): storage => {
     // add reward to unpaid rewards
-    let unpaidRewards = storage.claimedRewards.unpaid + reward;
+    let unpaidRewards = storage.farm.claimedRewards.unpaid + reward;
     setUnpaidRewards(unpaidRewards, storage);
 };
 
 let updateAccumulatedRewardPerShare = ((reward, contractBalance, storage): (nat, nat, storage)): storage => {
-    let accumulatedRewardPerShare = storage.accumulatedRewardPerShare + reward * fixedPointAccuracy / contractBalance;
+    let accumulatedRewardPerShare = storage.farm.accumulatedRewardPerShare + reward * fixedPointAccuracy / contractBalance;
     setAccumulatedRewardPerShare(accumulatedRewardPerShare, storage);
 };
 
-let updatePoolWithRewards = ((blockLevel, farmTokenBalance, storage): (nat, nat, storage)): storage => {
+let updatePoolWithRewards = ((blockLevel, farmLpTokenBalance, storage): (nat, nat, storage)): storage => {
     // number of blocks since last reward calculation
-    let multiplier = abs(blockLevel - storage.lastBlockUpdate);
+    let multiplier = abs(blockLevel - storage.farm.lastBlockUpdate);
     // total rewards to be paid
     let reward = computeReward(multiplier, storage);
     // save unpaid reward
     let storage = updateUnpaidRewards(reward, storage);
     // recalculate reward per share and save it
-    let storage = updateAccumulatedRewardPerShare(reward, farmTokenBalance, storage);
+    let storage = updateAccumulatedRewardPerShare(reward, farmLpTokenBalance, storage);
     
     setLastBlockUpdate(blockLevel, storage);
 };
@@ -69,6 +69,6 @@ let updatePool = (storage: storage): storage => {
         /**
          * Update block level, rewards and accumulated reward per share.
          */
-        | UpdateRewards => updatePoolWithRewards(blockLevel, storage.farmTokenBalance, storage);
+        | UpdateRewards => updatePoolWithRewards(blockLevel, storage.farmLpTokenBalance, storage);
     };    
 };

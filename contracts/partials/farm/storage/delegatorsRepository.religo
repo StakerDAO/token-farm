@@ -23,10 +23,10 @@ let checkDelegator = ((delegator, storage): (address, storage)): bool => {
 };
 
 let setDelegatorRecord = ((delegator, delegatorRecord, storage): (address, delegatorRecord, storage)): storage => {
-  let delegators = Big_map.update(
-      delegator,
-      Some(delegatorRecord),
-      storage.delegators
+    let delegators = Big_map.update(
+        delegator,
+        Some(delegatorRecord),
+        storage.delegators
     );
     {
         ...storage,
@@ -48,7 +48,7 @@ let removeDelegator = ((delegator, storage):(address, storage)): storage => {
 let updateDelegatorRecord = ((delegator, stakedBalance, storage): (address, nat, storage)): storage => {
     let delegatorRecord: delegatorRecord = {
         balance: stakedBalance,
-        stakingStart: storage.accumulatedRewardPerShare
+        stakingStart: storage.farm.accumulatedRewardPerShare
     };
     let storage = setDelegatorRecord(delegator, delegatorRecord, storage);
     storage;

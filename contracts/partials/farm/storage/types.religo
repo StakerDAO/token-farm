@@ -22,3 +22,26 @@ type transferParameter =
 };
 
 type updatePoolAction = Skip | UpdateBlock | UpdateRewards;
+
+type claimedRewards = {
+    unpaid: nat,
+    paid: nat,
+};
+
+type plannedRewards = {
+    totalBlocks: nat,
+    rewardPerBlock: nat,
+};
+
+type farm = {
+    lastBlockUpdate: nat,
+    accumulatedRewardPerShare: nat,
+    claimedRewards: claimedRewards,
+    plannedRewards: plannedRewards
+};
+
+type addresses = {
+    lpTokenContract: address,
+    rewardTokenContract: address,
+    rewardReserve: address
+};
