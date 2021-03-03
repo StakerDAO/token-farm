@@ -9,14 +9,14 @@ let withdraw = ((withdrawParameter, storage): (withdrawParameter, storage)): ent
     let delegatorRecord = getDelegator(delegator, storage);
     
     let storage = decreaseDelegatorBalance(delegator, withdrawParameter, storage);
-    let farmTokenBalance = safeBalanceSubtraction(storage.farmTokenBalance, withdrawParameter); 
-    let storage = setFarmTokenBalance(farmTokenBalance, storage);
+    let farmLpTokenBalance = safeBalanceSubtraction(storage.farmLpTokenBalance, withdrawParameter); 
+    let storage = setFarmLpTokenBalance(farmLpTokenBalance, storage);
 
     let lpTokenTransferOperation = transfer(
         Tezos.self_address, // from
         delegator, // to 
         withdrawParameter, // value
-        storage.lpTokenContract
+        storage.addresses.lpTokenContract
     );
    
     ([lpTokenTransferOperation, ...rewardTokenTransferOperationList]: list(operation), storage);

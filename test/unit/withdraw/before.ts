@@ -27,7 +27,7 @@ export async function prepareFarm(delegators, rewardPerBlock, rewardTokenContrac
     const transferParametersLP = {
         from: accounts.alice.pkh,
         to: farmContract.instance.address,
-        value: initialStorage.farmTokenBalance
+        value: initialStorage.farmLpTokenBalance
     };
     await lpTokenContract.transfer(transferParametersLP);
     

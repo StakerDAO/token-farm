@@ -41,7 +41,7 @@ contract('%deposit', () => {
             });
     
             it('can keep an internal LP balance for farm contract', async () => {
-                const balanceInStorage = await farmContract.getFarmTokenBalance();
+                const balanceInStorage = await farmContract.getFarmLpTokenBalance();
                 expect(balanceInStorage.toFixed()).to.equal(depositValue);
             });
     

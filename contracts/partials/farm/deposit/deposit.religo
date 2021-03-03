@@ -20,12 +20,12 @@ let deposit = ((depositParameter, storage): (depositParameter, storage)): entryp
         delegator, // from
         Tezos.self_address, // to
         depositParameter, // value
-        storage.lpTokenContract // tzip7 contract's address
+        storage.addresses.lpTokenContract // tzip7 contract's address
     );
 
     // save new deposit in farm's balance
-    let farmTokenBalance = storage.farmTokenBalance + depositParameter;
-    let storage = setFarmTokenBalance(farmTokenBalance, storage);
+    let farmLpTokenBalance = storage.farmLpTokenBalance + depositParameter;
+    let storage = setFarmLpTokenBalance(farmLpTokenBalance, storage);
 
     ([lpTokenTransferOperation, ...rewardTokenTransferOperationList], storage);
 };

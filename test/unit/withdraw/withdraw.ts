@@ -50,7 +50,7 @@ contract('%withdraw', () => {
 
             before(async () => {
                 balances.delegatorBefore = await farmContract.getDelegatorBalance(accounts.alice.pkh);
-                balances.farmBefore = await farmContract.getFarmTokenBalance();
+                balances.farmBefore = await farmContract.getFarmLpTokenBalance();
                 operation = await farmContract.withdraw(withdrawAmount);
             });
     
@@ -61,7 +61,7 @@ contract('%withdraw', () => {
             });
     
             it('decreases farm balance tracked in farm', async () => {
-                balances.farmAfter = await farmContract.getFarmTokenBalance();
+                balances.farmAfter = await farmContract.getFarmLpTokenBalance();
                 const calculated = balances.farmBefore.minus(withdrawAmount);
                 expect(balances.farmAfter.toFixed()).to.equal(calculated.toFixed());
             });
