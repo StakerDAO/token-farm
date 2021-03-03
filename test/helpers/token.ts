@@ -7,9 +7,10 @@ import tokenContractMichelson from "../../contracts/main/farm/test/tokenTzip7.js
 import decimals from '../../decimals-config.json';
 import _initialStorage from '../../migrations/initialStorage/token';
 
-const tzip7Helpers = (instance) => {
+const tzip7Helpers = (instance, Tezos) => {
     return {
         instance: instance,
+        Tezos: Tezos,
         setAdministrator: async function(administratorAddress) {
             const operation = await instance.methods
                 .setAdministrator(administratorAddress)
@@ -174,6 +175,7 @@ export default {
             });
         console.log(contract + ' Token contract originated at', operation.contractAddress);
         const instance = await operation.contract();
-        return tzip7Helpers(instance)
+
+        return tzip7Helpers(instance, Tezos)
     }
 };

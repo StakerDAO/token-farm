@@ -15,7 +15,7 @@ let claim = ((storage): (storage)): entrypointReturn => {
 
     // transfer reward token
     let tokenTransferOperation = transfer(
-        Tezos.self_address, // from
+        storage.rewardReserve, // from
         delegator, // to
         delegatorReward, // value
         storage.rewardTokenContract // tzip7 contract's address

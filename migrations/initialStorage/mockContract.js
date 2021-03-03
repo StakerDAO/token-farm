@@ -1,5 +1,6 @@
 import { MichelsonMap } from "@taquito/taquito";
 import BigNumber from 'bignumber.js';
+import accounts from "../../scripts/sandbox/accounts";
 
 const initialStorage = {};
 
@@ -19,6 +20,7 @@ initialStorage.base = () =>  ({
     lpTokenContract: "tz1VSUr8wwNhLAzempoch5d6hLRiTh8Cjcjb",
     farmTokenBalance: new BigNumber(0),
     rewardTokenContract: "tz1VSUr8wwNhLAzempoch5d6hLRiTh8Cjcjb",
+    rewardReserve: accounts.walter.pkh
 });
 
 initialStorage.test = {};

@@ -19,6 +19,7 @@ type storage = {
     lpTokenContract: address,
     farmTokenBalance: nat,
     rewardTokenContract: address,
+    rewardReserve: address
 };
 
 #include "delegatorsRepository.religo"

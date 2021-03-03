@@ -26,7 +26,7 @@ const testHelpers = (instance, Tezos) => {
             return operation;
         },
         claim: async function() {
-            const operation = await this.instance.methods.claim(UnitValue).send({storageLimit: 100});
+            const operation = await this.instance.methods.claim(UnitValue).send({storageLimit: 120});
             await operation.confirmation(1);
             return operation;
         },

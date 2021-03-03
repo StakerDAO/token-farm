@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 import _tokenContract, { lpToken } from '../../helpers/token';
 import _farmContract from '../../helpers/farm';
-import initialStorage from '../../../migrations/initialStorage/farm';
 import accounts from '../../../scripts/sandbox/accounts';
 import _taquito from '../../helpers/taquito';
 import BigNumber from 'bignumber.js';
@@ -14,19 +13,14 @@ contract('%deposit', () => {
     const depositValue = lpToken(200);
     let delegatorBalance: BigNumber;
 
-    describe('new delegator makes deposit', () => {
-        before(async () => {
-            rewardTokenContract = await _tokenContract.originate();
-            lpTokenContract = await _tokenContract.originate();
-            farmContract = prepareFarm([], 10, rewardTokenContract, lpTokenContract, farmContract)
-        })
-    });
-
     describe('existing delegator makes deposit', () => {
+
         before(async () => {
-            lpTokenContract = await _tokenContract.originate();
-            farmContract = await _farmContract.originate(initialStorage.withLpTokenContract(lpTokenContract.instance.address)); 
+            rewardTokenContract = await _tokenContract.originate('Reward');
+            lpTokenContract = await _tokenContract.originate('LP');
+            farmContract = await prepareFarm([], 10, rewardTokenContract, lpTokenContract, farmContract)
             
+            // delegator approves farm contract to do the transfer
             await lpTokenContract.approve(
                 farmContract.instance.address, 
                 depositValue
