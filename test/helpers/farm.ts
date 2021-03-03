@@ -30,10 +30,6 @@ const testHelpers = (instance, Tezos) => {
             await operation.confirmation(1);
             return operation;
         },
-        increaseBlock: async function() {
-            const operation = await this.Tezos.contract.transfer({ to: accounts.dave, amount: 1 });
-            await operation.confirmation(1);
-        },
         getUnpaidRewards: async function(): Promise<BigNumber> {
             return (await this.getClaimedRewards()).unpaid;
         },
@@ -76,7 +72,7 @@ export default {
     },
     at: async function(address) {
         // TODO move to taquito helper
-        const Tezos = new TezosToolkit('http://localhost:8732');
+        const Tezos = new TezosToolkit(tezos._rpcClient.url);
         Tezos.setProvider({
             signer: await InMemorySigner.fromSecretKey(accounts.alice.sk)
         });
