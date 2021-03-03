@@ -7,7 +7,7 @@ on:
     branches: [ dev ]
 
 jobs:
-  test:
+  test-unit:
     runs-on: ubuntu-latest
     steps:      
     - uses: actions/checkout@v2
@@ -23,4 +23,21 @@ jobs:
       uses: kibertoad/wait-action@master
       with:
         time: '30s'
-    - run: yarn run test ./test/unit/deposit/** ./test/unit/claim/** ./test/unit/updatePool/updatePool.ts ./test/unit/withdraw/**
+    - run: yarn run test ./test/unit/**/*
+  test-integration:
+    runs-on: ubuntu-latest
+    steps:      
+    - uses: actions/checkout@v2
+  
+    - name: Use Node.js 12.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+    - run: yarn
+    - run: yarn run fix-ligo-version next
+    - run: yarn run sandbox:start &
+    - name: Wait 30 seconds for sandbox
+      uses: kibertoad/wait-action@master
+      with:
+        time: '30s'
+    - run: yarn run test ./test/integration/**/*
