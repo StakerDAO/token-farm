@@ -45,8 +45,11 @@ const testHelpers = (instance, Tezos) => {
         getPlannedRewards: async function() {
             return (await this.getStorage()).farm.plannedRewards;
         },
-        getRewardsPerBlock: async function() {
-            return await this.getPlannedRewards().farm.rewardPerBlock;
+        getRewardPerBlock: async function() {
+            return (await this.getPlannedRewards()).rewardPerBlock;
+        },
+        getTotalBlocks: async function() {
+            return (await this.getPlannedRewards()).totalBlocks;
         },
         getLastBlockUpdate: async function(): Promise<number> {
             return (await this.getStorage()).farm.lastBlockUpdate.toNumber()
@@ -56,6 +59,11 @@ const testHelpers = (instance, Tezos) => {
         },
         withdraw: async function(amount) {
             const operation = await this.instance.methods.withdraw(amount).send({storageLimit: 200});
+            await operation.confirmation(1);
+            return operation
+        },
+        updatePlan: async function(rewardPerBlock, totalBlocks) {
+            const operation = await this.instance.methods.updatePlan(rewardPerBlock, totalBlocks).send();
             await operation.confirmation(1);
             return operation
         }

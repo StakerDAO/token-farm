@@ -20,8 +20,9 @@ initialStorage.base = () => ({
     delegators: new MichelsonMap,
     farmLpTokenBalance: new BigNumber(0),
     addresses: {
-        lpTokenContract: "tz1VSUr8wwNhLAzempoch5d6hLRiTh8Cjcjb",
-        rewardTokenContract: "tz1VSUr8wwNhLAzempoch5d6hLRiTh8Cjcjb",
+        admin: accounts.alice.pkh,
+        lpTokenContract: accounts.alice.pkh,
+        rewardTokenContract: accounts.alice.pkh,
         rewardReserve: accounts.walter.pkh
     }
 });
@@ -121,6 +122,18 @@ initialStorage.test.updatePool = (
     storage.reward = new BigNumber(0);
 
     return storage
+};
+
+initialStorage.test.updatePlan = (rewardPerBlock, totalBlocks) => {
+    let storage = initialStorage.base();
+
+    // this is necessary because updatePlan calls updatePool
+    storage.farmLpTokenBalance = new BigNumber(2);
+
+    storage.farm.plannedRewards.rewardPerBlock = new BigNumber(rewardPerBlock);
+    storage.farm.plannedRewards.totalBlocks = new BigNumber(totalBlocks);
+
+    return storage;
 };
 
 export default initialStorage;
