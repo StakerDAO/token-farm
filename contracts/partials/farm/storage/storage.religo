@@ -14,3 +14,4 @@ type storage = {
 #include "setPaidRewards.religo"
 #include "setFarmLpTokenBalance.religo"
 #include "setPlannedRewards.religo"
+#include "setAdminProperty.religo"
