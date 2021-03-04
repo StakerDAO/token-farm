@@ -34,8 +34,5 @@ type storage = {
 };
 
 #include "../storage/delegatorsRepository.religo"
-#include "../storage/setAccumulatedRewardPerShare.religo"
-#include "../storage/setLastBlockUpdate.religo"
-#include "../storage/setUnpaidRewards.religo"
-#include "../storage/setPaidRewards.religo"
+#include "../storage/farmRepository.religo"
 #include "../storage/setFarmLpTokenBalance.religo"
