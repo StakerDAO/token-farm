@@ -34,12 +34,7 @@ contract('%deposit', () => {
     
                 await farmContract.deposit(depositValue);
             });
-        
-            // it('can transfer from lp token contract to farm contract', async () => {  
-            //     const balance = await lpTokenContract.getBalance(farmContract.instance.address);
-            //     expect(balance.toFixed()).to.equal(depositValue);         
-            // });
-    
+           
             it('can keep an internal LP balance for farm contract', async () => {
                 const balanceInStorage = await farmContract.getFarmLpTokenBalance();
                 expect(balanceInStorage.toFixed()).to.equal(depositValue);
@@ -48,12 +43,6 @@ contract('%deposit', () => {
             it('can keep an internal LP balance for delegator', async () => {
                 const delegatorBalance = await farmContract.getDelegatorBalance(accounts.alice.pkh);
                 expect(delegatorBalance.toFixed()).to.equal(depositValue);
-            });
-    
-            it('reduces the balance of delegator in LP contract', async () => {
-                const delegatorBalanceAfterDeposit = await lpTokenContract.getBalance(accounts.alice.pkh);
-                const delegatorBalanceCalculated = delegatorBalance.minus(new BigNumber(depositValue));
-                expect(delegatorBalanceAfterDeposit.toFixed()).equal(delegatorBalanceCalculated.toFixed())
             });
         });
     
