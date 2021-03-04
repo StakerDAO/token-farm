@@ -29,8 +29,8 @@ type claimedRewards = {
 };
 
 type plannedRewards = {
-    totalBlocks: nat,
     rewardPerBlock: nat,
+    totalBlocks: nat,
 };
 
 type farm = {
@@ -41,6 +41,7 @@ type farm = {
 };
 
 type addresses = {
+    admin: address,
     lpTokenContract: address,
     rewardTokenContract: address,
     rewardReserve: address
