@@ -8,10 +8,6 @@ type storage = {
 };
 
 #include "delegatorsRepository.religo"
-#include "setAccumulatedRewardPerShare.religo"
-#include "setLastBlockUpdate.religo"
-#include "setUnpaidRewards.religo"
-#include "setPaidRewards.religo"
+#include "farmRepository.religo"
 #include "setFarmLpTokenBalance.religo"
-#include "setPlannedRewards.religo"
 #include "setAdminProperty.religo"

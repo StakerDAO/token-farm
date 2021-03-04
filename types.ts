@@ -23,6 +23,7 @@ export interface contractStorage {
     delegators: MichelsonMap<address, delegatorRecord>,
     farmLpTokenBalance: BigNumber,
     addresses: {
+        admin: address,
         lpTokenContract: address,
         rewardTokenContract: address,
         rewardReserve: address
