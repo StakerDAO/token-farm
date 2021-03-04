@@ -66,6 +66,14 @@ const testHelpers = (instance, Tezos) => {
             const operation = await this.instance.methods.updatePlan(rewardPerBlock, totalBlocks).send();
             await operation.confirmation(1);
             return operation
+        },
+        setAdmin: async function(address) {
+            const operation = await this.instance.methods.setAdmin(address).send();
+            await operation.confirmation(1);
+            return operation
+        },
+        getAdmin: async function(): Promise<string> {
+            return (await this.getStorage()).addresses.admin;
         }
     };
 };
