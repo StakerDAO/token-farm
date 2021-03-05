@@ -1,7 +1,7 @@
 import { InMemorySigner } from '@taquito/signer';
 import { ContractAbstraction, ContractProvider, TezosToolkit, UnitValue } from '@taquito/taquito';
 import accounts from '../../scripts/sandbox/accounts';
-import { mockContractStorage } from '../../types';
+import { mockContractStorage } from './types';
 
 const unitTestContract = artifacts.require('mockContract');
 

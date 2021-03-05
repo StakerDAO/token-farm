@@ -3,9 +3,9 @@ import { BigNumber } from "bignumber.js";
 
 
 type address = string;
-type delegatorRecord = {
+export type delegatorRecord = {
     balance: BigNumber,
-    rewardDebt: BigNumber
+    stakingStart: BigNumber
 }
 export interface contractStorage {
     farm: {

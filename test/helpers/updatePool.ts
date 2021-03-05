@@ -1,6 +1,6 @@
 import BigNumber from "bignumber.js";
 import decimals from '../../decimals-config.json';
-import { mockContractStorage } from "../../types";
+import { mockContractStorage } from "./types";
 
 /**
  * This is the client side implementation of the smart contract computation.

@@ -4,7 +4,7 @@ import _mockContract from '../../helpers/mockContract';
 import _taquito from '../../helpers/taquito';
 import _initialStorage from '../../../migrations/initialStorage/farm';
 import { computeReward, updateAccumulatedRewardPerShare } from '../../helpers/updatePool';
-import { mockContractStorage } from '../../../types';
+import { mockContractStorage } from '../../helpers/types';
 
 /**
  * updatePool(storage) => storage is exposed through the mockContract for unit testing.

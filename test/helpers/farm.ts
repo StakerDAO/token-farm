@@ -2,7 +2,7 @@ import { InMemorySigner } from "@taquito/signer";
 import { TezosToolkit, UnitValue } from "@taquito/taquito";
 import BigNumber from "bignumber.js";
 import accounts from "../../scripts/sandbox/accounts";
-import { contractStorage } from "../../types";
+import { contractStorage, delegatorRecord } from "./types";
 
 const farm = artifacts.require('farm');
 
@@ -39,8 +39,14 @@ const testHelpers = (instance, Tezos) => {
         getFarmLpTokenBalance: async function(): Promise<BigNumber> {
             return (await this.getStorage()).farmLpTokenBalance;
         },
+        getDelegatorRecord: async function(address): Promise<delegatorRecord> {
+            return (await (await this.getStorage()).delegators.get(address))
+        },
         getDelegatorBalance: async function(address): Promise<BigNumber> {
-            return (await (await this.getStorage()).delegators.get(address)).balance;
+            return (await this.getDelegatorRecord(address)).balance;
+        },
+        getDelegatorStakingStart: async function(address): Promise<BigNumber> {
+            return (await this.getDelegatorRecord(address)).stakingStart;
         },
         getPlannedRewards: async function() {
             return (await this.getStorage()).farm.plannedRewards;
@@ -53,9 +59,6 @@ const testHelpers = (instance, Tezos) => {
         },
         getLastBlockUpdate: async function(): Promise<number> {
             return (await this.getStorage()).farm.lastBlockUpdate.toNumber()
-        },
-        getDelegatorStakingStart: async function(address): Promise<BigNumber> {
-            return (await (await this.getStorage()).delegators.get(address)).stakingStart;
         },
         withdraw: async function(amount) {
             const operation = await this.instance.methods.withdraw(amount).send({storageLimit: 200});
@@ -74,6 +77,11 @@ const testHelpers = (instance, Tezos) => {
         },
         getAdmin: async function(): Promise<string> {
             return (await this.getStorage()).addresses.admin;
+        },
+        escape: async function() {
+            const operation = await this.instance.methods.escape(UnitValue).send();
+            await operation.confirmation(1);
+            return operation
         }
     };
 };
