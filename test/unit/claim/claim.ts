@@ -41,7 +41,7 @@ contract('%claim', () => {
         
             it('calculates accumulated reward per share', async () => {
                 const accumulatedRewardPerShare = await farmContract.getAccumulatedRewardPerShare()
-                expect(accumulatedRewardPerShare.toFixed()).to.equal('150000000000000000000');
+                expect(accumulatedRewardPerShare.toFixed()).to.equal('150000000000000000');
             });
 
             it('calculates delegator reward', async () => {
@@ -86,7 +86,7 @@ contract('%claim', () => {
 
                 it('calculates accumulated reward per share', async () => {
                     const accumulatedRewardPerShare = await farmContract.getAccumulatedRewardPerShare()
-                    expect(accumulatedRewardPerShare.toFixed()).to.equal('200000000000000000000');
+                    expect(accumulatedRewardPerShare.toFixed()).to.equal('200000000000000000');
                 })
 
                 it('calculates delegator reward', async () => {
@@ -151,7 +151,7 @@ contract('%claim', () => {
 
                 it('calculates accumulated reward per share', async () => {
                     const accumulatedRewardPerShare = await farmContract.getAccumulatedRewardPerShare()
-                    expect(accumulatedRewardPerShare.toFixed()).to.equal('75000000000000000000');
+                    expect(accumulatedRewardPerShare.toFixed()).to.equal('75000000000000000');
                 });
 
                 it('calculates delegator reward', async () => {

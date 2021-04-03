@@ -1,5 +1,5 @@
 {
-    "fixedPointAccuracy": 1000000000000,
+    "fixedPointAccuracy": 1000000,
     "rewardToken": 1000000000000000000,
-    "lpToken": 1000000000
+    "lpToken": 1000000
 }
