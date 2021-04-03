@@ -34,4 +34,3 @@ export function updateAccumulatedRewardPerShare(initialStorage: mockContractStor
     
     return previousAcc.plus(newRewardPerShare)
 }
-
