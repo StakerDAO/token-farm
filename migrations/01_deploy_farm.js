@@ -1,9 +1,8 @@
 const farm = artifacts.require('farm');
 const saveContractAddress = require('./../helpers/saveContractAddress');
-const initial_storage = require('./initialStorage/farm');
+const initialStorage = require('./initialStorage/farm');
 
 module.exports = async (deployer, network, accounts) => {
-    deployer.deploy(farm, initial_storage.default.base())
+    deployer.deploy(farm, initialStorage.default.base())
         .then(contract => saveContractAddress('farm', contract.address));
-
 };
