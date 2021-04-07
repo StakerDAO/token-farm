@@ -17,7 +17,7 @@ module.exports = {
       secretKey: alice.sk,
       type: "tezos"
     },
-    delphinet: {
+    edonet: {
       host: "https://edonet-tezos.giganode.io",
       network_id: "*",
       secretKey: alice.sk,
