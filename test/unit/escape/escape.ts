@@ -24,8 +24,8 @@ contract('%escape', () => {
             lpTokenContract = await _tokenContract.originate('LP');
             const delegatorAlice = {
                 address: accounts.alice.pkh,
-                balance: lpToken('200'),
-                stakingStart: 100000
+                lpTokenBalance: lpToken('200'),
+                accumulatedRewardPerShareStart: 100000
             };
             const rewardPerBlock = rewardToken(20);
             farmContract = await prepareFarm([delegatorAlice], rewardPerBlock, lpTokenContract, farmContract);

@@ -28,8 +28,8 @@ contract('%withdraw', () => {
         
             const delegatorAlice = {
                 address: accounts.alice.pkh,
-                balance: lpToken('200'),
-                stakingStart: 0
+                lpTokenBalance: lpToken('200'),
+                accumulatedRewardPerShareStart: 0
             };
     
             const delegators = [delegatorAlice];
