@@ -23,8 +23,8 @@ contract('%claim', () => {
         
             const delegatorAlice = {
                 address: accounts.alice.pkh,
-                balance: lpToken('200'),
-                stakingStart: 0
+                lpTokenBalance: lpToken('200'),
+                accumulatedRewardPerShareStart: 0
             };
     
             const delegators = [delegatorAlice];
@@ -127,14 +127,14 @@ contract('%claim', () => {
             
                 const delegatorAlice = {
                     address: accounts.alice.pkh,
-                    balance: lpToken('200'),
-                    stakingStart: 0
+                    lpTokenBalance: lpToken('200'),
+                    accumulatedRewardPerShareStart: 0
                 };
 
                 const delegatorBob = {
                     address: accounts.bob.pkh,
-                    balance: lpToken('200'),
-                    stakingStart: 0
+                    lpTokenBalance: lpToken('200'),
+                    accumulatedRewardPerShareStart: 0
                 };
         
                 const delegators = [delegatorAlice, delegatorBob];
@@ -248,8 +248,8 @@ contract('%claim', () => {
 
                 const delegatorAlice = {
                     address: accounts.alice.pkh,
-                    balance: lpToken('200'),
-                    stakingStart: 0
+                    lpTokenBalance: lpToken('200'),
+                    accumulatedRewardPerShareStart: 0
                 };
                 const rewardPerBlock = rewardToken('10');
                 farmContract = await _farmContract.originate(

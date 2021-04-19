@@ -43,10 +43,10 @@ const testHelpers = (instance, Tezos) => {
             return (await (await this.getStorage()).delegators.get(address))
         },
         getDelegatorBalance: async function(address): Promise<BigNumber> {
-            return (await this.getDelegatorRecord(address)).balance;
+            return (await this.getDelegatorRecord(address)).lpTokenBalance;
         },
         getDelegatorStakingStart: async function(address): Promise<BigNumber> {
-            return (await this.getDelegatorRecord(address)).stakingStart;
+            return (await this.getDelegatorRecord(address)).accumulatedRewardPerShareStart;
         },
         getPlannedRewards: async function() {
             return (await this.getStorage()).farm.plannedRewards;

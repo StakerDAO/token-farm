@@ -60,10 +60,10 @@ initialStorage.test.claim = (rewardTokenContract, delegators, rewardPerBlock, bl
 
     delegators.forEach(delegator => {
         storage.delegators.set(delegator.address, {
-            balance: new BigNumber(delegator.balance),
-            stakingStart: new BigNumber(delegator.stakingStart)
+            lpTokenBalance: new BigNumber(delegator.lpTokenBalance),
+            accumulatedRewardPerShareStart: new BigNumber(delegator.accumulatedRewardPerShareStart)
         })
-        storage.farmLpTokenBalance = (new BigNumber(storage.farmLpTokenBalance)).plus(new BigNumber(delegator.balance)).toFixed()
+        storage.farmLpTokenBalance = (new BigNumber(storage.farmLpTokenBalance)).plus(new BigNumber(delegator.lpTokenBalance)).toFixed()
     });
     storage.farm.lastBlockUpdate = new BigNumber(blockLevel);
     
@@ -81,10 +81,10 @@ initialStorage.test.deposit = (rewardTokenContract, lpTokenContract, delegators,
 
     delegators.forEach(delegator => {
         storage.delegators.set(delegator.address, {
-            balance: new BigNumber(delegator.balance),
-            stakingStart: new BigNumber(delegator.stakingStart)
+            lpTokenBalance: new BigNumber(delegator.lpTokenBalance),
+            accumulatedRewardPerShareStart: new BigNumber(delegator.accumulatedRewardPerShareStart)
         })
-        storage.farmLpTokenBalance = storage.farmLpTokenBalance.plus(new BigNumber(delegator.balance))
+        storage.farmLpTokenBalance = storage.farmLpTokenBalance.plus(new BigNumber(delegator.lpTokenBalance))
     });
     storage.farm.lastBlockUpdate = new BigNumber(blockLevel);
     

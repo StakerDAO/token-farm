@@ -1,7 +1,7 @@
 type delegator = address;
 type delegatorRecord = {
-    balance: nat,
-    stakingStart: nat,
+    lpTokenBalance: nat,
+    accumulatedRewardPerShareStart: nat,
 };
 
 type getBalanceParameter = 
