@@ -47,8 +47,8 @@ let removeDelegator = ((delegator, storage):(address, storage)): storage => {
 
 let updateDelegatorRecord = ((delegator, stakedBalance, storage): (address, nat, storage)): storage => {
     let delegatorRecord: delegatorRecord = {
-        balance: stakedBalance,
-        stakingStart: storage.farm.accumulatedRewardPerShare
+        lpTokenBalance: stakedBalance,
+        accumulatedRewardPerShareStart: storage.farm.accumulatedRewardPerShare
     };
     let storage = setDelegatorRecord(delegator, delegatorRecord, storage);
     storage;
@@ -58,7 +58,7 @@ let updateRewardDebt = ((delegator, storage): (address, storage)): storage => {
     let delegatorRecord = getDelegator(delegator, storage);
     let storage = updateDelegatorRecord(
         delegator, 
-        delegatorRecord.balance, 
+        delegatorRecord.lpTokenBalance, 
         storage
     );
     storage;
@@ -66,21 +66,21 @@ let updateRewardDebt = ((delegator, storage): (address, storage)): storage => {
 
 let decreaseDelegatorBalance = ((delegator, value, storage): (address, nat, storage)): storage => {
     let delegatorRecord = getDelegator(delegator, storage);
-    let stakedBalance = safeBalanceSubtraction(delegatorRecord.balance, value);
+    let stakedBalance = safeBalanceSubtraction(delegatorRecord.lpTokenBalance, value);
     updateDelegatorRecord(delegator, stakedBalance, storage);
 };
 
 let increaseDelegatorBalance = ((delegator, value, storage): (address, nat, storage)): storage => {
     let delegatorRecord = getDelegator(delegator, storage);
-    let stakedBalance = delegatorRecord.balance + value;
+    let stakedBalance = delegatorRecord.lpTokenBalance + value;
     updateDelegatorRecord(delegator, stakedBalance, storage);
 };
 
 let initDelegatorBalance = ((delegator, value, storage): (address, nat, storage)): storage => {
     let delegatorRecord: delegatorRecord = {
-        balance: 0n,
-        stakingStart: 0n
+        lpTokenBalance: 0n,
+        accumulatedRewardPerShareStart: 0n
     };
-    let stakedBalance = delegatorRecord.balance + value;
+    let stakedBalance = delegatorRecord.lpTokenBalance + value;
     updateDelegatorRecord(delegator, stakedBalance, storage);
 };

@@ -18,7 +18,7 @@ contract('%deposit', () => {
         before(async () => {
             rewardTokenContract = await _tokenContract.originate('Reward');
             lpTokenContract = await _tokenContract.originate('LP');
-            farmContract = await prepareFarm([], 10, rewardTokenContract, lpTokenContract, farmContract)
+            farmContract = await prepareFarm([], 10, rewardTokenContract, lpTokenContract, farmContract);
             
             // delegator approves farm contract to do the transfer
             await lpTokenContract.approve(
@@ -55,8 +55,8 @@ contract('%deposit', () => {
             });
     
             it('sets staking start for first delegator', async () => {
-                const startAccumulatedRewardPerShare = await farmContract.getDelegatorStakingStart(accounts.alice.pkh);
-                expect(startAccumulatedRewardPerShare.toNumber()).to.equal(0);
+                const accumulatedRewardPerShareStart = await farmContract.getDelegatorStakingStart(accounts.alice.pkh);
+                expect(accumulatedRewardPerShareStart.toNumber()).to.equal(0);
             });
         });
     });
