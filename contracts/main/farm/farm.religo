@@ -17,15 +17,17 @@ type entrypointReturn = (list(operation), storage);
 #include "../../partials/farm/updatePlan/updatePlan.religo"
 #include "../../partials/farm/setAdmin/setAdmin.religo"
 #include "../../partials/farm/escape/escape.religo"
+#include "../../partials/farm/withdrawProfit/withdrawProfit.religo"
 
 
 let main = ((parameter,storage): (parameter, storage)): entrypointReturn => {
     switch(parameter) {
         | Deposit(parameter) => deposit(parameter, storage);
         | Claim(parameter) => claim(storage);
-        | Withdraw(parameter) =>  withdraw(parameter, storage)
-        | UpdatePlan(parameter) => updatePlan(parameter, storage)
-        | SetAdmin(parameter) =>  setAdmin(parameter, storage)
+        | Withdraw(parameter) =>  withdraw(parameter, storage);
+        | WithdrawProfit(parameter) => withdrawProfit(parameter, storage);
+        | UpdatePlan(parameter) => updatePlan(parameter, storage);
+        | SetAdmin(parameter) =>  setAdmin(parameter, storage);
         | Escape(parameter) => escape(parameter, storage);
     };
 };
