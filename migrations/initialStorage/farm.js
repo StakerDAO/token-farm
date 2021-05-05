@@ -113,31 +113,31 @@ initialStorage.test.updatePlan = (rewardPerBlock, totalBlocks) => {
  * This one is only for testing with the mockContract
  */
 initialStorage.test.updatePool = (
-    accumulatedRewardPerShare, 
-    farmLpTokenBalance, 
-    blockLevel, 
-    rewardPerBlock, 
-    totalBlocks, 
-    unpaid, 
-    paid
-) => {
-    
-let storage = initialStorage.base();
+        accumulatedRewardPerShare,
+        farmLpTokenBalance,
+        blockLevel,
+        rewardPerBlock,
+        totalBlocks,
+        unpaid,
+        paid
+    ) => {
+        
+    let storage = initialStorage.base();
 
-storage.farm.accumulatedRewardPerShare = new BigNumber(accumulatedRewardPerShare);
-storage.farmLpTokenBalance = new BigNumber(farmLpTokenBalance);
-storage.farm.lastBlockUpdate = new BigNumber(blockLevel);
+    storage.farm.accumulatedRewardPerShare = new BigNumber(accumulatedRewardPerShare);
+    storage.farmLpTokenBalance = new BigNumber(farmLpTokenBalance);
+    storage.farm.lastBlockUpdate = new BigNumber(blockLevel);
 
-storage.farm.plannedRewards.rewardPerBlock = new BigNumber(rewardPerBlock);
-storage.farm.plannedRewards.totalBlocks = new BigNumber(totalBlocks);
+    storage.farm.plannedRewards.rewardPerBlock = new BigNumber(rewardPerBlock);
+    storage.farm.plannedRewards.totalBlocks = new BigNumber(totalBlocks);
 
-storage.farm.claimedRewards.unpaid = new BigNumber(unpaid);
-storage.farm.claimedRewards.paid = new BigNumber(paid);
+    storage.farm.claimedRewards.unpaid = new BigNumber(unpaid);
+    storage.farm.claimedRewards.paid = new BigNumber(paid);
 
-// adding reward only for mockContract testing
-storage.reward = new BigNumber(0);
+    // adding reward only for mockContract testing
+    storage.reward = new BigNumber(0);
 
-return storage
+    return storage
 };
 
 export default initialStorage;
