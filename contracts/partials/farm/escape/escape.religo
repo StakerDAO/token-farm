@@ -16,6 +16,9 @@ let escape = ((escapeParameter, storage): (escapeParameter, storage)): entrypoin
         Tezos.self_address, // from
         delegator, // to 
         delegatorRecord.lpTokenBalance, // value
+#if TOKEN_FA2
+        storage.tokenIds.lp, // tokenId
+#endif
         storage.addresses.lpTokenContract
     );
     

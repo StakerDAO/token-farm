@@ -18,6 +18,9 @@ let claim = ((storage): (storage)): entrypointReturn => {
         storage.addresses.rewardReserve, // from
         delegator, // to
         delegatorReward, // value
+#if TOKEN_FA2
+        storage.tokenIds.reward, // tokenId
+#endif
         storage.addresses.rewardTokenContract // tzip7 contract's address
     );
     

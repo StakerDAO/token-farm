@@ -25,6 +25,9 @@ let deposit = ((depositParameter, storage): (depositParameter, storage)): entryp
         delegator, // from
         Tezos.self_address, // to
         depositParameter, // value
+#if TOKEN_FA2
+        storage.tokenIds.lp, // tokenId
+#endif
         storage.addresses.lpTokenContract // tzip7 contract's address
     );
 
