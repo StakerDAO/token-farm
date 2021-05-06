@@ -3,6 +3,8 @@ node_modules/
 deployments/
 scripts/tools/**
 !scripts/tools/*.js
+scripts/contracts/**
+!scripts/contracts/*.js
 # Created by https://www.toptal.com/developers/gitignore/api/osx
 # Edit at https://www.toptal.com/developers/gitignore?templates=osx
 
@@ -13,7 +15,8 @@ scripts/tools/**
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
+
 
 # Thumbnails
 ._*

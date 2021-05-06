@@ -82,6 +82,11 @@ const testHelpers = (instance, Tezos) => {
             const operation = await this.instance.methods.escape(UnitValue).send();
             await operation.confirmation(1);
             return operation
+        },
+        withdrawProfit: async function(address) {
+            const operation = await this.instance.methods.withdrawProfit(address).send();
+            await operation.confirmation(1);
+            return operation
         }
     };
 };
