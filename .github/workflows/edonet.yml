@@ -7,7 +7,7 @@ on:
     branches: [ dev ]
 
 jobs:
-  test-unit:
+  test-unit-FA12:
     runs-on: ubuntu-latest
     steps:      
     - uses: actions/checkout@v2
@@ -24,7 +24,24 @@ jobs:
       with:
         time: '30s'
     - run: yarn run test ./test/unit/**/*
-  test-integration:
+  test-unit-FA2:
+    runs-on: ubuntu-latest
+    steps:      
+    - uses: actions/checkout@v2
+
+    - name: Use Node.js 12.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+    - run: yarn
+    - run: yarn run fix-ligo-version 0.11.0
+    - run: yarn run sandbox:start &
+    - name: Wait 30 seconds for sandbox
+      uses: kibertoad/wait-action@master
+      with:
+        time: '30s'
+    - run: yarn run test ./test/unit/**/* --token FA2
+  test-integration-FA12:
     runs-on: ubuntu-latest
     steps:      
     - uses: actions/checkout@v2
