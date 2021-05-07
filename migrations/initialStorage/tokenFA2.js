@@ -1,5 +1,5 @@
 import { MichelsonMap, UnitValue } from "@taquito/taquito";
-import accounts, { alice } from "../../scripts/sandbox/accounts";
+import accounts from "../../scripts/sandbox/accounts";
 import decimals from '../../decimals-config.json';
 import BigNumber from 'bignumber.js';
 const initialStorage = {};
@@ -15,7 +15,8 @@ initialStorage.base = () => ({
 
 initialStorage.withBalances = () => {
     const storage = initialStorage.base();
-    storage.tzip12.tokensLedger.set({0: alice.pkh, 1: 0}, 100)
+    storage.tzip12.tokensLedger.set({ 0: accounts.walter.pkh, 1: 0 }, (new BigNumber(1000).multipliedBy(decimals.rewardToken)).toFixed());
+    
     return storage
 };
 

@@ -7,6 +7,8 @@ import tokenFA2ContractMichelson from "../../contracts/main/farm/test/tokenTzip1
 import decimals from '../../decimals-config.json';
 import _initialStorage from '../../migrations/initialStorage/tokenFA2';
 
+export const tokenId = 0;
+
 const tzip12Helpers = (instance, Tezos) => {
     return {
         instance: instance,
@@ -16,7 +18,7 @@ const tzip12Helpers = (instance, Tezos) => {
                 from_: transferParameters.from,
                 txs: [{
                     to_: transferParameters.to,
-                    token_id: 0,
+                    token_id: tokenId,
                     amount: transferParameters.value
                 }]
             }]).send();
@@ -36,6 +38,19 @@ const tzip12Helpers = (instance, Tezos) => {
             await operation.confirmation(1);
             return operation
         },
+        getStorage: async function() {
+            return await instance.storage();
+        },
+        getBalance: async function(address): Promise<BigNumber> {
+            const balance = await (await this.getStorage())
+                .tzip12
+                .tokensLedger
+                .get(
+                    { 0: address, 1: tokenId }
+                ) || new BigNumber(0);
+            return balance;
+        },
+
     }
 }
 

@@ -7,10 +7,12 @@ import { TezosOperationError } from '@taquito/taquito';
 import accounts from '../../../scripts/sandbox/accounts';
 import { prepareFarm } from './before';
 import { contractErrors } from '../../../helpers/constants';
-import _tokenContract, { lpToken, rewardToken } from '../../helpers/token';
+import _tokenContractFA12, { lpToken, rewardToken } from '../../helpers/token';
+import _tokenContractFA2, { tokenId } from '../../helpers/tokenFA2';
 import _taquito from '../../helpers/taquito';
 import _farmContract from '../../helpers/farm';
 import _initialStorage from '../../../migrations/initialStorage/farm';
+import tokenStandard from '../../helpers/tokenStandard';
 
 contract('%claim', () => {
     let farmContract;
@@ -19,8 +21,15 @@ contract('%claim', () => {
     describe('one delegator staking', () => {
       
         before(async () => {
-            rewardTokenContract = await _tokenContract.originate('Reward');
-        
+            switch (tokenStandard) {
+                case "FA12":
+                    rewardTokenContract = await _tokenContractFA12.originate('Reward');
+                    break;
+                case "FA2":
+                    rewardTokenContract = await _tokenContractFA2.originate('Reward');
+                    break;
+            }
+            
             const delegatorAlice = {
                 address: accounts.alice.pkh,
                 lpTokenBalance: lpToken('200'),
@@ -49,7 +58,15 @@ contract('%claim', () => {
                 const internalOperationResults = operation.results[0].metadata.internal_operation_results;
                 const firstInternalOperationResult = internalOperationResults[0];
                 const tokenTransferParameters = firstInternalOperationResult.parameters
-                const delegatorReward = tokenTransferParameters.value.args[1].args[1].int;
+                let delegatorReward;
+                switch (tokenStandard) {
+                    case "FA12":
+                        delegatorReward = tokenTransferParameters.value.args[1].args[1].int;
+                        break;
+                    case "FA2":
+                        delegatorReward = tokenTransferParameters.value[0].args[1][0].args[1].args[1].int
+                        break;
+                }
 
                 expect(delegatorReward).to.equal(rewardToken('30'));
             });
@@ -94,7 +111,15 @@ contract('%claim', () => {
                     const internalOperationResults = operation.results[0].metadata.internal_operation_results;
                     const firstInternalOperationResult = internalOperationResults[0];
                     const tokenTransferParameters = firstInternalOperationResult.parameters
-                    const delegatorReward = tokenTransferParameters.value.args[1].args[1].int;
+                    let delegatorReward;
+                    switch (tokenStandard) {
+                        case "FA12":
+                            delegatorReward = tokenTransferParameters.value.args[1].args[1].int;
+                            break;
+                        case "FA2":
+                            delegatorReward = tokenTransferParameters.value[0].args[1][0].args[1].args[1].int
+                            break;
+                    }
 
                     expect(delegatorReward).to.equal(rewardToken('10'));
                 })
@@ -123,7 +148,14 @@ contract('%claim', () => {
         describe('two delegators staking', () => {
       
             before(async () => {
-                rewardTokenContract = await _tokenContract.originate('Reward');
+                switch (tokenStandard) {
+                    case "FA12":
+                        rewardTokenContract = await _tokenContractFA12.originate('Reward');
+                        break;
+                    case "FA2":
+                        rewardTokenContract = await _tokenContractFA2.originate('Reward');
+                        break;
+                }
             
                 const delegatorAlice = {
                     address: accounts.alice.pkh,
@@ -159,7 +191,15 @@ contract('%claim', () => {
                     const internalOperationResults = operation.results[0].metadata.internal_operation_results;
                     const firstInternalOperationResult = internalOperationResults[0];
                     const tokenTransferParameters = firstInternalOperationResult.parameters
-                    const delegatorReward = tokenTransferParameters.value.args[1].args[1].int;
+                    let delegatorReward;
+                    switch (tokenStandard) {
+                        case "FA12":
+                            delegatorReward = tokenTransferParameters.value.args[1].args[1].int;
+                            break;
+                        case "FA2":
+                            delegatorReward = tokenTransferParameters.value[0].args[1][0].args[1].args[1].int
+                            break;
+                    }
     
                     expect(delegatorReward).to.equal(rewardToken('15'));
                 })
@@ -191,7 +231,15 @@ contract('%claim', () => {
                         const internalOperationResults = operation.results[0].metadata.internal_operation_results;
                         const firstInternalOperationResult = internalOperationResults[0];
                         const tokenTransferParameters = firstInternalOperationResult.parameters
-                        const delegatorReward = tokenTransferParameters.value.args[1].args[1].int;
+                        let delegatorReward;
+                        switch (tokenStandard) {
+                            case "FA12":
+                                delegatorReward = tokenTransferParameters.value.args[1].args[1].int;
+                                break;
+                            case "FA2":
+                                delegatorReward = tokenTransferParameters.value[0].args[1][0].args[1].args[1].int
+                                break;
+                        }
         
                         expect(delegatorReward).to.equal(rewardToken('5'));
                     });
@@ -220,14 +268,21 @@ contract('%claim', () => {
                 const rewardPerBlock = rewardToken('10');
                 const startingBlockLevel = await _taquito.getCurrentBlockLevel();    
 
-                farmContract = await _farmContract.originate(
-                    _initialStorage.test.claim(
-                        accounts.alice.pkh,
-                        noDelegators,
-                        rewardPerBlock,
-                        startingBlockLevel
-                    )
+                const initialStorage =  _initialStorage.test.claim(
+                    accounts.alice.pkh,
+                    noDelegators,
+                    rewardPerBlock,
+                    startingBlockLevel
                 );
+
+                if (tokenStandard == "FA2") {
+                    initialStorage.tokenIds = {
+                        lp: tokenId,
+                        reward: tokenId
+                    };
+                }
+                
+                farmContract = await _farmContract.originate(initialStorage);
             });
     
             it('fails if called by an address that is not staking', async () => {
@@ -252,14 +307,20 @@ contract('%claim', () => {
                     accumulatedRewardPerShareStart: 0
                 };
                 const rewardPerBlock = rewardToken('10');
-                farmContract = await _farmContract.originate(
-                    _initialStorage.test.claim(
-                        rewardTokenContract,
-                        [delegatorAlice],
-                        rewardPerBlock,
-                        startingBlockLevel
-                    )
+
+                const initialStorage =  _initialStorage.test.claim(
+                    rewardTokenContract,
+                    [delegatorAlice],
+                    rewardPerBlock,
+                    startingBlockLevel
                 );
+                if (tokenStandard == "FA2") {
+                    initialStorage.tokenIds = {
+                        lp: tokenId,
+                        reward: tokenId
+                    };
+                }
+                farmContract = await _farmContract.originate(initialStorage);
             });
 
             it('fails if called by an address that is not staking', async () => {

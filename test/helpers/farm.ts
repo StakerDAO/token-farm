@@ -3,9 +3,18 @@ import { TezosToolkit, UnitValue } from "@taquito/taquito";
 import BigNumber from "bignumber.js";
 import accounts from "../../scripts/sandbox/accounts";
 import { contractStorage, delegatorRecord } from "./types";
+import tokenStandard from "./tokenStandard";
 
-const farm = artifacts.require('farm');
+let farm;
 
+switch (tokenStandard) {
+    case "FA12":
+        farm = artifacts.require('farm');
+        break;
+    case "FA2":
+        farm = artifacts.require('farmFA2');
+        break;
+}
 
 const testHelpers = (instance, Tezos) => {
     return {
@@ -101,7 +110,6 @@ export default {
             signer: await InMemorySigner.fromSecretKey(accounts.alice.sk)
         });
         
-
         const instance = await Tezos.contract.at(address);
         
         return testHelpers(instance, Tezos);

@@ -4,7 +4,9 @@ chai.use(chaiAsPromised);
 const expect = chai.expect;
 
 import accounts from '../../../scripts/sandbox/accounts';
-import _tokenContract, { lpToken, rewardToken } from '../../helpers/token';
+import _tokenContractFA12, { lpToken, rewardToken } from '../../helpers/token';
+import _tokenContractFA2 from '../../helpers/tokenFA2';
+import tokenStandard from '../../helpers/tokenStandard';
 import _taquito from '../../helpers/taquito';
 import _farmContract from '../../helpers/farm';
 import _initialStorage from '../../../migrations/initialStorage/farm';
@@ -21,7 +23,15 @@ contract('%escape', () => {
       
         before(async () => {
             
-            lpTokenContract = await _tokenContract.originate('LP');
+            switch (tokenStandard) {
+                case "FA12":
+                    lpTokenContract = await _tokenContractFA12.originate('LP');
+                    break;
+                case "FA2":
+                    lpTokenContract = await _tokenContractFA2.originate('LP');
+                    break;
+            }
+
             const delegatorAlice = {
                 address: accounts.alice.pkh,
                 lpTokenBalance: lpToken('200'),
@@ -48,11 +58,20 @@ contract('%escape', () => {
         it('emits token operation to LP token contract', async () => {
             const internalOperationResults = operation.results[0].metadata.internal_operation_results;
             const firstInternalOperationResult = internalOperationResults[0];
-            
+            let tokenAmount;
+            switch (tokenStandard) {
+                case "FA12":
+                    tokenAmount = firstInternalOperationResult.parameters.value.args[1].args[1].int
+                    break;
+                case "FA2":
+                    tokenAmount = firstInternalOperationResult.parameters.value[0].args[1][0].args[1].args[1].int
+                    break;
+            }
+
+            expect(tokenAmount).to.equal(lpToken('200'));
             expect(firstInternalOperationResult).to.deep.contain({
                 destination: lpTokenContract.instance.address,
             });
-            expect(firstInternalOperationResult.parameters.value.args[1].args[1].int).to.equal(lpToken('200'));
         });
 
         it('fails for account that has not staked', async () => {

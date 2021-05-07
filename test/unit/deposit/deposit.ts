@@ -1,10 +1,12 @@
 import { expect } from 'chai';
-import _tokenContract, { lpToken } from '../../helpers/token';
+import _tokenContractFA12, { lpToken } from '../../helpers/token';
+import _tokenContractFA2 from '../../helpers/tokenFA2';
 import _farmContract from '../../helpers/farm';
 import accounts from '../../../scripts/sandbox/accounts';
 import _taquito from '../../helpers/taquito';
 import BigNumber from 'bignumber.js';
 import { prepareFarm } from './before';
+import tokenStandard from '../../helpers/tokenStandard';
 
 contract('%deposit', () => {
     let farmContract;
@@ -16,15 +18,34 @@ contract('%deposit', () => {
     describe('existing delegator makes deposit', () => {
 
         before(async () => {
-            rewardTokenContract = await _tokenContract.originate('Reward');
-            lpTokenContract = await _tokenContract.originate('LP');
+            switch (tokenStandard) {
+                case "FA12":
+                    rewardTokenContract = await _tokenContractFA12.originate('Reward');
+                    lpTokenContract = await _tokenContractFA12.originate('LP');
+                    break;
+                case "FA2":
+                    rewardTokenContract = await _tokenContractFA2.originate('Reward');
+                    lpTokenContract = await _tokenContractFA2.originate('LP');
+                    break;
+            }
+          
             farmContract = await prepareFarm([], 10, rewardTokenContract, lpTokenContract, farmContract);
             
             // delegator approves farm contract to do the transfer
-            await lpTokenContract.approve(
-                farmContract.instance.address, 
-                depositValue
-            );
+            switch (tokenStandard) {
+                case "FA12":   
+                    await lpTokenContract.approve(
+                        farmContract.instance.address, 
+                        depositValue
+                    );
+                    break;
+                case "FA2":
+                    await lpTokenContract.add_operator(
+                        accounts.alice.pkh, 
+                        farmContract.instance.address
+                    );
+                    break;
+            }
         });
     
         describe('effects of first deposit to balances', () => {
