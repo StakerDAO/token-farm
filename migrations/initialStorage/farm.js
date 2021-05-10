@@ -8,13 +8,13 @@ initialStorage.base = () => ({
     farm: {
         lastBlockUpdate: new BigNumber(0),
         accumulatedRewardPerShare: new BigNumber(0),
-        plannedRewards: {
-            rewardPerBlock: new BigNumber(0),
-            totalBlocks: new BigNumber(0),
-        },
         claimedRewards: {
             unpaid: new BigNumber(0),
             paid: new BigNumber(0)
+        },
+        plannedRewards: {
+            rewardPerBlock: new BigNumber(0),
+            totalBlocks: new BigNumber(0),
         }
     },
     delegators: new MichelsonMap,
