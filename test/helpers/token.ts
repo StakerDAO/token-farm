@@ -179,5 +179,16 @@ export default {
         const instance = await operation.contract();
 
         return tzip7Helpers(instance, Tezos)
-    }
+    },
+    at: async function(address) {
+        // TODO move to taquito helper
+        const Tezos = new TezosToolkit(tezos._rpcClient.url);
+        Tezos.setProvider({
+            signer: await InMemorySigner.fromSecretKey(accounts.alice.sk)
+        });
+    
+        const instance = await Tezos.contract.at(address);
+        
+        return tzip7Helpers(instance, Tezos);
+    },
 };
