@@ -6,30 +6,30 @@ type claimedRewards = {
 };
 
 type plannedRewards = {
-    totalBlocks: nat,
     rewardPerBlock: nat,
+    totalBlocks: nat,
 };
 
 type farm = {
-    lastBlockUpdate: nat,
     accumulatedRewardPerShare: nat,
     claimedRewards: claimedRewards,
-    plannedRewards: plannedRewards
+    lastBlockUpdate: nat,
+    plannedRewards: plannedRewards,
 };
 
 type addresses = {
     admin: address,
     lpTokenContract: address,
+    rewardReserve: address,
     rewardTokenContract: address,
-    rewardReserve: address
 };
 
 
 type storage = {
-    farm: farm,
-    delegators: big_map(delegator, delegatorRecord),
-    farmLpTokenBalance: nat,
     addresses: addresses,
+    delegators: big_map(delegator, delegatorRecord),
+    farm: farm,
+    farmLpTokenBalance: nat,
     reward: nat // for testing with mockContract
 };
 

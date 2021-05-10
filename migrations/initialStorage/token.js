@@ -7,17 +7,17 @@ const initialStorage = {};
 
 initialStorage.base = () => ({
     token: {
-        ledger: new MichelsonMap,
-        approvals: new MichelsonMap,
         admin: accounts.alice.pkh,
-        pauseGuardian: accounts.alice.pkh,
+        approvals: new MichelsonMap,
+        ledger: new MichelsonMap,
         paused: false,
+        pauseGuardian: accounts.alice.pkh,
         totalSupply: 0,
     },
     bridge: {
-        swaps: new MichelsonMap,
-        outcomes: new MichelsonMap,
         lockSaver: accounts.lock.pkh,
+        outcomes: new MichelsonMap,
+        swaps: new MichelsonMap,
     }
 });
 

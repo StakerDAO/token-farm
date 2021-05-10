@@ -5,26 +5,26 @@ import accounts from "../../scripts/sandbox/accounts";
 const initialStorage = {};
 
 initialStorage.base = () => ({
-    farm: {
-        lastBlockUpdate: new BigNumber(0),
-        accumulatedRewardPerShare: new BigNumber(0),
-        plannedRewards: {
-            rewardPerBlock: new BigNumber(0),
-            totalBlocks: new BigNumber(0),
-        },
-        claimedRewards: {
-            unpaid: new BigNumber(0),
-            paid: new BigNumber(0)
-        }
-    },
-    delegators: new MichelsonMap,
-    farmLpTokenBalance: new BigNumber(0),
     addresses: {
         admin: accounts.alice.pkh,
         lpTokenContract: accounts.alice.pkh,
+        rewardReserve: accounts.walter.pkh,
         rewardTokenContract: accounts.alice.pkh,
-        rewardReserve: accounts.walter.pkh
-    }
+    },
+    delegators: new MichelsonMap,
+    farm: {
+        accumulatedRewardPerShare: new BigNumber(0),
+        claimedRewards: {
+            unpaid: new BigNumber(0),
+            paid: new BigNumber(0)
+        },
+        lastBlockUpdate: new BigNumber(0),
+        plannedRewards: {
+            rewardPerBlock: new BigNumber(0),
+            totalBlocks: new BigNumber(0),
+        }
+    },
+    farmLpTokenBalance: new BigNumber(0),
 });
 
 initialStorage.withLpTokenContract = (tokenContractAddress) => {

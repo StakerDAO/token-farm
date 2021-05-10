@@ -1,7 +1,7 @@
 type delegator = address;
 type delegatorRecord = {
-    lpTokenBalance: nat,
     accumulatedRewardPerShareStart: nat,
+    lpTokenBalance: nat,
 };
 
 type getBalanceParameter = 
@@ -34,15 +34,15 @@ type plannedRewards = {
 };
 
 type farm = {
-    lastBlockUpdate: nat,
     accumulatedRewardPerShare: nat,
     claimedRewards: claimedRewards,
-    plannedRewards: plannedRewards
+    lastBlockUpdate: nat,
+    plannedRewards: plannedRewards,
 };
 
 type addresses = {
     admin: address,
     lpTokenContract: address,
+    rewardReserve: address,
     rewardTokenContract: address,
-    rewardReserve: address
 };
