@@ -1,10 +1,10 @@
 #include "types.religo"
 
 type storage = {
-    farm: farm,
+    addresses: addresses,
     delegators: big_map(delegator, delegatorRecord),
+    farm: farm,
     farmLpTokenBalance: nat,
-    addresses: addresses
 };
 
 #include "delegatorsRepository.religo"
