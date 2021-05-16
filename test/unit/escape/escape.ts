@@ -65,4 +65,20 @@ contract('%escape', () => {
             });
         });
     });
+
+    describe('smart contract invocation with options', () => {
+
+        it('fails if transaction carries XTZ', async () => {
+            farmContract =  await _farmContract.originate(
+                _initialStorage.base()
+            );
+            const options = { amount: 1 }; // send TEZ with the transaction
+
+            const operationPromise = farmContract.escape(options);
+
+            await expect(operationPromise).to.be.eventually.rejected
+                .and.be.instanceOf(TezosOperationError)
+                .and.have.property('message', contractErrors.inboundTezNotAllowed);
+        });
+    });
 });

@@ -11,35 +11,13 @@ import _taquito from '../../helpers/taquito';
 import _farmContract from '../../helpers/farm';
 import _initialStorage from '../../../migrations/initialStorage/farm';
 
-contract('%setAdmin', () => {
+/**
+ * More tests with %withdrawProfit can be found in ../../integration/withdrawProfit.ts
+ * It has a tight dependency on the DEX token contract and is therefore not tested here.
+ */
+contract('%withdrawProfit', () => {
     let farmContract;
     
-    describe('one delegator staking', () => {
-      
-        beforeEach(async () => {
-            farmContract = await _farmContract.originate(
-                _initialStorage.base()
-            );
-        });
-
-        it('fails for a third party to %setAdmin', async () => {
-            await _taquito.signAs(accounts.chuck.sk, farmContract, async () => {
-                const operationPromise = farmContract.setAdmin(accounts.chuck.pkh);
-                
-                await expect(operationPromise).to.be.eventually.rejected
-                    .and.be.instanceOf(TezosOperationError)
-                    .and.have.property('message', contractErrors.senderIsNotAdmin)
-            });
-        });
-
-        it('sets new admin', async () => {
-            await farmContract.setAdmin(accounts.trent.pkh);
-
-            const admin = await farmContract.getAdmin();
-            expect(admin).to.equal(accounts.trent.pkh);
-        });
-    });
-
     describe('smart contract invocation with options', () => {
 
         it('fails if transaction carries XTZ', async () => {
@@ -48,7 +26,7 @@ contract('%setAdmin', () => {
             );
             const options = { amount: 1 }; // send TEZ with the transaction
 
-            const operationPromise = farmContract.setAdmin(accounts.bob.pkh, options);
+            const operationPromise = farmContract.withdrawProfit(accounts.alice.pkh, options);
 
             await expect(operationPromise).to.be.eventually.rejected
                 .and.be.instanceOf(TezosOperationError)
