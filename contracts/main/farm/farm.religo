@@ -20,7 +20,10 @@ type entrypointReturn = (list(operation), storage);
 #include "../../partials/farm/withdrawProfit/withdrawProfit.religo"
 
 
-let main = ((parameter,storage): (parameter, storage)): entrypointReturn => {
+let main = ((parameter, storage): (parameter, storage)): entrypointReturn => {
+    // check that the contract invocation does not carry any XTZ/tez.
+    failIfInboundTez();
+
     switch(parameter) {
         | Deposit(parameter) => deposit(parameter, storage);
         | Claim(parameter) => claim(storage);
