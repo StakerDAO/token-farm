@@ -23,7 +23,7 @@ type entrypointReturn = (list(operation), storage);
 let main = ((parameter,storage): (parameter, storage)): entrypointReturn => {
     switch(parameter) {
         | Deposit(parameter) => deposit(parameter, storage);
-        | Claim(parameter) => claim(storage);
+        | Claim(_parameter) => claim(storage);
         | Withdraw(parameter) =>  withdraw(parameter, storage);
         | WithdrawProfit(parameter) => withdrawProfit(parameter, storage);
         | UpdatePlan(parameter) => updatePlan(parameter, storage);

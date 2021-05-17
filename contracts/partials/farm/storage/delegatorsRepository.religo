@@ -17,7 +17,7 @@ let checkDelegator = ((delegator, storage): (address, storage)): bool => {
         storage.delegators
     );
     switch(delegator) {
-        | Some(delegator) => true
+        | Some(_delegator) => true
         | None => false
     };
 };
