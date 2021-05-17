@@ -17,7 +17,7 @@ jobs:
       with:
         node-version: 12.x
     - run: yarn
-    - run: yarn run fix-ligo-version 0.11.0
+    - run: yarn run fix-ligo-version 0.16.1
     - run: yarn run sandbox:start &
     - name: Wait 30 seconds for sandbox
       uses: kibertoad/wait-action@master
@@ -34,7 +34,7 @@ jobs:
       with:
         node-version: 12.x
     - run: yarn
-    - run: yarn run fix-ligo-version 0.11.0
+    - run: yarn run fix-ligo-version 0.16.1
     - run: yarn run sandbox:start &
     - name: Wait 30 seconds for sandbox
       uses: kibertoad/wait-action@master

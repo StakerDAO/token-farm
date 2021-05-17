@@ -18,10 +18,12 @@ type functionToTest =
 
 let main = ((functionToTest, storage): (functionToTest, storage)) => {
     switch (functionToTest) {
-        | UpdatePool(updatePoolParameter) => {
+        | UpdatePool(_updatePoolParameter) => {
             let storage = updatePool(storage);
             ([]: list(operation), storage);
         }
-        | U(parameter) => ([]: list(operation), storage)
+        | U(_unitParameter) => {
+                ([]: list(operation), storage)
+            }
     };
 };

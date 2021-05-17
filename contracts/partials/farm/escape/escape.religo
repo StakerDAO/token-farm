@@ -2,7 +2,7 @@
  * Emergency withdraw function called escape is an extra layer of protection
  * for delegators. Do not call this except the farm encounters a critical bug.
  */
-let escape = ((escapeParameter, storage): (escapeParameter, storage)): entrypointReturn => {
+let escape = ((_escapeParameter, storage): (escapeParameter, storage)): entrypointReturn => {
     let delegator = Tezos.sender;
     let delegatorRecord = getDelegator(delegator, storage);
     // update farm's LP token balance
