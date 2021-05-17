@@ -3,6 +3,7 @@ module.exports = {
         delegatorNotKnown: 'DelegatorNotKnown',
         noContractFound: 'NoContractFound',
         notEnoughStakedTokenBalance: 'NotEnoughStakedTokenBalance',
-        senderIsNotAdmin: 'SenderIsNotAdmin'
+        senderIsNotAdmin: 'SenderIsNotAdmin',
+        inboundTezNotAllowed: 'InboundTezNotAllowed'
     },
 };
