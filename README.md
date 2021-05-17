@@ -5,7 +5,7 @@
 
 - Docker - used to run a local Tezos node together with the LIGO compiler (If you're on linux, follow the post-installation steps as well)
 - Node.js `v12` - Javascript runtime environment that we'll use for testing and deployment
-- LIGO `0.11.0` - High level programming language for the Tezos blockchain
+- LIGO `0.16.1` - High level programming language for the Tezos blockchain
 - truffle@tezos - Testing framework, originally built for Ethereum that now includes support for Tezos.
 - ganache-cli@tezos - Part of the Truffle suite of blockchain development tools. It creates isolated sandboxes using Flextesa to automate reproducible tests with faster networks.
 
@@ -15,7 +15,7 @@
 
 ```
 yarn
-yarn run fix-ligo-version 0.11.0
+yarn run fix-ligo-version 0.16.1
 yarn run sandbox:start
 yarn run test
 ```
