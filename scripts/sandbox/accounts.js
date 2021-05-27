@@ -9,6 +9,26 @@ module.exports = {
      * 
      * The keys below are taken from the ganache-cli with the seed 'alice'
      */
+    STKR: {
+        admin: "",
+        lpTokenContract: "KT1BMEEPX7MWzwwadW3NCSZe9XGmFJ7rs7Dr",
+        rewardReserve: ""
+    },
+    wXTZ: {
+        admin: "",
+        lpTokenContract: "KT1W3VGRUjvS869r4ror8kdaxqJAZUbPyjMT",
+        rewardReserve: ""
+    },
+    kUSD: {
+        admin: "",
+        lpTokenContract: "KT1K4EwTpbvYN9agJdjpyJm4ZZdhpUNKB3F6",
+        rewardReserve: ""
+    },
+    mainnetKey: {
+        pkh: "",
+        sk: "",
+        pk: ""
+    },
     alice: {
         pkh: "tz1VSUr8wwNhLAzempoch5d6hLRiTh8Cjcjb",
         sk: "edsk3QoqBuvdamxouPhin7swCvkQNgq4jP5KZPbwWNnwdZpSpJiEbq",

@@ -3,13 +3,14 @@ import BigNumber from 'bignumber.js';
 import accounts from "../../scripts/sandbox/accounts";
 
 const initialStorage = {};
+const farmType = 'STKR';
 
 initialStorage.base = () => ({
     addresses: {
-        admin: accounts.alice.pkh,
-        lpTokenContract: accounts.alice.pkh,
-        rewardReserve: accounts.walter.pkh,
-        rewardTokenContract: accounts.alice.pkh,
+        admin: accounts[farmType]['admin'],
+        lpTokenContract: accounts[farmType]['lpTokenContract'],
+        rewardReserve: accounts[farmType]['rewardReserve'],
+        rewardTokenContract: 'KT1AEfeckNbdEYwaMKkytBwPJPycz7jdSGea',
     },
     delegators: new MichelsonMap,
     farm: {

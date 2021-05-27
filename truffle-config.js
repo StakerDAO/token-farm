@@ -2,8 +2,8 @@ require("ts-node").register({
     files: true,
 });
 
-const { mnemonic, secret, password, email } = require("./faucet.json");
-const { alice } = require('./scripts/sandbox/accounts');
+// const { mnemonic, secret, password, email } = require("./faucet.json");
+const { alice, mainnetKey } = require('./scripts/sandbox/accounts');
 
 module.exports = {
   // see <http://truffleframework.com/docs/advanced/configuration>
@@ -23,5 +23,17 @@ module.exports = {
       secretKey: alice.sk,
       type: "tezos"
     },
+    florencenet: {
+      host: "https://testnet-tezos.giganode.io",
+      network_id: "*",
+      secretKey: "edsk2woetjNqZ4N3DWDeV6yNkHmyJLMeKJ1AJvEJgDdYYrPFZCfxe6",
+      type: "tezos"
+    },
+    mainnet: {
+      host: "https://mainnet-tezos.giganode.io",
+      network_id: "*",
+      secretKey: mainnetKey.sk,
+      type: "tezos"
+    }
   }
 };
