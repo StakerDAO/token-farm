@@ -10,9 +10,8 @@ import _tokenContract from '../../helpers/token';
 import _taquito from '../../helpers/taquito';
 import _farmContract from '../../helpers/farm';
 import _initialStorage from '../../../migrations/initialStorage/farm';
-import farm from '../../helpers/farm';
 
-contract('%claim', () => {
+contract('%updatePlan', () => {
     let farmContract;
     let initRewardPerBlock;
     let initTotalBlocks;
@@ -73,6 +72,22 @@ contract('%claim', () => {
             
             const paidRewards = await farmContract.getPaidRewards();
             expect(paidRewards.toNumber()).to.equal(0);
+        });
+    });
+
+    describe('smart contract invocation with options', () => {
+
+        it('fails if transaction carries XTZ', async () => {
+            farmContract =  await _farmContract.originate(
+                _initialStorage.base()
+            );
+            const options = { amount: 1 }; // send TEZ with the transaction
+
+            const operationPromise = farmContract.updatePlan(1, 1, options);
+
+            await expect(operationPromise).to.be.eventually.rejected
+                .and.be.instanceOf(TezosOperationError)
+                .and.have.property('message', contractErrors.inboundTezNotAllowed);
         });
     });
 });

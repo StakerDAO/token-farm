@@ -1,5 +1,5 @@
 let calculateReward = ((delegator, storage): (address, storage)): nat => {
-    let delegatorRecord = getDelegator(delegator, storage);
+    let delegatorRecord = getDelegatorRecord(delegator, storage);
     
     let accRewardPerShareStart = delegatorRecord.accumulatedRewardPerShareStart;
     let accRewardPerShareEnd = storage.farm.accumulatedRewardPerShare;

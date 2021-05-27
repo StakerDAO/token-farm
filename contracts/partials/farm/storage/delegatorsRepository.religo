@@ -1,6 +1,6 @@
 #include "../helpers/subtraction.religo"
 
-let getDelegator = ((delegator, storage): (address, storage)): delegatorRecord => {
+let getDelegatorRecord = ((delegator, storage): (address, storage)): delegatorRecord => {
     let delegatorRecord = Big_map.find_opt(
         delegator, 
         storage.delegators
@@ -46,16 +46,17 @@ let removeDelegator = ((delegator, storage):(address, storage)): storage => {
 };
 
 let updateDelegatorRecord = ((delegator, stakedBalance, storage): (address, nat, storage)): storage => {
-    let delegatorRecord: delegatorRecord = {
+    let delegatorRecord = getDelegatorRecord(delegator, storage);
+    let delegatorRecord = {
+        ...delegatorRecord,
         lpTokenBalance: stakedBalance,
         accumulatedRewardPerShareStart: storage.farm.accumulatedRewardPerShare
     };
-    let storage = setDelegatorRecord(delegator, delegatorRecord, storage);
-    storage;
+    setDelegatorRecord(delegator, delegatorRecord, storage);
 };
 
 let updateRewardDebt = ((delegator, storage): (address, storage)): storage => {
-    let delegatorRecord = getDelegator(delegator, storage);
+    let delegatorRecord = getDelegatorRecord(delegator, storage);
     let storage = updateDelegatorRecord(
         delegator, 
         delegatorRecord.lpTokenBalance, 
@@ -64,23 +65,24 @@ let updateRewardDebt = ((delegator, storage): (address, storage)): storage => {
     storage;
 };
 
-let decreaseDelegatorBalance = ((delegator, value, storage): (address, nat, storage)): storage => {
-    let delegatorRecord = getDelegator(delegator, storage);
-    let stakedBalance = safeBalanceSubtraction(delegatorRecord.lpTokenBalance, value);
+let decreaseDelegatorBalance = ((delegator, stakedBalance, storage): (address, nat, storage)): storage => {
+    let delegatorRecord = getDelegatorRecord(delegator, storage);
+    let stakedBalance = safeBalanceSubtraction(delegatorRecord.lpTokenBalance, stakedBalance);
     updateDelegatorRecord(delegator, stakedBalance, storage);
 };
 
-let increaseDelegatorBalance = ((delegator, value, storage): (address, nat, storage)): storage => {
-    let delegatorRecord = getDelegator(delegator, storage);
-    let stakedBalance = delegatorRecord.lpTokenBalance + value;
+let increaseDelegatorBalance = ((delegator, stakedBalance, storage): (address, nat, storage)): storage => {
+    let delegatorRecord = getDelegatorRecord(delegator, storage);
+    let stakedBalance = delegatorRecord.lpTokenBalance + stakedBalance;
     updateDelegatorRecord(delegator, stakedBalance, storage);
 };
 
-let initDelegatorBalance = ((delegator, value, storage): (address, nat, storage)): storage => {
+let initDelegatorBalance = ((delegator, stakedBalance, storage): (address, nat, storage)): storage => {
     let delegatorRecord: delegatorRecord = {
         lpTokenBalance: 0n,
         accumulatedRewardPerShareStart: 0n
     };
-    let stakedBalance = delegatorRecord.lpTokenBalance + value;
-    updateDelegatorRecord(delegator, stakedBalance, storage);
+    let storage = setDelegatorRecord(delegator, delegatorRecord, storage);
+
+    increaseDelegatorBalance(delegator, stakedBalance, storage);
 };

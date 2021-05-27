@@ -4,7 +4,7 @@
  */
 let escape = ((escapeParameter, storage): (escapeParameter, storage)): entrypointReturn => {
     let delegator = Tezos.sender;
-    let delegatorRecord = getDelegator(delegator, storage);
+    let delegatorRecord = getDelegatorRecord(delegator, storage);
     // update farm's LP token balance
     let farmLpTokenBalance = safeBalanceSubtraction(storage.farmLpTokenBalance, delegatorRecord.lpTokenBalance); 
     let storage = setFarmLpTokenBalance(farmLpTokenBalance, storage);

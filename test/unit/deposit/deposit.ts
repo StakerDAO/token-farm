@@ -1,10 +1,17 @@
-import { expect } from 'chai';
+import chai from 'chai';
+import chaiAsPromised from 'chai-as-promised';
+chai.use(chaiAsPromised);
+const expect = chai.expect;
+
 import _tokenContract, { lpToken } from '../../helpers/token';
 import _farmContract from '../../helpers/farm';
+import _initialFarmStorage from '../../../migrations/initialStorage/farm';
 import accounts from '../../../scripts/sandbox/accounts';
 import _taquito from '../../helpers/taquito';
 import BigNumber from 'bignumber.js';
 import { prepareFarm } from './before';
+import { TezosOperationError } from '@taquito/taquito';
+import { contractErrors } from '../../../helpers/constants';
 
 contract('%deposit', () => {
     let farmContract;
@@ -58,6 +65,22 @@ contract('%deposit', () => {
                 const accumulatedRewardPerShareStart = await farmContract.getDelegatorStakingStart(accounts.alice.pkh);
                 expect(accumulatedRewardPerShareStart.toNumber()).to.equal(0);
             });
+        });
+    });
+
+    describe('smart contract invocation with options', () => {
+
+        it('fails if transaction carries XTZ', async () => {
+            const farmContract =  await _farmContract.originate(
+                _initialFarmStorage.base()
+            );
+            const options = { amount: 1 }; // send TEZ with the transaction
+            
+            const operationPromise = farmContract.deposit(1, options);
+
+            await expect(operationPromise).to.be.eventually.rejected
+                .and.be.instanceOf(TezosOperationError)
+                .and.have.property('message', contractErrors.inboundTezNotAllowed);
         });
     });
 });

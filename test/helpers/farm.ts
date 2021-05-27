@@ -20,13 +20,13 @@ const testHelpers = (instance, Tezos) => {
         getAccumulatedRewardPerShare: async function(): Promise<BigNumber> {
            return (await this.getStorage()).farm.accumulatedRewardPerShare;
         },
-        deposit: async function(value) {
-            const operation = await this.instance.methods.deposit(value).send();
+        deposit: async function(value, options) {
+            const operation = await this.instance.methods.deposit(value).send(options);
             await operation.confirmation(1);
             return operation;
         },
-        claim: async function() {
-            const operation = await this.instance.methods.claim(UnitValue).send({storageLimit: 120});
+        claim: async function(options) {
+            const operation = await this.instance.methods.claim(UnitValue).send({...options, storageLimit: 120});
             await operation.confirmation(1);
             return operation;
         },
@@ -60,31 +60,31 @@ const testHelpers = (instance, Tezos) => {
         getLastBlockUpdate: async function(): Promise<number> {
             return (await this.getStorage()).farm.lastBlockUpdate.toNumber()
         },
-        withdraw: async function(amount) {
-            const operation = await this.instance.methods.withdraw(amount).send({storageLimit: 200});
+        withdraw: async function(amount, options) {
+            const operation = await this.instance.methods.withdraw(amount).send({...options, storageLimit: 200});
             await operation.confirmation(1);
             return operation
         },
-        updatePlan: async function(rewardPerBlock, totalBlocks) {
-            const operation = await this.instance.methods.updatePlan(rewardPerBlock, totalBlocks).send();
+        updatePlan: async function(rewardPerBlock, totalBlocks, options) {
+            const operation = await this.instance.methods.updatePlan(rewardPerBlock, totalBlocks).send(options);
             await operation.confirmation(1);
             return operation
         },
-        setAdmin: async function(address) {
-            const operation = await this.instance.methods.setAdmin(address).send();
+        setAdmin: async function(address, options) {
+            const operation = await this.instance.methods.setAdmin(address).send(options);
             await operation.confirmation(1);
             return operation
         },
         getAdmin: async function(): Promise<string> {
             return (await this.getStorage()).addresses.admin;
         },
-        escape: async function() {
-            const operation = await this.instance.methods.escape(UnitValue).send();
+        escape: async function(options) {
+            const operation = await this.instance.methods.escape(UnitValue).send(options);
             await operation.confirmation(1);
             return operation
         },
-        withdrawProfit: async function(address) {
-            const operation = await this.instance.methods.withdrawProfit(address).send();
+        withdrawProfit: async function(address, options) {
+            const operation = await this.instance.methods.withdrawProfit(address).send(options);
             await operation.confirmation(1);
             return operation
         }
